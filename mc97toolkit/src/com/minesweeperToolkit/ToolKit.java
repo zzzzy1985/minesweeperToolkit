@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -35,7 +35,7 @@ import javax.swing.table.TableModel;
  * @author ZhangYe
  * @version 0.7
  */
-public class MC97ToolKit {
+public class ToolKit {
 
 	private static int x;
 	private static int y;
@@ -63,37 +63,37 @@ public class MC97ToolKit {
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
 			if (cmd.equals(Const.OPEN)) {
-				if (MC97ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				if (ToolKit.percent != 100) {
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.DONOTINTERRUPT, Const.WARNING, 2);
 				} else {
 					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(MC97ToolKit.curMVFDir));
+					fc.setCurrentDirectory(new File(ToolKit.curMVFDir));
 					fc.setDialogTitle(Const.DIATITLE);
 					fc.setFileSelectionMode(1);
 					fc.setMultiSelectionEnabled(false);
-					int ret = fc.showOpenDialog(MC97ToolKit.frame);
+					int ret = fc.showOpenDialog(ToolKit.frame);
 					if (ret == 0) {
-						MC97ToolKit.curMVFDir = fc.getSelectedFile()
+						ToolKit.curMVFDir = fc.getSelectedFile()
 								.getParent();
-						MC97ToolKit.readDir();
-						MC97ToolKit.table = null;
-						MC97ToolKit.frame.remove(MC97ToolKit.scrollPane);
-						MC97ToolKit.updateList(fc.getSelectedFile());
+						ToolKit.readDir();
+						ToolKit.table = null;
+						ToolKit.frame.remove(ToolKit.scrollPane);
+						ToolKit.updateList(fc.getSelectedFile());
 					}
 				}
 			} else if (cmd.equals(Const.EXPORT)) {
-				if (MC97ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				if (ToolKit.percent != 100) {
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.DONOTINTERRUPT, Const.WARNING, 2);
-				} else if (MC97ToolKit.table == null) {
-					MC97ToolKit.setLabel(Const.NOTHINGEXPORTED);
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				} else if (ToolKit.table == null) {
+					ToolKit.setLabel(Const.NOTHINGEXPORTED);
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.NOTHINGEXPORTED, Const.ERROR, 0);
 				} else {
-					MC97ToolKit.setLabel(Const.EXPORTTABLE);
+					ToolKit.setLabel(Const.EXPORTTABLE);
 					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(MC97ToolKit.curExportDir));
+					fc.setCurrentDirectory(new File(ToolKit.curExportDir));
 					fc.setDialogTitle(Const.CHOOSEXLSFILE);
 					fc.setFileSelectionMode(0);
 					fc.setMultiSelectionEnabled(false);
@@ -108,11 +108,11 @@ public class MC97ToolKit {
 											.endsWith(".xls"));
 						}
 					});
-					int ret = fc.showOpenDialog(MC97ToolKit.frame);
+					int ret = fc.showOpenDialog(ToolKit.frame);
 					if (ret == 0) {
-						MC97ToolKit.curExportDir = fc.getSelectedFile()
+						ToolKit.curExportDir = fc.getSelectedFile()
 								.getParent();
-						MC97ToolKit.keepDir();
+						ToolKit.keepDir();
 						File f = fc.getSelectedFile();
 						String fileName = f.getAbsolutePath();
 						if (!fileName.toLowerCase().endsWith(".xls")) {
@@ -121,7 +121,7 @@ public class MC97ToolKit {
 						boolean saveOrNot = true;
 						if (f.exists()) {
 							int chooseRet = JOptionPane.showConfirmDialog(
-									MC97ToolKit.frame, Const.WANNAOVERWRITE,
+									ToolKit.frame, Const.WANNAOVERWRITE,
 									Const.QUESTION, 0);
 							if (chooseRet == 0)
 								saveOrNot = true;
@@ -132,49 +132,49 @@ public class MC97ToolKit {
 						}
 						if (saveOrNot)
 							try {
-								MC97ToolKit.exportTable(MC97ToolKit.table, f);
-								MC97ToolKit.setLabel(Const.EXPORTTO + " \""
+								ToolKit.exportTable(ToolKit.table, f);
+								ToolKit.setLabel(Const.EXPORTTO + " \""
 										+ f.getAbsolutePath() + "\" "
 										+ Const.SUCCESS);
 							} catch (IOException e1) {
-								MC97ToolKit.setLabel(Const.EXPORTFAILED);
+								ToolKit.setLabel(Const.EXPORTFAILED);
 								JOptionPane.showMessageDialog(
-										MC97ToolKit.frame, Const.EXPORTFAILED,
+										ToolKit.frame, Const.EXPORTFAILED,
 										Const.WARNING, 2);
 							}
 						else {
-							MC97ToolKit.setLabel(Const.WELCOME);
+							ToolKit.setLabel(Const.WELCOME);
 						}
 					}
 				}
 			} else if (cmd.equals(Const.QUIT)) {
-				if (MC97ToolKit.frame != null) {
-					MC97ToolKit.frame.dispose();
+				if (ToolKit.frame != null) {
+					ToolKit.frame.dispose();
 					System.exit(0);
 				}
 			} else if (cmd.equals(Const.ABOUTAUTHOR)) {
-				MC97ToolKit.setLabel(Const.AUTHOR);
-				JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				ToolKit.setLabel(Const.AUTHOR);
+				JOptionPane.showMessageDialog(ToolKit.frame,
 						Const.CONTACTME, Const.ABOUTAUTHOR, 1);
 			} else if (cmd.equals(Const.ABOUTSOFT)) {
-				MC97ToolKit.setLabel(Const.WELCOME);
-				JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				ToolKit.setLabel(Const.WELCOME);
+				JOptionPane.showMessageDialog(ToolKit.frame,
 						Const.HOWTOUSE, Const.ABOUTSOFT, 1);
 			} else if (cmd.equals(Const.GOTOSAOLEINET)) {
-				MC97ToolKit.setLabel(Const.GOTOSAOLEINET);
-				MC97ToolKit.goTourl("http://www.saolei.net");
+				ToolKit.setLabel(Const.GOTOSAOLEINET);
+				ToolKit.goTourl("http://www.saolei.net");
 			} else if (cmd.equals(Const.GOTOAUTHORS)) {
-				MC97ToolKit.setLabel(Const.GOTOAUTHORS);
-				MC97ToolKit
+				ToolKit.setLabel(Const.GOTOAUTHORS);
+				ToolKit
 						.goTourl("http://www.saolei.net/Player/Index.asp?Id=4843");
 			} else if (cmd.equals(Const.LOADHISTORY)) {
-				if (MC97ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+				if (ToolKit.percent != 100) {
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.DONOTINTERRUPT, Const.WARNING, 2);
 				} else {
-					MC97ToolKit.setLabel(Const.LOADHISTORY);
+					ToolKit.setLabel(Const.LOADHISTORY);
 					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(MC97ToolKit.curHistoryDir));
+					fc.setCurrentDirectory(new File(ToolKit.curHistoryDir));
 					fc.setDialogTitle(Const.CHOOSEHISTORYFILE);
 					fc.setFileSelectionMode(0);
 					fc.setMultiSelectionEnabled(false);
@@ -187,14 +187,14 @@ public class MC97ToolKit {
 									|| (f.getName().equals("history.inf"));
 						}
 					});
-					int ret = fc.showOpenDialog(MC97ToolKit.frame);
+					int ret = fc.showOpenDialog(ToolKit.frame);
 					if (ret == 0) {
-						MC97ToolKit.curHistoryDir = fc.getSelectedFile()
+						ToolKit.curHistoryDir = fc.getSelectedFile()
 								.getParent();
-						MC97ToolKit.keepDir();
-						MC97ToolKit.table = null;
-						MC97ToolKit.frame.remove(MC97ToolKit.scrollPane);
-						MC97ToolKit.updateList(fc.getSelectedFile());
+						ToolKit.keepDir();
+						ToolKit.table = null;
+						ToolKit.frame.remove(ToolKit.scrollPane);
+						ToolKit.updateList(fc.getSelectedFile());
 					}
 				}
 			} else if (cmd.equals(Const.SWITCHLANGUAGE)) {
@@ -212,13 +212,13 @@ public class MC97ToolKit {
 					redo = true;
 				}
 				if (redo)
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.RESWITCHLANGUAGE, Const.WARNING, 2);
 				else if (success)
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.SWITCHLANGUAGESUCCESS, Const.INFORMATION, 1);
 				else
-					JOptionPane.showMessageDialog(MC97ToolKit.frame,
+					JOptionPane.showMessageDialog(ToolKit.frame,
 							Const.SWITCHLANGUAGEFAILED, Const.ERROR, 0);
 			}
 		}
@@ -403,61 +403,61 @@ public class MC97ToolKit {
 				int size = mvfList.length;
 				MVFInfo mi = null;
 				for (int i = 0; i < size; i++) {
-					mi = MC97ToolKit.parseMVF(mvfList[i]);
-					MC97ToolKit.table.setValueAt(mi.name, i, 1);
-					MC97ToolKit.table.setValueAt(mi.mvfType, i, 2);
-					MC97ToolKit.table.setValueAt(mi.userID, i, 3);
-					MC97ToolKit.table.setValueAt(mi.date, i, 4);
-					MC97ToolKit.table.setValueAt(mi.level, i, 5);
-					MC97ToolKit.table.setValueAt(mi.style, i, 6);
-					MC97ToolKit.table.setValueAt(mi.mode, i, 7);
-					MC97ToolKit.table.setValueAt(mi.time, i, 8);
-					MC97ToolKit.table.setValueAt(mi.bbbv, i, 9);
-					MC97ToolKit.table.setValueAt(mi.bbbvs, i, 10);
-					MC97ToolKit.table.setValueAt(mi.distance, i, 11);
-					MC97ToolKit.table.setValueAt(mi.clicks, i, 12);
-					MC97ToolKit.table.setValueAt(mi.zini, i, 13);
-					MC97ToolKit.table.setValueAt(mi.rqp, i, 14);
-					MC97ToolKit.table.setValueAt(mi.ioe, i, 15);
-					MC97ToolKit.table.setValueAt(mi.completion, i, 16);
-					MC97ToolKit.table.setValueAt(mi.num0, i, 17);
-					MC97ToolKit.table.setValueAt(mi.num1, i, 18);
-					MC97ToolKit.table.setValueAt(mi.num2, i, 19);
-					MC97ToolKit.table.setValueAt(mi.num3, i, 20);
-					MC97ToolKit.table.setValueAt(mi.num4, i, 21);
-					MC97ToolKit.table.setValueAt(mi.num5, i, 22);
-					MC97ToolKit.table.setValueAt(mi.num6, i, 23);
-					MC97ToolKit.table.setValueAt(mi.num7, i, 24);
-					MC97ToolKit.table.setValueAt(mi.num8, i, 25);
+					mi = ToolKit.parseMVF(mvfList[i]);
+					ToolKit.table.setValueAt(mi.name, i, 1);
+					ToolKit.table.setValueAt(mi.mvfType, i, 2);
+					ToolKit.table.setValueAt(mi.userID, i, 3);
+					ToolKit.table.setValueAt(mi.date, i, 4);
+					ToolKit.table.setValueAt(mi.level, i, 5);
+					ToolKit.table.setValueAt(mi.style, i, 6);
+					ToolKit.table.setValueAt(mi.mode, i, 7);
+					ToolKit.table.setValueAt(mi.time, i, 8);
+					ToolKit.table.setValueAt(mi.bbbv, i, 9);
+					ToolKit.table.setValueAt(mi.bbbvs, i, 10);
+					ToolKit.table.setValueAt(mi.distance, i, 11);
+					ToolKit.table.setValueAt(mi.clicks, i, 12);
+					ToolKit.table.setValueAt(mi.zini, i, 13);
+					ToolKit.table.setValueAt(mi.rqp, i, 14);
+					ToolKit.table.setValueAt(mi.ioe, i, 15);
+					ToolKit.table.setValueAt(mi.completion, i, 16);
+					ToolKit.table.setValueAt(mi.num0, i, 17);
+					ToolKit.table.setValueAt(mi.num1, i, 18);
+					ToolKit.table.setValueAt(mi.num2, i, 19);
+					ToolKit.table.setValueAt(mi.num3, i, 20);
+					ToolKit.table.setValueAt(mi.num4, i, 21);
+					ToolKit.table.setValueAt(mi.num5, i, 22);
+					ToolKit.table.setValueAt(mi.num6, i, 23);
+					ToolKit.table.setValueAt(mi.num7, i, 24);
+					ToolKit.table.setValueAt(mi.num8, i, 25);
 
-					MC97ToolKit.table.setValueAt(mi.numAll, i, 26);
+					ToolKit.table.setValueAt(mi.numAll, i, 26);
 
-					MC97ToolKit.table.setValueAt(mi.disSpeed, i, 27);
-					MC97ToolKit.table.setValueAt(mi.openings, i, 28);
-					MC97ToolKit.table.setValueAt(mi.allClicks, i, 29);
-					MC97ToolKit.table.setValueAt(mi.disBv, i, 30);
-					MC97ToolKit.table.setValueAt(mi.disNum, i, 31);
-					MC97ToolKit.table.setValueAt(mi.hzoe, i, 32);
-					MC97ToolKit.table.setValueAt(mi.numSpeed, i, 33);
-					MC97ToolKit.table.setValueAt(mi.zinis, i, 34);
-					MC97ToolKit.table.setValueAt(mi.occam, i, 35);
+					ToolKit.table.setValueAt(mi.disSpeed, i, 27);
+					ToolKit.table.setValueAt(mi.openings, i, 28);
+					ToolKit.table.setValueAt(mi.allClicks, i, 29);
+					ToolKit.table.setValueAt(mi.disBv, i, 30);
+					ToolKit.table.setValueAt(mi.disNum, i, 31);
+					ToolKit.table.setValueAt(mi.hzoe, i, 32);
+					ToolKit.table.setValueAt(mi.numSpeed, i, 33);
+					ToolKit.table.setValueAt(mi.zinis, i, 34);
+					ToolKit.table.setValueAt(mi.occam, i, 35);
 
-					MC97ToolKit.table.setValueAt(mi.lclicks, i, 36);
-					MC97ToolKit.table.setValueAt(mi.dclicks, i, 37);
-					MC97ToolKit.table.setValueAt(mi.rclicks, i, 38);
-					MC97ToolKit.table.setValueAt(mi.qg, i, 39);
-					MC97ToolKit.table.setValueAt(mi.flags, i, 40);
-					MC97ToolKit.table.setValueAt(mi.markFlag, i, 41);
-					MC97ToolKit.table.setValueAt(mi.islands, i, 42);
-					MC97ToolKit.percent = (i + 1) * 100 / size;
+					ToolKit.table.setValueAt(mi.lclicks, i, 36);
+					ToolKit.table.setValueAt(mi.dclicks, i, 37);
+					ToolKit.table.setValueAt(mi.rclicks, i, 38);
+					ToolKit.table.setValueAt(mi.qg, i, 39);
+					ToolKit.table.setValueAt(mi.flags, i, 40);
+					ToolKit.table.setValueAt(mi.markFlag, i, 41);
+					ToolKit.table.setValueAt(mi.islands, i, 42);
+					ToolKit.percent = (i + 1) * 100 / size;
 					long time2 = System.currentTimeMillis();
 					double time3 = (time2 - time) / 1000d;
 					double time4 = (time3 / (i + 1)) * (size - i - 1);
 					double x = i + 1;
 					double speed = (x / time3);
 					DecimalFormat dcmFmt = new DecimalFormat("0.000");
-					MC97ToolKit.setLabel(Const.CALCULATING + " "
-							+ MC97ToolKit.percent + " %" + " " + (i + 1) + "/"
+					ToolKit.setLabel(Const.CALCULATING + " "
+							+ ToolKit.percent + " %" + " " + (i + 1) + "/"
 							+ size + " 用时：" + dcmFmt.format(time3) + "秒"
 							+ " 剩余用时" + dcmFmt.format(time4) + "秒" + " 速度："
 							+ dcmFmt.format(speed) + "个/秒");
@@ -2234,9 +2234,9 @@ public class MC97ToolKit {
 			fis = new FileInputStream(selectedFile);
 		} catch (FileNotFoundException e) {
 			fis = null;
-			MC97ToolKit.percent = 100;
-			MC97ToolKit.setLabel(Const.LOADHISTORYFAILED);
-			JOptionPane.showMessageDialog(MC97ToolKit.frame, Const.ERROR,
+			ToolKit.percent = 100;
+			ToolKit.setLabel(Const.LOADHISTORYFAILED);
+			JOptionPane.showMessageDialog(ToolKit.frame, Const.ERROR,
 					Const.ERROR, 0);
 		}
 
@@ -2252,7 +2252,7 @@ public class MC97ToolKit {
 				}
 				if ((recordItem == null) || (lenRet != 20)) {
 					for (int j = 1; j < Const.historyName.length; j++)
-						MC97ToolKit.table.setValueAt(Const.INVALID, i, j);
+						ToolKit.table.setValueAt(Const.INVALID, i, j);
 				} else {
 					hi = new HistoryInfo();
 					int month = recordItem[0];
@@ -2304,53 +2304,53 @@ public class MC97ToolKit {
 					int rClick2 = recordItem[18] & 0xFF;
 					hi.rClick = (rClick1 * 256 + rClick2);
 
-					MC97ToolKit.table.setValueAt(hi.level, i, 1);
-					MC97ToolKit.table.setValueAt(
+					ToolKit.table.setValueAt(hi.level, i, 1);
+					ToolKit.table.setValueAt(
 							hi.rClick == 0 ? Const.STYLE_NF : Const.STYLE_FL,
 							i, 2);
-					MC97ToolKit.table.setValueAt(
+					ToolKit.table.setValueAt(
 							String.format("%.2f",
 									new Object[] { Double.valueOf(hi.time) }),
 							i, 3);
-					MC97ToolKit.table.setValueAt(hi.date, i, 4);
-					MC97ToolKit.table.setValueAt(String.valueOf(hi.bbbv), i, 5);
-					MC97ToolKit.table.setValueAt(
+					ToolKit.table.setValueAt(hi.date, i, 4);
+					ToolKit.table.setValueAt(String.valueOf(hi.bbbv), i, 5);
+					ToolKit.table.setValueAt(
 							String.format(
 									"%.2f",
 									new Object[] { Double.valueOf(hi.bbbv
 											/ (hi.time - 1.0D)) }), i, 6);
-					MC97ToolKit.table.setValueAt(
+					ToolKit.table.setValueAt(
 							String.format(
 									"%.2f",
 									new Object[] { Double.valueOf((hi.lClick
 											+ hi.rClick + hi.dClick)
 											/ (hi.time - 1.0D)) }), i, 7);
-					MC97ToolKit.table.setValueAt(String.format(
+					ToolKit.table.setValueAt(String.format(
 							"%.2f",
 							new Object[] { Double.valueOf((hi.time - 1.0D)
 									* hi.time / hi.bbbv) }), i, 8);
-					MC97ToolKit.table.setValueAt(String.format(
+					ToolKit.table.setValueAt(String.format(
 							"%.3f",
 							new Object[] { Double.valueOf(hi.bbbv * 1.0D
 									/ (hi.lClick + hi.rClick + hi.dClick)) }),
 							i, 9);
-					MC97ToolKit.table.setValueAt(String.valueOf(hi.lClick), i,
+					ToolKit.table.setValueAt(String.valueOf(hi.lClick), i,
 							10);
-					MC97ToolKit.table.setValueAt(String.valueOf(hi.rClick), i,
+					ToolKit.table.setValueAt(String.valueOf(hi.rClick), i,
 							11);
-					MC97ToolKit.table.setValueAt(String.valueOf(hi.dClick), i,
+					ToolKit.table.setValueAt(String.valueOf(hi.dClick), i,
 							12);
-					MC97ToolKit.table.setValueAt(String.format(
+					ToolKit.table.setValueAt(String.format(
 							"%.3f",
 							new Object[] { Double.valueOf(Math.pow(
 									(hi.time - 1.0D), 1.7) / (hi.bbbv)) }), i,
 							13);
 				}
-				MC97ToolKit.percent = (i + 1) * 100 / recordNum;
+				ToolKit.percent = (i + 1) * 100 / recordNum;
 				long time2 = System.currentTimeMillis();
 				long time3 = time2 - time;
-				MC97ToolKit.setLabel(Const.CALCULATING + " "
-						+ MC97ToolKit.percent + " %" + " 用时" + time3 + "毫秒");
+				ToolKit.setLabel(Const.CALCULATING + " "
+						+ ToolKit.percent + " %" + " 用时" + time3 + "毫秒");
 
 			}
 			try {

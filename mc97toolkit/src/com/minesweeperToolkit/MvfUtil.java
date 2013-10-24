@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -224,7 +224,7 @@ public class MvfUtil {
 
 				}
 			}
-			ZiniNum iZini = MC97ToolKit.calcZini(width, height, 99, mvfboard);
+			ZiniNum iZini = ToolKit.calcZini(width, height, 99, mvfboard);
 		   System.out.println("ranArr:" +ij+"  "+ iZini.bbbv);
 		}
 		long time2 = System.currentTimeMillis();

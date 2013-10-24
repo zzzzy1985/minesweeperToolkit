@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 
 
 public class MVFInfo {

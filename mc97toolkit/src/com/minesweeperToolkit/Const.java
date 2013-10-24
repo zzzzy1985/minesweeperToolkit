@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 import java.io.File;
 
 public class Const

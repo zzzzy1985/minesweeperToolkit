@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 
 public class Cells {
 	public int status = 0; // -1 Wall, 0 closed, 1 flagged, 2 marked, 3 opened

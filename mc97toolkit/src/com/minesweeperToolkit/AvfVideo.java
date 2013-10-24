@@ -1,4 +1,4 @@
-package com.mc97toolkit;
+package com.minesweeperToolkit;
 
 public class AvfVideo {
 	public int sec,hun,ths = 0;
