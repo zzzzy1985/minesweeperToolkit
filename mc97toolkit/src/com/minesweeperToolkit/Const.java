@@ -78,7 +78,7 @@ public class Const
 
     TITLE = useChinese ? "扫雷克隆版0.97工具箱" : 
       "Minesweeper Clone 0.97 Tool Kit";
-    VERSION = "V0.7 Alpha";
+    VERSION = "V0.71 Alpha";
     WELCOME = useChinese ? "欢迎使用扫雷克隆版0.97工具箱" : 
       "Welcome to use Minesweeper Clone 0.97 Tool Kit";
     AUTHOR = useChinese ? "作者：crazyks，感谢超级丹、石教授、击晕、技术帝以及扫雷网（Saolei.net）的全体成员！" : 
