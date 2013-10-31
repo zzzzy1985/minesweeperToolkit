@@ -856,10 +856,14 @@ public class ToolKit {
 						String mouseTypeNomv = "";
 						int lstatus = 0;
 						int rstatus = 0;
+						@SuppressWarnings("unused")
 						int ll = 0;
+						@SuppressWarnings("unused")
 						int dd = 0;
+						@SuppressWarnings("unused")
 						int rr = 0;
 						// 计算1.5click
+						@SuppressWarnings("unused")
 						int holds = 0;
 
 						Cells[] tempCells = new Cells[(height) * (width)];
@@ -1407,15 +1411,26 @@ public class ToolKit {
 				 * many 的格式
 				 */
 				if (many.contains("HS")) {
+					/**
+					 * 20131031 对应科长录像解析bug问题
+					 */
 					String[] ms = many.split("\\|");
 					String splitdate = ms[1];
 					// String splitdetail = ms[2];
 					// String[] splitdetailas = splitdetail.split("B");
 					String[] ymd = splitdate.split("\\.");
+					if( ymd[0].length()==4){
+						yearS = ymd[1];
+						monthS = ymd[0].substring(2);
+						dayS = ymd[0].substring(0,2);
+						timeS = ymd[2];
+					}else{
 					yearS = ymd[2];
 					monthS = ymd[1];
 					dayS = ymd[0];
+					
 					timeS = ymd[3];
+					}
 					String[] hms = timeS.split("\\:");
 					hourS = hms[0];
 					minS = hms[1];
@@ -1424,6 +1439,7 @@ public class ToolKit {
 					String[] bvtimeS = bvtime.split("T");
 					bv = bvtimeS[0].substring(1);
 					saoleitime = bvtimeS[1];
+					
 				} else {
 					String[] ms = many.split("\\|");
 					String splitdate = ms[1];
@@ -2627,7 +2643,6 @@ public class ToolKit {
 				curi = j;
 				break;
 			}
-
 			click(board, height, size, curi);
 		}
 	}
