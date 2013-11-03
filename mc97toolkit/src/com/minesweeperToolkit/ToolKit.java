@@ -530,12 +530,15 @@ public class ToolKit {
 			byte[] byteStream = readFile(file);
 			if (mvfType == "MVF") {
 				try {
+					
 					/**
 					 * MVF 97 4a 01 月份 4b 19 25 日期 4c-4d 07DA 2010 年份 4e4f50 时分秒
 					 * 51 02level 级别 中级 52 01 classical 模式 02为den模式 53-54 0011
 					 * 17 时间 55 30 48 毫秒 56-57 005D 93 3bv 58-59 005D 93 完成3bv
 					 * 5a-5b 0012 18 左键 5c-5d 0045 69 双键 5e-5f 0027 39 右键 60 00
 					 * MARK标记
+					 * before97版本
+					 * 
 					 */
 					if (byteStream[27] == 53) {
 						int month = byteStream[0x4a];
