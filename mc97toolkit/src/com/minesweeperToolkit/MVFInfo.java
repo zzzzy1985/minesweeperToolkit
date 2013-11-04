@@ -10,7 +10,7 @@ public class MVFInfo {
 	 *           <th>Description</th>
 	 *        </tr>
 	 *        <tr>
-	 *           <td><color ="red">Default size</color></td>
+	 *           <td><color ="0x0fFFFF">Default size</color></td>
 	 *           <td>Width is large enough to hold all of its children at the 
 	 *               default or explicit widths of the children, plus any horizontal gap between the children, plus the left and 
 	 *               right padding of the container. Height is the default or explicit height of the tallest child 
