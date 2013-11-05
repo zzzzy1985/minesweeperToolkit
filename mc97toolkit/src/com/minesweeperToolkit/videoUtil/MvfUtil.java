@@ -27,24 +27,39 @@ public class MvfUtil implements  VideoUtil {
 		 扫雷网录像以97为主
 		 偶见97之前版本
 		 初版不保证健壮性 即认为传入文件一定为录像文件
+		 <table style="color: blue; margin-left: 20px" border="1" >
+			 <tr>
+				 <th>条件1</th>
+				 <th>条件2</th>
+				 <th >判定结果</th>
+			 </tr>
+			 <tr>
+				 <td rowspan="4">第一位是0x11 且第2位是0x4D</td>
+				 <td>第27位（0x1b）值0x35 (字符5)</td>
+				 <td>97版本</td>
+			 </tr>
+			  <tr>
+				 
+				 <td>第27位（0x1b）值0x36 (字符6)</td>
+				 <td>06版本</td>
+			 </tr>
+			  <tr>
+				 
+				 <td>第27位（0x1b）值0x37 (字符7)</td>
+				 <td>07版本</td>
+			 </tr>
+			  <tr>
+				
+				 <td>第27位（0x1b）值0x38 (字符8)</td>
+				 <td>biu版本</td>
+			 </tr>
+			  <tr>
+			 <td colspan=2>非该情况</td>
+			 <td >pre97的版本（96或更早）</td>
+			 </tr>
+		 </table>
 		 <br/>
-		 97之前的版本没有头部
-		 <br/>
-		 第一位是0x11 且第2位是0x4D的情况下 认为是97的版本
-		  <br/>
-		 该情况下
-		  <br/>
-		 第27位（0x1b）值
-		  <br/>
-		 0x35 (字符5)97版本
-		  <br/>
-		 0x36 (字符6)2006版本
-		  <br/>
-		 0x37 (字符7)2007版本
-		  <br/>
-		 0x38 (字符8)biu版本
-		 <br/>
-		 非以上情况下 认为是 pre97的版本（96或更早）
+	
 		 @param byteStream 文件流
 		 @see <a href="http://www.minesweeper.info/forum/viewtopic.php?f=26&t=86">
 		 http://www.minesweeper.info/forum/viewtopic.php?f=26&t=86</a>
@@ -62,7 +77,7 @@ public class MvfUtil implements  VideoUtil {
 		return bean;
 	}
 	/**
-	 * 检查录像版本
+	 * 解析录像版本
 	 扫雷网录像以97为主
 	 偶见97之前版本
 	 */
