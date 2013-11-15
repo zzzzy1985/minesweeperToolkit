@@ -12,6 +12,8 @@ import com.minesweeperToolkit.bean.VideoCheckBean;
  * @date 2013-11-3
  */
 public class MvfUtil implements  VideoUtil {
+	/**byte00*/
+	private int byteZero=0x00;
 	/**MVF97第一位标志*/
 	private int markFor97First=0x11;
 	/**MVF97第一位标志*/
@@ -22,6 +24,8 @@ public class MvfUtil implements  VideoUtil {
 	private String VERSION96="0.96";
 	/**版本0.97*/
 	private String VERSION97="0.97";
+	/**版本0.97NoHead*/
+	private String VERSION97NH="0.97NH";
 	/**
 	 *  检查录像版本
 		 扫雷网录像以97为主
@@ -53,6 +57,10 @@ public class MvfUtil implements  VideoUtil {
 				 <td>第27位（0x1b）值0x38 (字符8)</td>
 				 <td>biu版本</td>
 			 </tr>
+			 <tr>
+			 <td colspan=2>第一位是0x00 且第2位是0x00的情况</td>
+			 <td >97版本（缺少头部）</td>
+			 </tr>
 			  <tr>
 			 <td colspan=2>非该情况</td>
 			 <td >pre97的版本（96或更早）</td>
@@ -71,7 +79,9 @@ public class MvfUtil implements  VideoUtil {
 		int secondByte = byteStream[0x02] & 0xFF;
 		if (firstByte == markFor97First && secondByte == markFor97Second) {
 			bean.videoVersion = VERSION97;
-		} else {
+		} else if (firstByte == byteZero && secondByte == byteZero) {
+			bean.videoVersion = VERSION97NH;
+		}else{
 			bean.videoVersion = VERSION96;
 		}
 		return bean;

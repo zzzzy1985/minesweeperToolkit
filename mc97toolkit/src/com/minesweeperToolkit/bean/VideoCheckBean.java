@@ -17,7 +17,8 @@ public class VideoCheckBean implements Serializable {
 	public String videoType;
 	/**录像版本 为各版本子版本号 */
 	public String videoVersion;
-
+	/**偏移值 */
+	public int offset;
 	public Boolean getCheckFlag() {
 		return checkFlag;
 	}
@@ -40,6 +41,14 @@ public class VideoCheckBean implements Serializable {
 
 	public void setVideoVersion(String videoVersion) {
 		this.videoVersion = videoVersion;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 
 }

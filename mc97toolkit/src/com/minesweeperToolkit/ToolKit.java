@@ -1427,6 +1427,11 @@ public class ToolKit {
 						monthS = ymd[0].substring(2);
 						dayS = ymd[0].substring(0,2);
 						timeS = ymd[2];
+					}else if(ymd[0].length()==3){
+						yearS = ymd[1];
+						monthS = ymd[0].substring(1);
+						dayS = ymd[0].substring(0,1);
+						timeS = ymd[2];
 					}else{
 					yearS = ymd[2];
 					monthS = ymd[1];
@@ -1449,10 +1454,23 @@ public class ToolKit {
 					String splitdetail = ms[2];
 					String[] splitdetailas = splitdetail.split("B");
 					String[] ymd = splitdate.split("\\.");
-					yearS = ymd[2];
-					monthS = ymd[1];
-					dayS = ymd[0];
-					timeS = ymd[3];
+					if( ymd[0].length()==4){
+						yearS = ymd[1];
+						monthS = ymd[0].substring(2);
+						dayS = ymd[0].substring(0,2);
+						timeS = ymd[2];
+					}else if(ymd[0].length()==3){
+						yearS = ymd[1];
+						monthS = ymd[0].substring(1);
+						dayS = ymd[0].substring(0,1);
+						timeS = ymd[2];
+					}else{
+						yearS = ymd[2];
+						monthS = ymd[1];
+						dayS = ymd[0];
+						timeS = ymd[3];
+					}
+				
 					String[] hms = timeS.split("\\:");
 					hourS = hms[0];
 					minS = hms[1];
@@ -1629,7 +1647,7 @@ public class ToolKit {
 						ract = 1;
 						break;
 					case 17:
-						mouseType = "rr";
+						mouseType = "rr";	
 						lact = 0;
 						ract = -1;
 						break;
