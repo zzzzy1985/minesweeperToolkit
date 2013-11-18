@@ -2512,6 +2512,20 @@ public class ToolKit {
 		for (int i = 0; i < size; i++) {
 			board[i].premium = (-(board[i].number = getnumber(board, height, i)) - 2);
 		}
+		for (int r = 0; r < height; r++) {
+			for (int c = 0; c < width; c++) {
+				int index = c * height + r;
+				System.out.print(board[index].mine );
+			}
+			System.out.println();
+		}
+		for (int r = 0; r < height; r++) {
+			for (int c = 0; c < width; c++) {
+				int index = c * height + r;
+				System.out.print(board[index].number );
+			}
+			System.out.println();
+		}
 		for (int i = 0; i < size; i++) {
 			if (board[i].mine == 0) {
 				switch (board[i].number) {

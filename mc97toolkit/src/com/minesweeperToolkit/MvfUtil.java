@@ -14,26 +14,26 @@ public class MvfUtil {
 	public void checkVersion(){
 		
 	}
-	protected static void gettt() {
+	public static void main(String arg) {
 		long time = System.currentTimeMillis();
 		System.out.println(time);
 		for (long ij=0;ij<1;ij++){
-			int width = 16;
-			int height = 30;
-			
+			int width = 8;
+			int height = 8;
+			int mines = 10;
 			int size = width * height;
 			Cell[] mvfboard = new Cell[size];
 			// 生成随机数算法 
 			 // 种子你可以随意生成，但不能重复
 			int[] seed ;
-			seed = new int[480] ;  
-			for(int t=1;t<=480;t++){
+			seed = new int[size] ;  
+			for(int t=1;t<=size;t++){
 				seed[t-1]=t;
 			}
-		    int[] ranArr = new int[480];
+		    int[] ranArr = new int[size];
 		    Random ran = new Random();
 		    // 数量你可以自己定义。
-		    for (int i = 0; i <99; i++) {
+		    for (int i = 0; i <mines; i++) {
 		      // 得到一个位置
 		      int j = ran.nextInt(seed.length - i);
 		      // 得到那个位置的数值
@@ -42,16 +42,20 @@ public class MvfUtil {
 		      seed[j] = seed[seed.length - 1 - i];
 		    }
 		    
-		    int[] ss=new int [99];
-		    for (int i = 0; i <99; i++) {
+		    int[] ss=new int [mines];
+		    for (int i = 0; i <mines; i++) {
 		    	ss[i]=ranArr[i];
+		    	System.out.print(ss[i]);
 		    }
+		 return;
+					
+		   /* 
 		    for (int i = 0; i < size; i++) {
 				mvfboard[i] = new Cell();
 				mvfboard[i].mine = (mvfboard[i].opened = mvfboard[i].flagged = mvfboard[i].opening = mvfboard[i].opening2 = 0);
 			}
 
-			for (int i = 0; i < 99; i++) {
+			for (int i = 0; i < mines; i++) {
 				
 				int posX = ss[i]/30+1;
 				int posY = ss[i]%30;
@@ -100,8 +104,8 @@ public class MvfUtil {
 
 				}
 			}
-			ZiniNum iZini = ToolKit.calcZini(width, height, 99, mvfboard);
-		   System.out.println("ranArr:" +ij+"  "+ iZini.bbbv);
+			ZiniNum iZini = ToolKit.calcZini(width, height, 99, mvfboard)
+		   System.out.println("ranArr:" +ij+"  "+ iZini.bbbv);;*/
 		}
 		long time2 = System.currentTimeMillis();
 		double time3 = (time2 - time) / 1000d;
