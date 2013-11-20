@@ -199,9 +199,37 @@ public class RmvUtil implements  VideoUtil {
 			int pos =d*width+c;
 			rmvBoard[pos].mine = 1;
 		}
+		startLength+=(mine*2);
+		// preflags
 		if (pf>0){
-			
+			int num_preflags1=byteStream[startLength] & 0xFF;
+			int num_preflags2=byteStream[startLength+1] & 0xFF;
+			int num_preflags=num_preflags1*256+num_preflags2;
+			for(int i=0;i<num_preflags;i++){
+				//TODO
+/*
+				c=_fgetc(RMV);d=_fgetc(RMV);
+				
+				video[cur].event=4;
+				video[cur].x=square_size/2+c*square_size;
+				video[cur].y=square_size/2+d*square_size;
+				video[cur++].time=0;
+							
+				video[cur].event=5;
+				video[cur].x=square_size/2+c*square_size;
+				video[cur].y=square_size/2+d*square_size;
+				video[cur++].time=0;*/
+			}
 		}
+		startLength+=3;
+		// properties
+		int qm=byteStream[startLength] & 0xFF;
+		int nf=byteStream[startLength+1] & 0xFF;
+		int mmode=byteStream[startLength+2] & 0xFF;
+		int llevel=byteStream[startLength+3] & 0xFF;
+		startLength+=pp;
+		//  下面是 video信息
+		
 		String mvfType = checkBean.videoType;
 		String userID =playInfo;
 		String date = Const.CALCULATING;
