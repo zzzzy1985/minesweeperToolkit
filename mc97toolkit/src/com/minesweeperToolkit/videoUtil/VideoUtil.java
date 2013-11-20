@@ -1,5 +1,6 @@
 package com.minesweeperToolkit.videoUtil;
 
+import com.minesweeperToolkit.MVFInfo;
 import com.minesweeperToolkit.bean.VideoCheckBean;
 
 /**
@@ -18,5 +19,5 @@ public interface VideoUtil {
 	 * 分析录像版本
 	 * @param byteStream 字节流
 	 */
-	public void analyzingVideo(byte[] byteStream );
+	public MVFInfo analyzingVideo(byte[] byteStream ,String name);
 }

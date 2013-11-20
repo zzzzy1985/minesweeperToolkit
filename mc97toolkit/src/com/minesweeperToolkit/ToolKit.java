@@ -29,6 +29,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
+import com.minesweeperToolkit.videoUtil.RmvUtil;
+
 /**
  * 解析MVF文件和AVF文件的工具
  * 
@@ -482,8 +484,10 @@ public class ToolKit {
 		String mvfType = "";
 		if (file.getName().toLowerCase().endsWith(".mvf")) {
 			mvfType = "MVF";
-		} else {
+		} else if (file.getName().toLowerCase().endsWith(".avf"))  {
 			mvfType = "AVF";
+		}else{
+			mvfType = "RMV";
 		}
 		String userID = Const.CALCULATING;
 		String date = Const.CALCULATING;
@@ -541,14 +545,14 @@ public class ToolKit {
 					 * 
 					 */
 					if (byteStream[27] == 53) {
-						int month = byteStream[0x4a];
-						int day = byteStream[0x4b];
+						int month = byteStream[0x4a]& 0xFF;
+						int day = byteStream[0x4b]& 0xFF;
 						int year1 = byteStream[0x4c] & 0xFF;
 						int year2 = byteStream[0x4d] & 0xFF;
 						int year = year1 * 256 + year2;
-						int hour = byteStream[0x4e];
-						int minute = byteStream[0x4f];
-						int second = byteStream[0x50];
+						int hour = byteStream[0x4e]& 0xFF;
+						int minute = byteStream[0x4f]& 0xFF;
+						int second = byteStream[0x50]& 0xFF;
 						date = String.format(
 								"%02d/%02d/%02d %02d:%02d:%02d",
 								new Object[] { Integer.valueOf(year),
@@ -1924,7 +1928,13 @@ public class ToolKit {
 						disNum, hzoe, numSpeed, zinis, occam, openings,
 						lclicks, dclicks, rclicks, qg, flags, markFlag, hold,islands);
 			} else if (mvfType == "RMV") {
-
+				/**
+				 * RMV
+				 * 
+				 * 
+				 */
+				RmvUtil rmvUtil =new RmvUtil();
+				return rmvUtil.analyzingVideo(byteStream, name);
 			}
 		} else {
 			userID = Const.FILENOFOUND;
@@ -2512,6 +2522,7 @@ public class ToolKit {
 		for (int i = 0; i < size; i++) {
 			board[i].premium = (-(board[i].number = getnumber(board, height, i)) - 2);
 		}
+/*		System.out.println("mine");
 		for (int r = 0; r < height; r++) {
 			for (int c = 0; c < width; c++) {
 				int index = c * height + r;
@@ -2519,13 +2530,14 @@ public class ToolKit {
 			}
 			System.out.println();
 		}
+		System.out.println("number");
 		for (int r = 0; r < height; r++) {
 			for (int c = 0; c < width; c++) {
 				int index = c * height + r;
 				System.out.print(board[index].number );
 			}
 			System.out.println();
-		}
+		}*/
 		for (int i = 0; i < size; i++) {
 			if (board[i].mine == 0) {
 				switch (board[i].number) {
