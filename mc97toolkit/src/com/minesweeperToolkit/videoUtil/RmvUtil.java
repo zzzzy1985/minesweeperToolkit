@@ -230,7 +230,7 @@ public class RmvUtil implements  VideoUtil {
 		int mmode=byteStream[startLength+2] & 0xFF;
 		int llevel=byteStream[startLength+3] & 0xFF;
 		int i=pp>4?pp:4;
-		startLength+=pp;
+		startLength+=(pp-1);
 		//  下面是 video信息
 		List<RmvVideo> rmvVideoList = new ArrayList<RmvVideo>();
 int cur=0;
@@ -248,7 +248,22 @@ int c;
 			}
 			 // mouse event
 			else if (c<=7){
-				i+=8;
+				i+=8;startLength++;
+				int time1=byteStream[startLength] & 0xFF;
+				int time2=byteStream[startLength+1] & 0xFF;
+				int time3=byteStream[startLength+2] & 0xFF;
+				int videoTime=time1*65536+time2*256+time3;
+				rmvVideo.setTime(videoTime);
+				int x1=byteStream[startLength+4] & 0xFF;
+				int x2=byteStream[startLength+5] & 0xFF;
+				int x=x1*256+x2-12;
+				rmvVideo.setX(x);
+				int y1=byteStream[startLength+6] & 0xFF;
+				int y2=byteStream[startLength+7] & 0xFF;
+				int y=y1*256+y2-56;
+				rmvVideo.setY(y);
+				startLength=startLength+8;
+				cur++;
 				//video[cur].time=getint3(RMV);
 			//	_fgetc(RMV);
 				//video[cur].x=getint2(RMV)-12;
