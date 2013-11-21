@@ -1,10 +1,12 @@
 package com.minesweeperToolkit.videoUtil;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.minesweeperToolkit.Cell;
 import com.minesweeperToolkit.Const;
 import com.minesweeperToolkit.MVFInfo;
-import com.minesweeperToolkit.VideoInfo;
+import com.minesweeperToolkit.RmvVideo;
 import com.minesweeperToolkit.ZiniNum;
 import com.minesweeperToolkit.bean.VideoCheckBean;
 /**
@@ -227,9 +229,39 @@ public class RmvUtil implements  VideoUtil {
 		int nf=byteStream[startLength+1] & 0xFF;
 		int mmode=byteStream[startLength+2] & 0xFF;
 		int llevel=byteStream[startLength+3] & 0xFF;
+		int i=pp>4?pp:4;
 		startLength+=pp;
 		//  下面是 video信息
-		
+		List<RmvVideo> rmvVideoList = new ArrayList<RmvVideo>();
+int cur=0;
+int c;
+		while (true) {
+			RmvVideo rmvVideo=new RmvVideo();
+			rmvVideo.setCur(cur);
+			++i;
+			c=byteStream[startLength] & 0xFF;
+			rmvVideo.setEvent(String.valueOf(c));
+			// timestamp event
+			if(c==0){
+				startLength+=2;
+				i+=4;
+			}
+			 // mouse event
+			else if (c<=7){
+				i+=8;
+				//video[cur].time=getint3(RMV);
+			//	_fgetc(RMV);
+				//video[cur].x=getint2(RMV)-12;
+				//video[cur++].y=getint2(RMV)-56;
+				// error("Invalid event");
+			}else if(c==8){
+				// board event
+			}else if(c<=14 || (c>=18 && c<=27)){
+				
+			}else if (c<=17){
+				break;
+			}
+		}
 		String mvfType = checkBean.videoType;
 		String userID =playInfo;
 		String date = Const.CALCULATING;
