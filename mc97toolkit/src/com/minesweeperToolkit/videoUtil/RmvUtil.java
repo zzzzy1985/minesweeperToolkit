@@ -78,7 +78,6 @@ public class RmvUtil implements  VideoUtil {
 		VideoCheckBean bean = new VideoCheckBean();
 		String videoType = new String(byteStream, 1,
 				4);
-		
 		bean.videoType = TYPE_RMV;
 		bean.videoVersion = VERSION2;
 		return bean;
@@ -230,16 +229,19 @@ public class RmvUtil implements  VideoUtil {
 		int mmode=byteStream[startLength+2] & 0xFF;
 		int llevel=byteStream[startLength+3] & 0xFF;
 		int i=pp>4?pp:4;
-		startLength+=pp;
+		startLength+=pp-1;
 		//  下面是 video信息
 		List<RmvVideo> rmvVideoList = new ArrayList<RmvVideo>();
-int cur=0;
-int c;
-		while (true) {
+		int cur=0;
+		int c;
+		boolean flag=true;
+		boolean isFirst=true;
+		while (flag) {
 			RmvVideo rmvVideo=new RmvVideo();
 			rmvVideo.setCur(cur);
 			++i;
 			c=byteStream[startLength] & 0xFF;
+			System.out.println("i:"+i+" " +"cur:"+ cur+ " c:"+c);
 			rmvVideo.setEvent(String.valueOf(c));
 			// timestamp event
 			if(c==0){
@@ -249,19 +251,65 @@ int c;
 			 // mouse event
 			else if (c<=7){
 				i+=8;
+				startLength++;
+				int time1 =byteStream[startLength] & 0xFF;
+				int time2=byteStream[startLength+1] & 0xFF;
+				int time3 =byteStream[startLength+2] & 0xFF;
+				int time =time1*65536+time2*256+time3;
+				// 中间有1位未知
+				int x1=byteStream[startLength+4] & 0xFF;
+				int x2=byteStream[startLength+5] & 0xFF;
+				int x=x1*256+x2-12;
+				int y1=byteStream[startLength+6] & 0xFF;
+				int y2=byteStream[startLength+7] & 0xFF;
+				int y=y1*256+y2-56;
+				rmvVideo.setTime(time);
+				rmvVideo.setX(x);
+				rmvVideo.setY(y);
+			
+				cur++;
+				startLength+=8;
+				if(isFirst){
+					isFirst=false;
+					RmvVideo rmvVideo2=new RmvVideo();
+					rmvVideo2.event=rmvVideo.getEvent();
+					rmvVideo2.cur=cur;
+					rmvVideo.setEvent(String.valueOf(2));
+					rmvVideo2.x=rmvVideo.getX();
+					rmvVideo2.y=rmvVideo.getY();
+					rmvVideoList.add(rmvVideo);
+					rmvVideoList.add(rmvVideo2);
+					cur++;
+				}else{
+					rmvVideoList.add(rmvVideo);
+				}
+			
 				//video[cur].time=getint3(RMV);
 			//	_fgetc(RMV);
 				//video[cur].x=getint2(RMV)-12;
 				//video[cur++].y=getint2(RMV)-56;
 				// error("Invalid event");
 			}else if(c==8){
+				
 				// board event
 			}else if(c<=14 || (c>=18 && c<=27)){
-				
+				i+=2;
+				startLength++;
+				int x=byteStream[startLength] & 0xFF+1;
+				int y=byteStream[startLength+1] & 0xFF+1;
+				startLength+=2;
+				rmvVideo.setX(x);
+				rmvVideo.setY(y);
+
+				rmvVideoList.add(rmvVideo);
+				cur++;
 			}else if (c<=17){
+				flag=false;
 				break;
 			}
 		}
+		System.out.println(rmvVideoList.size());
+	
 		String mvfType = checkBean.videoType;
 		String userID =playInfo;
 		String date = Const.CALCULATING;

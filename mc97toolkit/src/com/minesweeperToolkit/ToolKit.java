@@ -103,7 +103,6 @@ public class ToolKit {
 						public String getDescription() {
 							return null;
 						}
-
 						public boolean accept(File f) {
 							return (f.isDirectory())
 									|| (f.getName().toLowerCase()
