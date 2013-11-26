@@ -18,12 +18,7 @@ import com.minesweeperToolkit.bean.VideoCheckBean;
  * @date 2013-1120
  */
 public class RmvUtil implements  VideoUtil {
-	/**byte00*/
-	private int byteZero=0x00;
-	/**MVF97第一位标志*/
-	private int markFor97First=0x11;
-	/**MVF97第一位标志*/
-	private int markFor97Second=0x4D;
+	
 	/**类型rmv*/
 	private String TYPE_RMV="rmv";
 	/**版本2.0*/
