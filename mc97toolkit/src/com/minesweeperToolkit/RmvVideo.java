@@ -1,23 +1,13 @@
 package com.minesweeperToolkit;
 
 public class RmvVideo {
-	public String event;
+	public int event;
+	public String eventName;
 	public int cur;
 	public int time;
 	public int x;
 	public int y;
-	/**
-	 * @return the event
-	 */
-	public String getEvent() {
-		return event;
-	}
-	/**
-	 * @param event the event to set
-	 */
-	public void setEvent(String event) {
-		this.event = event;
-	}
+
 	/**
 	 * @return the time
 	 */
@@ -65,6 +55,30 @@ public class RmvVideo {
 	 */
 	public void setCur(int cur) {
 		this.cur = cur;
+	}
+	/**
+	 * @return the event
+	 */
+	public int getEvent() {
+		return event;
+	}
+	/**
+	 * @param event the event to set
+	 */
+	public void setEvent(int event) {
+		this.event = event;
+	}
+	/**
+	 * @return the eventName
+	 */
+	public String getEventName() {
+		return eventName;
+	}
+	/**
+	 * @param eventName the eventName to set
+	 */
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 	
 }

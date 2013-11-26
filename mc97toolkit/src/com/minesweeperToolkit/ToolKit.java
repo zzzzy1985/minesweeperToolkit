@@ -932,11 +932,6 @@ public class ToolKit {
 								orstatus = rstatus - ract;
 								if (lact == -1 && orstatus == 0 && flag) {
 									ll++;
-									/**
-									 * System.out.println("ll+ " + ll + " " + rr
-									 * + " " + dd + " " + holds);
-									 **/
-
 									// l++的时候
 									int qx = (actionCheck.y) / 16 + 1;
 									int qy = (actionCheck.x) / 16 + 1;
@@ -945,30 +940,14 @@ public class ToolKit {
 									if (xx == 0) {
 										digg(qx, qy, tempCells, cells);
 									}
-									/*System.out.println("");
-									for (int ii = 0; ii < height; ii++) {
-										for (int j = 0; j < width; j++) {
-											System.out.print(tempCells[(ii)
-													* width + j].sta);
-										}
-
-										System.out.println("");
-									}*/
-
 								}
 
 								if ((lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0)
 										* (olstatus == 1 ? 1 : 0)
 										* (orstatus == 1 ? 1 : 0) > 0) {
 									dd++;
-									/**
-									 * System.out.println("dd+ " + ll + " " + rr
-									 * + " " + dd + " " + holds);
-									 */
 									if (tempR == 1) {
 										rr--;
-									/*	System.out.println("rr- " + ll + " "
-												+ rr + " " + dd + " " + holds);*/
 										tempR = 0;
 									}
 									int qx = (actionCheck.y) / 16 + 1;
@@ -1047,12 +1026,6 @@ public class ToolKit {
 																	+ qx].sta)) ? 1
 															: 0);
 												}
-
-											/*	System.out.println(qx + " "
-														+ qy + " "
-														+ arroundFlag + " "
-														+ thiswhat);*/
-
 												// 计算这个数字是否等于周围一圈雷数
 												if (arroundFlag == thiswhat) {
 													digg(qx - 1, qy - 1,
@@ -1071,30 +1044,14 @@ public class ToolKit {
 															cells);
 													digg(qx + 1, qy + 1,
 															tempCells, cells);
-												/*	System.out.println("");
-													for (int ii = 0; ii < height; ii++) {
-														for (int j = 0; j < width; j++) {
-															System.out
-																	.print(tempCells[(ii)
-																			* width
-																			+ j].sta);
-														}
-
-														System.out.println("");
-													}*/
 												}
 											}
 										}
 									}
-
 								}
 								if (ract == 1) {
 									if (olstatus == 0) {
 										rr++;
-										/**
-										 * System.out.println("rr+ " + ll + " "
-										 * + rr + " " + dd + " " + holds);
-										 */
 										int qx = (actionCheck.y) / 16 + 1;
 										int qy = (actionCheck.x) / 16 + 1;
 										int xx = tempCells[(qy - 1) * width
@@ -1112,15 +1069,7 @@ public class ToolKit {
 											tempR = 1;
 
 										}
-									/*	System.out.println("");
-										for (int ii = 0; ii < height; ii++) {
-											for (int j = 0; j < width; j++) {
-												System.out.print(tempCells[(ii)
-														* width + j].sta);
-											}
-
-											System.out.println("");
-										}*/
+								
 									} else {
 										tempR = 0;
 									}
@@ -1128,17 +1077,9 @@ public class ToolKit {
 								if ((orstatus == 1 ? 1 : 0)
 										* (lact == 1 ? 1 : 0) > 0) {
 									holds++;
-									/**
-									 * System.out.println("holds " + ll + " " +
-									 * rr + " " + dd + " " + holds);
-									 */
 								}
-
 							}
-							/**
-							 * System.out.println(ll + " " + rr + " " + dd + " "
-							 * + holds);
-							 */
+						
 						}
 						for (int i = 0; i < tempCells.length; i++) {
 							if ("F".equals(tempCells[i].sta)) {
@@ -1987,7 +1928,7 @@ public class ToolKit {
 				qg, flags, markFlag, hold,islands);
 	}
 
-	private static void digg(int x2, int y2, Cells[] tempCells, Cells[] cells) {
+	public static void digg(int x2, int y2, Cells[] tempCells, Cells[] cells) {
 		if ((x2 > 0) && (x2 <= width) && (y2 > 0) && (y2 <= height)) {
 
 			if (tempCells[(y2 - 1) * width + x2 - 1].status == 0) {

@@ -1,12 +1,17 @@
 package com.minesweeperToolkit.videoUtil;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import com.minesweeperToolkit.Cell;
+import com.minesweeperToolkit.Cells;
 import com.minesweeperToolkit.Const;
 import com.minesweeperToolkit.MVFInfo;
 import com.minesweeperToolkit.RmvVideo;
+import com.minesweeperToolkit.ToolKit;
+import com.minesweeperToolkit.VideoInfo;
 import com.minesweeperToolkit.ZiniNum;
 import com.minesweeperToolkit.bean.VideoCheckBean;
 /**
@@ -159,8 +164,13 @@ public class RmvUtil implements  VideoUtil {
 		String rsSplit5=rsSplit[4].split(":")[1];
 		// nf
 		String rsSplit6=rsSplit[5].split(":")[1];
-		
-		String style="1".equals(rsSplit6) ?Const.STYLE_NF : Const.STYLE_FL;
+		// timeStamp
+		String timeStamp=rsSplit[6].split(":")[1];
+		long ts =Long.parseLong(timeStamp)*1000L;
+		Date dt =new Date(ts);
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+		String videots=sdf.format(dt);
+				String style="1".equals(rsSplit6) ?Const.STYLE_NF : Const.STYLE_FL;
 		int startLength=0x1D+rs-1;
 		// 版本信息
 		String versionInfo= new String(byteStream, startLength,
@@ -195,6 +205,43 @@ public class RmvUtil implements  VideoUtil {
 			int pos =d*width+c;
 			rmvBoard[pos].mine = 1;
 		}
+		Cells[] cells = new Cells[(height + 2) * (width + 2)];
+		for (int i = 0; i < (height + 2) * (width + 2); i++) {
+			cells[i] = new Cells(0);
+		}
+		for (int i = 0; i < mine; i++) {
+			int posX = byteStream[(startLength+ i * 2)] & 0xFF;
+			int posY = byteStream[(startLength+1+ i * 2)] & 0xFF;
+		
+			int pos = (posX) * (width + 2) + posY;
+			System.out.println(posX+" "+ posY+" "+ pos);
+			cells[pos].what = 9;
+		}
+		for (int i = 1; i < (height + 1); i++) {
+			for (int j = 1; j < (width + 1); j++) {
+
+				if (cells[(width + 2) * i + j].what != 9) {
+					cells[(width + 2) * i + j].what = (cells[(width + 2)
+							* (i - 1) + j - 1].what == 9 ? 1 : 0)
+							+ (cells[(width + 2) * (i - 1) + j].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * (i - 1) + j + 1].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * i + j - 1].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * i + j + 1].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * (i + 1) + j - 1].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * (i + 1) + j].what == 9 ? 1
+									: 0)
+							+ (cells[(width + 2) * (i + 1) + j + 1].what == 9 ? 1
+									: 0);
+				}
+
+			}
+		}
+		ZiniNum iZini = ToolKit.calcZini(width, height, mine, rmvBoard);
 		startLength+=(mine*2);
 		// preflags
 		if (pf>0){
@@ -236,8 +283,8 @@ public class RmvUtil implements  VideoUtil {
 			rmvVideo.setCur(cur);
 			++i;
 			c=byteStream[startLength] & 0xFF;
-			System.out.println("i:"+i+" " +"cur:"+ cur+ " c:"+c);
-			rmvVideo.setEvent(String.valueOf(c));
+			rmvVideo.setEvent(c);
+			rmvVideo.setEventName(getEventName(c));
 			// timestamp event
 			if(c==0){
 				startLength+=2;
@@ -267,13 +314,16 @@ public class RmvUtil implements  VideoUtil {
 				if(isFirst){
 					isFirst=false;
 					RmvVideo rmvVideo2=new RmvVideo();
-					rmvVideo2.event=rmvVideo.getEvent();
+					
+					rmvVideo2.event=c;
+					rmvVideo2.setEventName(getEventName(c));
 					rmvVideo2.cur=cur;
-					rmvVideo.setEvent(String.valueOf(2));
+					rmvVideo.event=2;
+					rmvVideo.setEventName(getEventName(2));
 					rmvVideo2.x=rmvVideo.getX();
 					rmvVideo2.y=rmvVideo.getY();
-					rmvVideoList.add(rmvVideo);
 					rmvVideoList.add(rmvVideo2);
+					rmvVideoList.add(rmvVideo);
 					cur++;
 				}else{
 					rmvVideoList.add(rmvVideo);
@@ -303,18 +353,18 @@ public class RmvUtil implements  VideoUtil {
 				break;
 			}
 		}
-		System.out.println(rmvVideoList.size());
-	
+		VideoInfo timex =analyzingRawList(rmvVideoList,height,width,cells);
 		String mvfType = checkBean.videoType;
 		String userID =playInfo;
-		String date = Const.CALCULATING;
+		String date = videots;
 		String level = rsSplit1;
 		String mode = Const.CALCULATING;
-		String time = rsSplit2;
+		String time =  String.format("%.3f", new Object[] {Double.valueOf(timex.getTime()+1)});
 		String bbbv = rsSplit5;
-		String bbbvs =  String.format("%.3f", new Object[] { Double.valueOf(bbbv)     
-				/ (Double.valueOf(time) ) });
-		String distance = Const.CALCULATING;
+		String bbbvs =  String.format("%.3f", new Object[] { Double.valueOf(bbbv)  
+				/ (Double.valueOf(timex.getTime()) ) });
+		String distance = String.format("%.3f",
+				new Object[] { Double.valueOf(timex.getDistance()) });
 		String clicks = Const.CALCULATING;
 		String zini = Const.CALCULATING;
 		String islands = Const.CALCULATING;
@@ -340,13 +390,13 @@ public class RmvUtil implements  VideoUtil {
 		String numSpeed = Const.CALCULATING;
 		String zinis = Const.CALCULATING;
 		String occam = Const.CALCULATING;
-		String lclicks = Const.CALCULATING;
-		String dclicks = Const.CALCULATING;
-		String rclicks = Const.CALCULATING;
+		String lclicks =timex.lclicks;
+		String dclicks = timex.dclicks;
+		String rclicks =timex.rclicks;
 		String qg = String.format(
 				"%.3f",
 				new Object[] { Double.valueOf((Math.pow(
-						(Double.valueOf(time)), 1.7D))
+						(Double.valueOf(timex.getTime())), 1.7D))
 						/ Double.valueOf(bbbv)) });
 		String flags = Const.CALCULATING;
 		String markFlag = Const.CALCULATING;
@@ -358,6 +408,243 @@ public class RmvUtil implements  VideoUtil {
 				num6, num7, num8, numAll, disSpeed, allClicks, disBv,
 				disNum, hzoe, numSpeed, zinis, occam, openings,
 				lclicks, dclicks, rclicks, qg, flags, markFlag, hold,islands);
+	}
+	/**
+	 * 根据rmvList 分析
+	 * @param rmvVideoList
+	 */
+	private VideoInfo analyzingRawList(List<RmvVideo> rmvVideoList,int height,int width,Cells[] cells){
+		VideoInfo info =new VideoInfo();
+		// distance 
+		double path = 0.0D;
+		// 
+		double time=0.0D;
+	/*	const char* event_names[]={"","mv","lc","lr","rc","rr","mc","mr","","pressed","pressedqm","closed",
+				"questionmark","flag","blast","boom","won","nonstandard","number0","number1","number2","number3",
+				"number4","number5","number6","number7","number8","blast"};*/
+		String mouseTypeNomv = "";
+		int tempR = 0;
+		int lstatus = 0;
+		int rstatus = 0;
+		@SuppressWarnings("unused")
+		int l = 0;
+		@SuppressWarnings("unused")
+		int d = 0;
+		@SuppressWarnings("unused")
+		int r = 0;
+		// 计算1.5click
+		@SuppressWarnings("unused")
+		int holds = 0;
+		int ax = 0;
+		int ay = 0;
+		Cells[] tempCells = new Cells[(height) * (width)];
+		for (int i = 0; i < tempCells.length; i++) {
+			tempCells[i] = new Cells(0);
+		}
+		for(int i=0;i<rmvVideoList.size();i++){
+			RmvVideo rmvVideo=rmvVideoList.get(i);
+			int event=rmvVideo.event;
+           if(event >=1 && event<=7){
+        	   time=rmvVideo.time;
+        		int nx = rmvVideo.x;
+				int ny = rmvVideo.y;
+				boolean flag = true;
+				if ("rr".equals(mouseTypeNomv)) {
+					flag = false;
+				}
+				int olstatus = 0;
+				int orstatus = 0;
+				int lact = 0;
+				int ract = 0;
+				String mouseType = "";
+        	   switch (event) {
+        	   //mv
+        	   case 1:
+        			mouseType = "mv";
+					lact = 0;
+					ract = 0;
+					break;
+					   //lc
+        	   case 2:
+        			mouseType = "lc";
+        			lact = 1;
+					ract = 0;
+					break;
+					   //lr
+        	   case 3:
+        			mouseType = "lr";
+        			lact = -1;
+					ract = 0;
+					break;
+					   //rc
+        	   case 4:
+        			mouseType = "rc";
+        			lact = 0;
+					ract = 1;
+					break;
+					   //rr
+        	   case 5:
+        			mouseType = "rr";
+        			lact = 0;
+					ract = -1;
+					break;
+					  //rr
+        	   case 6:
+        			mouseType = "mc";
+        			lact = 1;
+					ract = -1;
+					break;
+					  //rr
+        	   case 7:
+        			mouseType = "mr";
+        			lact = -1;
+					ract = -1;
+					break;
+        	   }
+        	   if (!"mv".equals(mouseType)) {
+					mouseTypeNomv = mouseType;
+				}
+        		lstatus += lact;
+				rstatus += ract;
+				olstatus = lstatus - lact;
+				orstatus = rstatus - ract;
+				if (lact == -1 && orstatus == 0 && flag) {
+					l++;
+					// l++的时候
+					int qx = (nx) / 16 + 1;
+					int qy = (ny) / 16 + 1;
+					if (qx <= width && qy <= height) {
+						int xx = tempCells[(qy - 1) * width + qx - 1].status;
+						if (xx == 0) {
+							ToolKit.digg(qx, qy, tempCells, cells);
+						}
+					}
+				}
+
+				if ((lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0)
+						* (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0) {
+					d++;
+					if (tempR == 1) {
+						r--;
+						tempR = 0;
+					}
+					int qx = (nx) / 16 + 1;
+					int qy = (ny) / 16 + 1;
+
+					if (qx <= width && qy <= height) {
+						int thiswhat = cells[(qy) * (width + 2) + (qx)].what;
+						// 计算点击位置周围一圈雷数
+						if (thiswhat != 0) {
+							int arroundFlag = 0;
+							// 存在左上格 如果不在第一行或第一列
+							if (!((qx == 1) || (qy == 1))) {
+								arroundFlag += (("F"
+										.equals(tempCells[(qy - 2) * width
+												+ qx - 2].sta)) ? 1 : 0);
+							}
+							// 存在上格 如果不在第一行
+							if (qy != 1) {
+								arroundFlag += (("F"
+										.equals(tempCells[(qy - 2) * width
+												+ qx - 1].sta)) ? 1 : 0);
+							}
+							// 存在右上格 如果不在第一行或最后一列
+							if (!((qx == width) || (qy == 1))) {
+								arroundFlag += (("F"
+										.equals(tempCells[(qy - 2) * width
+												+ qx].sta)) ? 1 : 0);
+							}
+							// 存在左格 如果不在第一列
+							if (qx != 1) {
+								arroundFlag += (("F"
+										.equals(tempCells[(qy - 1) * width
+												+ qx - 2].sta)) ? 1 : 0);
+							}
+							// 存在右格 如果不在最后一列
+							if (qx != width) {
+								arroundFlag += (("F"
+										.equals(tempCells[(qy - 1) * width
+												+ qx].sta)) ? 1 : 0);
+							}
+							// 存在左下格 如果不在最后一行或最后一列
+
+							if (!((qx == 1) || (qy == height))) {
+								arroundFlag += (("F".equals(tempCells[(qy)
+										* width + qx - 2].sta)) ? 1 : 0);
+							}
+							// 存在下格 如果不在最后一行
+							if (qy != height) {
+								arroundFlag += (("F".equals(tempCells[(qy)
+										* width + qx - 1].sta)) ? 1 : 0);
+							}
+							// 存在右下格 如果不在最后一行或最后一列
+							if (!((qx == width) || (qy == height))) {
+								arroundFlag += (("F".equals(tempCells[(qy)
+										* width + qx].sta)) ? 1 : 0);
+							}
+/*
+							System.out.println(qx + " " + qy + " "
+									+ arroundFlag + " " + thiswhat);*/
+
+							// 计算这个数字是否等于周围一圈雷数
+							if (arroundFlag == thiswhat) {
+								ToolKit.digg(qx - 1, qy - 1, tempCells, cells);
+								ToolKit.digg(qx - 1, qy, tempCells, cells);
+								ToolKit.digg(qx - 1, qy + 1, tempCells, cells);
+								ToolKit.digg(qx, qy - 1, tempCells, cells);
+								ToolKit.digg(qx, qy + 1, tempCells, cells);
+								ToolKit.digg(qx + 1, qy - 1, tempCells, cells);
+								ToolKit.digg(qx + 1, qy, tempCells, cells);
+								ToolKit.digg(qx + 1, qy + 1, tempCells, cells);
+							}
+						}
+					}
+				}
+				if (ract == 1) {
+					if (olstatus == 0) {
+						r++;
+						int qx = (nx) / 16 + 1;
+						int qy = (ny) / 16 + 1;
+						if (qx <= width && qy <= height) {
+							int xx = tempCells[(qy - 1) * width + qx - 1].status;
+
+							if (xx == 0) {
+								tempR = 0;
+								tempCells[(qy - 1) * width + qx - 1].status = 2;
+								tempCells[(qy - 1) * width + qx - 1].sta = "F";
+							} else if (xx == 2) {
+								tempR = 0;
+								tempCells[(qy - 1) * width + qx - 1].status = 0;
+								tempCells[(qy - 1) * width + qx - 1].sta = " ";
+							} else {
+								tempR = 1;
+
+							}
+						}
+					} else {
+						tempR = 0;
+					}
+				}
+				if ((orstatus == 1 ? 1 : 0) * (lact == 1 ? 1 : 0) > 0) {
+					holds++;
+				}
+
+				if (i > 0) {
+					path += Math.sqrt((nx - ax) * (nx - ax) + (ny - ay)
+							* (ny - ay));
+				}
+				ax = nx;
+				ay = ny;
+           }
+			
+			
+		}
+		info.setLclicks(String.valueOf(l));
+		info.setDclicks(String.valueOf(d));
+		info.setRclicks(String.valueOf(r));
+		info.setDistance(String.valueOf(path));
+		info.setTime(String.valueOf(time/1000));
+		return info;
 	}
 	public static void main( String[] args) {
 		long time = System.currentTimeMillis();
@@ -577,5 +864,11 @@ System.out.println(bbbv);
 				}
 			}
 				
+	}
+	private String getEventName(int event){
+		String[] eventLst=new String[]{"","mv","lc","lr","rc","rr","mc","mr","","pressed","pressedqm","closed",
+			"questionmark","flag","blast","boom","won","nonstandard","number0","number1","number2","number3",
+			"number4","number5","number6","number7","number8","blast"};
+		return eventLst[event];
 	}
 }
