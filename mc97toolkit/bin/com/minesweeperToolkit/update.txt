@@ -4,6 +4,7 @@
 录像识别（ mvf97 arbiter 0.49.4+）
 最新功能
 追加islands计算 arbiter上初步认可 算法来自小尾巴和JSD
+追加rmv录像
 2013-10-25
 目前已知的各种bug
 BUG00001:
