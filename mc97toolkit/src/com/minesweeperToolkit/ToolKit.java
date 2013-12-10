@@ -1394,36 +1394,71 @@ public class ToolKit {
 					
 				} else {
 					String[] ms = many.split("\\|");
-					String splitdate = ms[1];
-					String splitdetail = ms[2];
-					String[] splitdetailas = splitdetail.split("B");
-					String[] ymd = splitdate.split("\\.");
-					if( ymd[0].length()==4){
-						yearS = ymd[1];
-						monthS = ymd[0].substring(2);
-						dayS = ymd[0].substring(0,2);
-						timeS = ymd[2];
-					}else if(ymd[0].length()==3){
-						yearS = ymd[1];
-						monthS = ymd[0].substring(1);
-						dayS = ymd[0].substring(0,1);
-						timeS = ymd[2];
-					}else{
-						yearS = ymd[2];
-						monthS = ymd[1];
-						dayS = ymd[0];
-						timeS = ymd[3];
-					}
+					if (ms.length == 3) {
+						String splitdate = ms[1];
+						String splitdetail = ms[2];
+						String[] splitdetailas = splitdetail.split("B");
+						String[] ymd = splitdate.split("\\.");
+						if (ymd[0].length() == 4) {
+							yearS = ymd[1];
+							monthS = ymd[0].substring(2);
+							dayS = ymd[0].substring(0, 2);
+							timeS = ymd[2];
+						} else if (ymd[0].length() == 3) {
+							yearS = ymd[1];
+							monthS = ymd[0].substring(1);
+							dayS = ymd[0].substring(0, 1);
+							timeS = ymd[2];
+						} else {
+							yearS = ymd[2];
+							monthS = ymd[1];
+							dayS = ymd[0];
+							timeS = ymd[3];
+						}
+						String[] hms = timeS.split("\\:");
+						hourS = hms[0];
+						minS = hms[1];
+						secS = hms[2];
+						// String minsecS=hms[3];
+						bvtime = splitdetailas[1];
+						String[] bvtimeS = bvtime.split("T");
+						bv = bvtimeS[0];
+						saoleitime = bvtimeS[1];
+						// avf 0.52的场合
+						}else if(ms.length == 4){
+							String splitdate = ms[1];
+							String splitdetail = ms[3];
+							String[] splitdetailas = splitdetail.split("B");
+							String[] ymd = splitdate.split("\\.");
+							if (ymd[0].length() == 4) {
+								yearS = ymd[1];
+								monthS = ymd[0].substring(2);
+								dayS = ymd[0].substring(0, 2);
+								timeS = ymd[2];
+							} else if (ymd[0].length() == 3) {
+								yearS = ymd[1];
+								monthS = ymd[0].substring(1);
+								dayS = ymd[0].substring(0, 1);
+								timeS = ymd[2];
+							} else {
+								yearS = ymd[2];
+								monthS = ymd[1];
+								dayS = ymd[0];
+								timeS = ymd[3];
+							}
+							String[] hms = timeS.split("\\:");
+							hourS = hms[0];
+							minS = hms[1];
+							secS = hms[2];
+							// String minsecS=hms[3];
+							bvtime = splitdetailas[1];
+							String[] bvtimeS = bvtime.split("T");
+							bv = bvtimeS[0];
+							saoleitime = bvtimeS[1];
+							// avf 0.52的场合
+						}
 				
-					String[] hms = timeS.split("\\:");
-					hourS = hms[0];
-					minS = hms[1];
-					secS = hms[2];
-					// String minsecS=hms[3];
-					bvtime = splitdetailas[1];
-					String[] bvtimeS = bvtime.split("T");
-					bv = bvtimeS[0];
-					saoleitime = bvtimeS[1];
+				
 				}
 				int nowLength = next + length;
 				int[] cr = new int[8];
