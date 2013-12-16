@@ -210,8 +210,8 @@ public class RmvUtil implements  VideoUtil {
 			cells[i] = new Cells(0);
 		}
 		for (int i = 0; i < mine; i++) {
-			int posX = byteStream[(startLength+ i * 2)] & 0xFF;
-			int posY = byteStream[(startLength+1+ i * 2)] & 0xFF;
+			int posY = byteStream[(startLength+ i * 2)] & 0xFF;
+			int posX = byteStream[(startLength+1+ i * 2)] & 0xFF;
 		
 			int pos = (posX) * (width + 2) + posY;
 			System.out.println(posX+" "+ posY+" "+ pos);
@@ -264,14 +264,14 @@ public class RmvUtil implements  VideoUtil {
 				video[cur++].time=0;*/
 			}
 		}
-		startLength+=3;
+		startLength+=2;
 		// properties
 		int qm=byteStream[startLength] & 0xFF;
 		int nf=byteStream[startLength+1] & 0xFF;
 		int mmode=byteStream[startLength+2] & 0xFF;
 		int llevel=byteStream[startLength+3] & 0xFF;
 		int i=pp>4?pp:4;
-		startLength+=pp-1;
+		startLength+=pp;
 		//  下面是 video信息
 		List<RmvVideo> rmvVideoList = new ArrayList<RmvVideo>();
 		int cur=0;
@@ -358,38 +358,95 @@ public class RmvUtil implements  VideoUtil {
 		String userID =playInfo;
 		String date = videots;
 		String level = rsSplit1;
-		String mode = Const.CALCULATING;
+		String mode = (mmode==0? "经典":"UPK");
 		String time =  String.format("%.3f", new Object[] {Double.valueOf(timex.getTime()+1)});
 		String bbbv = rsSplit5;
 		String bbbvs =  String.format("%.3f", new Object[] { Double.valueOf(bbbv)  
 				/ (Double.valueOf(timex.getTime()) ) });
 		String distance = String.format("%.3f",
 				new Object[] { Double.valueOf(timex.getDistance()) });
-		String clicks = Const.CALCULATING;
-		String zini = Const.CALCULATING;
-		String islands = Const.CALCULATING;
-		String rqp = Const.CALCULATING;
-		String ioe = Const.CALCULATING;
+		String allClicks =String.format("%d", new Object[] { Integer.valueOf(timex.lclicks)+Integer.valueOf(timex.dclicks)+Integer.valueOf(timex.rclicks)});
+		String clicks = String.format(
+				"%.3f",
+				new Object[] { Double.valueOf(allClicks)
+						/ Double.valueOf(timex.getTime()) });
+		String zini =String.valueOf(iZini.zini);
+		String islands =String.valueOf(iZini.islands);
+		String rqp =String.format(
+				"%.2f",
+				new Object[] { Double.valueOf(timex.getTime())
+						*( (Double.valueOf(timex.getTime())+1.0D) )/ Double.valueOf(bbbv)  });
+		
+		String ioe = String.format(
+				"%.3f",
+				new Object[] { Double.valueOf(Double.valueOf(bbbv)  * 1.0D
+						/ Double.valueOf(allClicks) ) });
 		String completion ="100%";
-		String num0 = Const.CALCULATING;
-		String num1 = Const.CALCULATING;
-		String num2 = Const.CALCULATING;
-		String num3 = Const.CALCULATING;
-		String num4 = Const.CALCULATING;
-		String num5 = Const.CALCULATING;
-		String num6 = Const.CALCULATING;
-		String num7 = Const.CALCULATING;
-		String num8 = Const.CALCULATING;
-		String numAll = Const.CALCULATING;
-		String disSpeed = Const.CALCULATING;
-		String openings = Const.CALCULATING;
-		String allClicks = Const.CALCULATING;
-		String disBv = Const.CALCULATING;
-		String disNum = Const.CALCULATING;
-		String hzoe = Const.CALCULATING;
-		String numSpeed = Const.CALCULATING;
-		String zinis = Const.CALCULATING;
-		String occam = Const.CALCULATING;
+		String num0 = String.valueOf(iZini.num0);
+		String num1 =String.valueOf(iZini.num1);
+		String num2 = String.valueOf(iZini.num2);
+		String num3 =  String.valueOf(iZini.num3);
+		String num4 =  String.valueOf(iZini.num4);
+		String num5 =  String.valueOf(iZini.num5);
+		String num6 = String.valueOf(iZini.num6);
+		String num7 =  String.valueOf(iZini.num7);
+		String num8 =  String.valueOf(iZini.num8);
+		String numAll =  String.valueOf(iZini.num1 + 2 * iZini.num2 + 3
+				* iZini.num3 + 4 * iZini.num4 + 5 * iZini.num5
+				+ 6 * iZini.num6 + 7 * iZini.num7 + 8
+				* iZini.num8);
+
+		String disSpeed =String.format(
+				"%.3f",
+				new Object[] { Double.valueOf(timex.getDistance())
+						/ (Double.valueOf(timex.getTime())) });
+		String openings =String.valueOf(iZini.openings);
+	
+		String disBv =  String.format(
+				"%.3f",
+				new Object[] { Double.valueOf(timex.getDistance())
+						/ (Double.valueOf(rsSplit5)) });
+		String disNum = String
+				.format("%.3f",
+						new Object[] { Double
+								.valueOf(Double.valueOf(timex.getDistance())
+										/ ((iZini.num1 + 2
+												* iZini.num2
+												+ 3
+												* iZini.num3
+												+ 4
+												* iZini.num4
+												+ 5
+												* iZini.num5
+												+ 6
+												* iZini.num6
+												+ 7
+												* iZini.num7 + 8 * iZini.num8) * 1.0D)) });
+		String hzoe = String.format(
+				"%.3f",
+				new Object[] { Double.valueOf(iZini.zini * 1.0D
+						/ Double.valueOf(allClicks)) });
+		String numSpeed =  String
+				.format("%.3f",
+						new Object[] { Double
+								.valueOf(((iZini.num1 + 2
+										* iZini.num2 + 3
+										* iZini.num3 + 4
+										* iZini.num4 + 5
+										* iZini.num5 + 6
+										* iZini.num6 + 7
+										* iZini.num7 + 8 * iZini.num8) * 1.0D))
+								/ (Double.valueOf(timex.getTime()) ) });
+		// ZINIS=ZINI/time
+		String zinis = String.format(
+				"%.3f",
+				new Object[] { Double
+						.valueOf(((iZini.zini) * 1.0D))
+						/ (Double.valueOf(timex.getTime()) ) });
+		String occam =String.format("%.3f", new Object[] { Double
+				.valueOf(((Double.valueOf(rsSplit5) /  (Double.valueOf(timex.getTime()) ))
+						* Double.valueOf((Double.valueOf(rsSplit5)  * 1.0D
+								/ Double.valueOf(allClicks))))) });
 		String lclicks =timex.lclicks;
 		String dclicks = timex.dclicks;
 		String rclicks =timex.rclicks;
@@ -398,9 +455,9 @@ public class RmvUtil implements  VideoUtil {
 				new Object[] { Double.valueOf((Math.pow(
 						(Double.valueOf(timex.getTime())), 1.7D))
 						/ Double.valueOf(bbbv)) });
-		String flags = Const.CALCULATING;
-		String markFlag = Const.CALCULATING;
-		String hold = Const.CALCULATING;
+		String flags = String.format("%d", new Object[] { Integer.valueOf(timex.flags)});
+		String markFlag = (qm==0? "UNMARK":"MARK");
+		String hold = String.format("%d", new Object[] { Integer.valueOf(timex.hold)});
 		
 		return new MVFInfo(name, mvfType, userID, date, level, style,
 				mode, time, bbbv, bbbvs, distance, clicks, zini, rqp,
@@ -639,6 +696,14 @@ public class RmvUtil implements  VideoUtil {
 			
 			
 		}
+		int flagCount = 0;
+		for (int i = 0; i < tempCells.length; i++) {
+			if ("F".equals(tempCells[i].sta)) {
+				flagCount++;
+			}
+		}
+		info.setFlags(String.valueOf(flagCount));
+		info.setHold(String.valueOf(holds));
 		info.setLclicks(String.valueOf(l));
 		info.setDclicks(String.valueOf(d));
 		info.setRclicks(String.valueOf(r));
