@@ -1,34 +1,23 @@
 package com.minesweeperToolkit;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
+import com.minesweeperToolkit.common.CommonUtil;
 import com.minesweeperToolkit.videoUtil.RmvUtil;
 
 /**
@@ -50,180 +39,18 @@ public class ToolKit {
 
 	private static JFrame frame = null;
 	private static JLabel label = null;
-	private static JTable table = null;
+	public static JTable table = null;
 	private static JScrollPane scrollPane = null;
 
 	private static int percent = 100;
 
 	private static String curMVFDir = ".";
 	private static String curHistoryDir = ".";
-	private static String curExportDir = ".";
+	public static String curExportDir = ".";
 
 	private static DefaultTableCellRenderer cellRenderer = null;
 
-	private static ActionListener actionListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
-			if (cmd.equals(Const.OPEN)) {
-				if (ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.DONOTINTERRUPT, Const.WARNING, 2);
-				} else {
-					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(ToolKit.curMVFDir));
-					fc.setDialogTitle(Const.DIATITLE);
-					fc.setFileSelectionMode(1);
-					fc.setMultiSelectionEnabled(false);
-					int ret = fc.showOpenDialog(ToolKit.frame);
-					if (ret == 0) {
-						ToolKit.curMVFDir = fc.getSelectedFile()
-								.getParent();
-						ToolKit.readDir();
-						ToolKit.table = null;
-						ToolKit.frame.remove(ToolKit.scrollPane);
-						ToolKit.updateList(fc.getSelectedFile());
-					}
-				}
-			} else if (cmd.equals(Const.EXPORT)) {
-				if (ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.DONOTINTERRUPT, Const.WARNING, 2);
-				} else if (ToolKit.table == null) {
-					ToolKit.setLabel(Const.NOTHINGEXPORTED);
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.NOTHINGEXPORTED, Const.ERROR, 0);
-				} else {
-					ToolKit.setLabel(Const.EXPORTTABLE);
-					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(ToolKit.curExportDir));
-					fc.setDialogTitle(Const.CHOOSEXLSFILE);
-					fc.setFileSelectionMode(0);
-					fc.setMultiSelectionEnabled(false);
-					fc.setFileFilter(new FileFilter() {
-						public String getDescription() {
-							return null;
-						}
-						public boolean accept(File f) {
-							return (f.isDirectory())
-									|| (f.getName().toLowerCase()
-											.endsWith(".xls"));
-						}
-					});
-					int ret = fc.showOpenDialog(ToolKit.frame);
-					if (ret == 0) {
-						ToolKit.curExportDir = fc.getSelectedFile()
-								.getParent();
-						ToolKit.keepDir();
-						File f = fc.getSelectedFile();
-						String fileName = f.getAbsolutePath();
-						if (!fileName.toLowerCase().endsWith(".xls")) {
-							f = new File(fileName + ".xls");
-						}
-						boolean saveOrNot = true;
-						if (f.exists()) {
-							int chooseRet = JOptionPane.showConfirmDialog(
-									ToolKit.frame, Const.WANNAOVERWRITE,
-									Const.QUESTION, 0);
-							if (chooseRet == 0)
-								saveOrNot = true;
-							else
-								saveOrNot = false;
-						} else {
-							saveOrNot = true;
-						}
-						if (saveOrNot)
-							try {
-								ToolKit.exportTable(ToolKit.table, f);
-								ToolKit.setLabel(Const.EXPORTTO + " \""
-										+ f.getAbsolutePath() + "\" "
-										+ Const.SUCCESS);
-							} catch (IOException e1) {
-								ToolKit.setLabel(Const.EXPORTFAILED);
-								JOptionPane.showMessageDialog(
-										ToolKit.frame, Const.EXPORTFAILED,
-										Const.WARNING, 2);
-							}
-						else {
-							ToolKit.setLabel(Const.WELCOME);
-						}
-					}
-				}
-			} else if (cmd.equals(Const.QUIT)) {
-				if (ToolKit.frame != null) {
-					ToolKit.frame.dispose();
-					System.exit(0);
-				}
-			} else if (cmd.equals(Const.ABOUTAUTHOR)) {
-				ToolKit.setLabel(Const.AUTHOR);
-				JOptionPane.showMessageDialog(ToolKit.frame,
-						Const.CONTACTME, Const.ABOUTAUTHOR, 1);
-			} else if (cmd.equals(Const.ABOUTSOFT)) {
-				ToolKit.setLabel(Const.WELCOME);
-				JOptionPane.showMessageDialog(ToolKit.frame,
-						Const.HOWTOUSE, Const.ABOUTSOFT, 1);
-			} else if (cmd.equals(Const.GOTOSAOLEINET)) {
-				ToolKit.setLabel(Const.GOTOSAOLEINET);
-				ToolKit.goTourl("http://www.saolei.net");
-			} else if (cmd.equals(Const.GOTOAUTHORS)) {
-				ToolKit.setLabel(Const.GOTOAUTHORS);
-				ToolKit
-						.goTourl("http://www.saolei.net/Player/Index.asp?Id=4843");
-			} else if (cmd.equals(Const.LOADHISTORY)) {
-				if (ToolKit.percent != 100) {
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.DONOTINTERRUPT, Const.WARNING, 2);
-				} else {
-					ToolKit.setLabel(Const.LOADHISTORY);
-					JFileChooser fc = new JFileChooser();
-					fc.setCurrentDirectory(new File(ToolKit.curHistoryDir));
-					fc.setDialogTitle(Const.CHOOSEHISTORYFILE);
-					fc.setFileSelectionMode(0);
-					fc.setMultiSelectionEnabled(false);
-					fc.setFileFilter(new FileFilter() {
-						public String getDescription() {
-							return null;
-						}
-						public boolean accept(File f) {
-							return (f.isDirectory())
-									|| (f.getName().equals("history.inf"));
-						}
-					});
-					int ret = fc.showOpenDialog(ToolKit.frame);
-					if (ret == 0) {
-						ToolKit.curHistoryDir = fc.getSelectedFile()
-								.getParent();
-						ToolKit.keepDir();
-						ToolKit.table = null;
-						ToolKit.frame.remove(ToolKit.scrollPane);
-						ToolKit.updateList(fc.getSelectedFile());
-					}
-				}
-			} else if (cmd.equals(Const.SWITCHLANGUAGE)) {
-				boolean success = false;
-				boolean redo = false;
-				if ((Const.useChinese) && (Const.lang.exists()))
-					success = Const.lang.delete();
-				else if ((!Const.useChinese) && (!Const.lang.exists()))
-					try {
-						success = Const.lang.createNewFile();
-					} catch (IOException e1) {
-						success = false;
-					}
-				else {
-					redo = true;
-				}
-				if (redo)
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.RESWITCHLANGUAGE, Const.WARNING, 2);
-				else if (success)
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.SWITCHLANGUAGESUCCESS, Const.INFORMATION, 1);
-				else
-					JOptionPane.showMessageDialog(ToolKit.frame,
-							Const.SWITCHLANGUAGEFAILED, Const.ERROR, 0);
-			}
-		}
-	};
+	
 
 	private static int closed_cells = 0;
 	private static int zini = 0;
@@ -251,228 +78,6 @@ public class ToolKit {
 		}
 		out.close();
 	}
-
-	/**
-	 * 主方法
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		createWindow();
-		firstTimeShow();
-	}
-
-	/**
-	 * 第一次进入页面
-	 */
-	private static void firstTimeShow() {
-		if (!Const.f.exists()) {
-			try {
-				Const.f.createNewFile();
-			} catch (IOException localIOException) {
-			}
-			JOptionPane.showMessageDialog(frame, Const.HOWTOUSE,
-					Const.ABOUTSOFT, 1);
-		}
-	}
-
-	private static void keepDir() {
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter(Const.f);
-			bw = new BufferedWriter(fw);
-			bw.write(curMVFDir + "\n" + curHistoryDir + "\n" + curExportDir);
-		} catch (Exception localException) {
-			try {
-				bw.close();
-			} catch (Exception localException1) {
-			}
-			try {
-				fw.close();
-			} catch (Exception localException2) {
-			}
-		} finally {
-			try {
-				bw.close();
-			} catch (Exception localException3) {
-			}
-			try {
-				fw.close();
-			} catch (Exception localException4) {
-			}
-		}
-	}
-
-	/**
-	 * 读取目录
-	 */
-	private static void readDir() {
-		BufferedReader br = null;
-		FileReader fr = null;
-		try {
-			fr = new FileReader(Const.f);
-			br = new BufferedReader(fr);
-			curMVFDir = br.readLine();
-			curHistoryDir = br.readLine();
-			curExportDir = br.readLine();
-		} catch (Exception e) {
-			curMVFDir = null;
-			curHistoryDir = null;
-			curExportDir = null;
-			try {
-				br.close();
-			} catch (Exception localException1) {
-			}
-			try {
-				fr.close();
-			} catch (Exception localException2) {
-			}
-		} finally {
-			try {
-				br.close();
-			} catch (Exception localException3) {
-			}
-			try {
-				fr.close();
-			} catch (Exception localException4) {
-			}
-		}
-		if ((curMVFDir == null) || (curMVFDir.equals(""))) {
-			curMVFDir = ".";
-		}
-		if ((curHistoryDir == null) || (curHistoryDir.equals(""))) {
-			curHistoryDir = ".";
-		}
-		if ((curExportDir == null) || (curExportDir.equals("")))
-			curExportDir = ".";
-	}
-
-	protected static void updateList(File selectedFile) {
-		if (!selectedFile.isDirectory()) {
-			if (isHistroyValid(selectedFile)) {
-				setLabel(Const.FINDHISTORYFILE);
-				parseHistory(selectedFile);
-			} else {
-				int ret = JOptionPane.showConfirmDialog(frame,
-						Const.DOYOUWANNAFIX, Const.QUESTION, 0);
-				if (ret == 0)
-					fixHistroy(selectedFile);
-				else
-					setLabel(Const.WELCOME);
-			}
-		} else {
-			File[] fileList = selectedFile.listFiles();
-			if (fileList == null) {
-				setLabel(selectedFile.getName() + " " + Const.CANNOTACCESS);
-				scrollPane = new JScrollPane();
-				frame.getContentPane().add(scrollPane, "Center");
-			} else {
-				File[] mvfList = filterMVF(fileList);
-				if (mvfList.length <= 0) {
-					setLabel(Const.EMPTYFOLDER + " \"" + selectedFile.getName()
-							+ "\"");
-					scrollPane = new JScrollPane();
-					frame.getContentPane().add(scrollPane, "Center");
-				} else {
-					percent = 0;
-					setLabel(mvfList.length + " " + Const.FOUNDMVF + " "
-							+ selectedFile.getName());
-					String[][] tableData = new String[mvfList.length][Const.name.length];
-					for (int i = 0; i < mvfList.length; i++) {
-						tableData[i][0] = String.valueOf(i + 1);
-						tableData[i][1] = mvfList[i].getName();
-						for (int j = 2; j < Const.name.length; j++) {
-							tableData[i][j] = Const.CALCULATING;
-						}
-					}
-					table = new JTable(tableData, Const.name);
-					table.setAutoResizeMode(4);
-					table.setDefaultRenderer(Object.class, cellRenderer);
-					scrollPane = new JScrollPane(table);
-					frame.getContentPane().add(scrollPane, "Center");
-					long time1 = System.currentTimeMillis();
-					updateUI(mvfList, time1);
-				}
-			}
-		}
-	}
-
-	private static void updateUI(final File[] mvfList, final long time) {
-		new Thread() {
-			public void run() {
-				int size = mvfList.length;
-				MVFInfo mi = null;
-				for (int i = 0; i < size; i++) {
-					mi = ToolKit.parseMVF(mvfList[i]);
-					ToolKit.table.setValueAt(mi.name, i, 1);
-					ToolKit.table.setValueAt(mi.mvfType, i, 2);
-					ToolKit.table.setValueAt(mi.userID, i, 3);
-					ToolKit.table.setValueAt(mi.date, i, 4);
-					ToolKit.table.setValueAt(mi.level, i, 5);
-					ToolKit.table.setValueAt(mi.style, i, 6);
-					ToolKit.table.setValueAt(mi.mode, i, 7);
-					ToolKit.table.setValueAt(mi.time, i, 8);
-					ToolKit.table.setValueAt(mi.bbbv, i, 9);
-					ToolKit.table.setValueAt(mi.bbbvs, i, 10);
-					ToolKit.table.setValueAt(mi.distance, i, 11);
-					ToolKit.table.setValueAt(mi.clicks, i, 12);
-					ToolKit.table.setValueAt(mi.zini, i, 13);
-					ToolKit.table.setValueAt(mi.rqp, i, 14);
-					ToolKit.table.setValueAt(mi.ioe, i, 15);
-					ToolKit.table.setValueAt(mi.completion, i, 16);
-					ToolKit.table.setValueAt(mi.num0, i, 17);
-					ToolKit.table.setValueAt(mi.num1, i, 18);
-					ToolKit.table.setValueAt(mi.num2, i, 19);
-					ToolKit.table.setValueAt(mi.num3, i, 20);
-					ToolKit.table.setValueAt(mi.num4, i, 21);
-					ToolKit.table.setValueAt(mi.num5, i, 22);
-					ToolKit.table.setValueAt(mi.num6, i, 23);
-					ToolKit.table.setValueAt(mi.num7, i, 24);
-					ToolKit.table.setValueAt(mi.num8, i, 25);
-
-					ToolKit.table.setValueAt(mi.numAll, i, 26);
-
-					ToolKit.table.setValueAt(mi.disSpeed, i, 27);
-					ToolKit.table.setValueAt(mi.openings, i, 28);
-					ToolKit.table.setValueAt(mi.allClicks, i, 29);
-					ToolKit.table.setValueAt(mi.disBv, i, 30);
-					ToolKit.table.setValueAt(mi.disNum, i, 31);
-					ToolKit.table.setValueAt(mi.hzoe, i, 32);
-					ToolKit.table.setValueAt(mi.numSpeed, i, 33);
-					ToolKit.table.setValueAt(mi.zinis, i, 34);
-					ToolKit.table.setValueAt(mi.occam, i, 35);
-
-					ToolKit.table.setValueAt(mi.lclicks, i, 36);
-					ToolKit.table.setValueAt(mi.dclicks, i, 37);
-					ToolKit.table.setValueAt(mi.rclicks, i, 38);
-					ToolKit.table.setValueAt(mi.qg, i, 39);
-					ToolKit.table.setValueAt(mi.flags, i, 40);
-					ToolKit.table.setValueAt(mi.markFlag, i, 41);
-					ToolKit.table.setValueAt(mi.islands, i, 42);
-					ToolKit.percent = (i + 1) * 100 / size;
-					long time2 = System.currentTimeMillis();
-					double time3 = (time2 - time) / 1000d;
-					double time4 = (time3 / (i + 1)) * (size - i - 1);
-					double x = i + 1;
-					double speed = (x / time3);
-					DecimalFormat dcmFmt = new DecimalFormat("0.000");
-					ToolKit.setLabel(Const.CALCULATING + " "
-							+ ToolKit.percent + " %" + " " + (i + 1) + "/"
-							+ size + " 用时：" + dcmFmt.format(time3) + "秒"
-							+ " 剩余用时" + dcmFmt.format(time4) + "秒" + " 速度："
-							+ dcmFmt.format(speed) + "个/秒");
-					try {
-						Thread.sleep(0L);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}.start();
-
-	}
-
 	/**
 	 * 
 	 * @param file
@@ -2129,108 +1734,10 @@ public class ToolKit {
 		return ret;
 	}
 
-	private static File[] filterMVF(File[] fileList) {
-		ArrayList<File> al = new ArrayList<File>();
-		File[] arrayOfFile1 = fileList;
-		int j = fileList.length;
-		for (int i = 0; i < j; i++) {
-			File f = arrayOfFile1[i];
-			// 追加支持avf
-			if (f.getName().toLowerCase().endsWith(".mvf")
-					|| f.getName().toLowerCase().endsWith(".avf")
-					|| f.getName().toLowerCase().endsWith(".rmv")) {
-				al.add(f);
-			}
-		}
-		int size = al.size();
-		File[] resList = new File[size];
-		for (int i = 0; i < size; i++) {
-			resList[i] = ((File) al.get(i));
-		}
-		return resList;
-	}
+	
 
-	private static void createWindow() {
-		frame = new JFrame(Const.TITLE + " " + Const.VERSION);
-		frame.setIconImage(new ImageIcon("icon.png").getImage());
-		frame.setDefaultCloseOperation(3);
 
-		readDir();
 
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu bsKit = new JMenu(Const.BASIC);
-		JMenuItem open = new JMenuItem(Const.OPEN, 111);
-		open.addActionListener(actionListener);
-		JMenuItem export = new JMenuItem(Const.EXPORT, 101);
-		export.addActionListener(actionListener);
-		JMenuItem quit = new JMenuItem(Const.QUIT, 113);
-		quit.addActionListener(actionListener);
-		bsKit.add(open);
-		bsKit.add(export);
-		bsKit.add(quit);
-		menuBar.add(bsKit);
-
-		JMenu exKit = new JMenu(Const.EXTRA);
-		JMenuItem fixHistory = new JMenuItem(Const.LOADHISTORY, 108);
-		fixHistory.addActionListener(actionListener);
-		JMenuItem switchlang = new JMenuItem(Const.SWITCHLANGUAGE, 115);
-		switchlang.addActionListener(actionListener);
-		exKit.add(fixHistory);
-		exKit.add(switchlang);
-		menuBar.add(exKit);
-
-		JMenu about = new JMenu(Const.ABOUT);
-		JMenuItem aboutSoftware = new JMenuItem(Const.ABOUTSOFT, 115);
-		aboutSoftware.addActionListener(actionListener);
-		JMenuItem aboutAuthor = new JMenuItem(Const.ABOUTAUTHOR, 97);
-		aboutAuthor.addActionListener(actionListener);
-		JMenuItem saolei = new JMenuItem(Const.GOTOSAOLEINET, 110);
-		saolei.addActionListener(actionListener);
-		JMenuItem author = new JMenuItem(Const.GOTOAUTHORS, 112);
-		author.addActionListener(actionListener);
-		about.add(aboutAuthor);
-		about.add(aboutSoftware);
-		about.add(saolei);
-		about.add(author);
-		menuBar.add(about);
-
-		menuBar.setPreferredSize(new Dimension(720, 24));
-
-		label = new JLabel(Const.WELCOME, 2);
-		label.setPreferredSize(new Dimension(720, 24));
-
-		cellRenderer = new DefaultTableCellRenderer();
-		cellRenderer.setHorizontalAlignment(0);
-
-		scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(720, 576));
-		frame.getContentPane().add(scrollPane, "Center");
-
-		frame.getContentPane().add(menuBar, "North");
-		frame.getContentPane().add(label, "South");
-
-		frame.setSize(720, 576);
-		frame.setLocationRelativeTo(null);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	private static void setLabel(String text) {
-		if (label != null) {
-			label.setText(text);
-			label.setVisible(true);
-		}
-	}
-
-	private static void goTourl(String url) {
-		try {
-			Runtime.getRuntime().exec("cmd /c start " + url);
-		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(frame, Const.OPENBROWSERFAILED,
-					Const.ERROR, 0);
-		}
-	}
 
 	private static void parseHistory(File selectedFile) {
 
@@ -2257,7 +1764,7 @@ public class ToolKit {
 		} catch (FileNotFoundException e) {
 			fis = null;
 			ToolKit.percent = 100;
-			ToolKit.setLabel(Const.LOADHISTORYFAILED);
+			CommonUtil.setLabel(Const.LOADHISTORYFAILED);
 			JOptionPane.showMessageDialog(ToolKit.frame, Const.ERROR,
 					Const.ERROR, 0);
 		}
@@ -2371,7 +1878,7 @@ public class ToolKit {
 				ToolKit.percent = (i + 1) * 100 / recordNum;
 				long time2 = System.currentTimeMillis();
 				long time3 = time2 - time;
-				ToolKit.setLabel(Const.CALCULATING + " "
+				CommonUtil.setLabel(Const.CALCULATING + " "
 						+ ToolKit.percent + " %" + " 用时" + time3 + "毫秒");
 
 			}
@@ -2453,19 +1960,7 @@ public class ToolKit {
 	 * Conversions.ToString(Strings.Chr(num5)); } FileSystem.FileClose(new
 	 * int[0]); if (str2 != str) { return false; } return true; }
 	 */
-	private static boolean isHistroyValid(File selectedFile) {
-		if (!selectedFile.getName().toLowerCase().equals("history.inf")) {
-			return false;
-		}
-		long fileSize = selectedFile.length();
 
-		return fileSize >= 35L;
-	}
-
-	private static void fixHistroy(File selectedFile) {
-		JOptionPane.showMessageDialog(frame, Const.FORBIDDEN, Const.SORRY, 2);
-		setLabel(Const.WELCOME);
-	}
 
 	public static ZiniNum calcZini(int width, int height, int mines,
 			Cell[] board) {

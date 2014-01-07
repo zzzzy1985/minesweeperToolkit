@@ -5,6 +5,7 @@ import com.minesweeperToolkit.Cell;
 import com.minesweeperToolkit.MVFInfo;
 import com.minesweeperToolkit.ZiniNum;
 import com.minesweeperToolkit.bean.VideoCheckBean;
+import com.minesweeperToolkit.bean.VideoDisplayBean;
 /**
  * 拆分方法该方法主要内容为对mvf文件解析
  * @author zhangye
@@ -84,6 +85,13 @@ public class MvfUtil implements  VideoUtil {
 			bean.videoVersion = VERSION96;
 		}
 		return bean;
+	}
+	/**
+	 * 解析录像版本
+	 扫雷网录像以97为主
+	 偶见97之前版本
+	 */
+	public void analyzeVideo(byte[] byteStream,VideoDisplayBean bean ){
 	}
 	/**
 	 * 解析录像版本

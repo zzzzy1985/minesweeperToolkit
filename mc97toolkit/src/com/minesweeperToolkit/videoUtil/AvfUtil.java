@@ -23,7 +23,7 @@ import com.minesweeperToolkit.bean.VideoDisplayBean;
  * @author zhangye
  * @date 2013-1120
  */
-public class RmvUtil implements  VideoUtil {
+public class AvfUtil implements  VideoUtil {
 	
 	/**类型rmv*/
 	private String TYPE_RMV="rmv";
