@@ -13,6 +13,7 @@ import com.minesweeperToolkit.RmvVideo;
 import com.minesweeperToolkit.ToolKit;
 import com.minesweeperToolkit.VideoInfo;
 import com.minesweeperToolkit.ZiniNum;
+import com.minesweeperToolkit.bean.RawVideoBean;
 import com.minesweeperToolkit.bean.VideoCheckBean;
 import com.minesweeperToolkit.bean.VideoDisplayBean;
 /**
@@ -84,11 +85,29 @@ public class AvfUtil implements  VideoUtil {
 		return bean;
 	}
 	/**
-	 * 解析录像版本
-	 扫雷网录像以97为主
-	 偶见97之前版本
+	 * 解析AVF录像版本
 	 */
 	public void analyzeVideo(byte[] byteStream,VideoDisplayBean bean ){
+		RawVideoBean rawVideoBean =convertRawVideo(byteStream);
+	}
+	/**
+	 * 这段代码来自C语言的改写
+	 * @param byteStream
+	 * @return
+	 */
+	private RawVideoBean convertRawVideo(byte[] byteStream) {
+		RawVideoBean rawVideoBean=new RawVideoBean();
+		int offset=0x01;
+		int version=byteStream[0x01]&0xFF;
+		if(version!=0){
+			//meaningless bytes 原解释
+			offset+=4;
+			}
+		else{
+			version=byteStream[0x02]&0xFF;
+			//int 
+		}
+		return rawVideoBean;
 	}
 	/**
 	 * 解析录像版本

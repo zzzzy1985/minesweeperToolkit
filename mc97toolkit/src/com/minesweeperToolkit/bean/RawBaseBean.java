@@ -11,44 +11,29 @@ public class RawBaseBean implements Serializable {
 	 * UID
 	 */
 	private static final long serialVersionUID = -2730987152467866530L;
-	/**检验标志默认为true */
-	public boolean checkFlag = true;
-	/**录像类型 初期期望支持mvf avf */
-	public String videoType;
-	/**录像版本 为各版本子版本号 */
-	public String videoVersion;
-	/**偏移值 */
-	public int offset;
-	public boolean getCheckFlag() {
-		return checkFlag;
-	}
-
-	public void setCheckFlag(boolean checkFlag) {
-		this.checkFlag = checkFlag;
-	}
-
-	public String getVideoType() {
-		return videoType;
-	}
-
-	public void setVideoType(String videoType) {
-		this.videoType = videoType;
-	}
-
-	public String getVideoVersion() {
-		return videoVersion;
-	}
-
-	public void setVideoVersion(String videoVersion) {
-		this.videoVersion = videoVersion;
-	}
-
-	public int getOffset() {
-		return offset;
-	}
-
-	public void setOffset(int offset) {
-		this.offset = offset;
-	}
-
+	
+	/**录像解析工具版本 */
+	public String rawVFVersion;
+	/**录像软件 */
+	public String program;
+	/**软件版本 */
+	public String version;
+	/**id */
+	public String player;
+	/**时间戳 */
+	public String timeStamp;
+	/**等级 */
+	public String level;
+	/**宽 */
+	public String width;
+	/**高 */
+	public String height;
+	/**雷数 */
+	public String mines;
+	/**皮肤 */
+	public String skin;
+	/**模式 */
+	public String mode;
+	/**是否使用问号 */
+	public String qm;
 }
