@@ -40,9 +40,11 @@ public class MainPanel {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+	
 		createWindow();
 		CommonUtil.firstTimeShow(frame);
 	}
+
 	private static void createWindow() {
 		frame = new JFrame(Const.TITLE + " " + Const.VERSION);
 		frame.setIconImage(new ImageIcon("icon.png").getImage());

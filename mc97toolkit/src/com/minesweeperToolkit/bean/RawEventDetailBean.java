@@ -12,7 +12,12 @@ public class RawEventDetailBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -2730987152467866530L;
 	public double eventTime;
+	public int mouseType;
+	public int cur;
 	public String mouse;
+	public int sec;
+	public int hun;
+	public int ths;
 	public int x;
 	public int y;
 	public int qx;
@@ -59,6 +64,36 @@ public class RawEventDetailBean implements Serializable {
 	}
 	public void setInfo(String info) {
 		this.info = info;
+	}
+	public int getMouseType() {
+		return mouseType;
+	}
+	public void setMouseType(int mouseType) {
+		this.mouseType = mouseType;
+	}
+	public int getSec() {
+		return sec;
+	}
+	public void setSec(int sec) {
+		this.sec = sec;
+	}
+	public int getHun() {
+		return hun;
+	}
+	public void setHun(int hun) {
+		this.hun = hun;
+	}
+	public int getCur() {
+		return cur;
+	}
+	public void setCur(int cur) {
+		this.cur = cur;
+	}
+	public int getThs() {
+		return ths;
+	}
+	public void setThs(int ths) {
+		this.ths = ths;
 	}
 	
 }

@@ -15,6 +15,8 @@ public class RawVideoBean implements Serializable {
 	private static final long serialVersionUID = -7358112206234839795L;
 	/**检验标志默认为true */
 	public boolean checkFlag = true;
+	/**检验标志默认为true */
+	public String errorMessage;
 	/**录像基本信息 */
 	public RawBaseBean rawBaseBean;
 	/**录像board信息 */

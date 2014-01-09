@@ -210,7 +210,7 @@ public class OpenCommand implements  ICommand {
 	        try {
 	        	String classNameStr="com.minesweeperToolkit.videoUtil."+videoType+"Util";
 	        	classMethod = Class.forName(classNameStr);
-	        	  Method method=classMethod.getMethod("analyzeVideo",byte.class,VideoDisplayBean.class);
+	        	  Method method=classMethod.getMethod("analyzeVideo",byte[].class,VideoDisplayBean.class);
 	              method.invoke(classMethod.newInstance(),byteStream,bean);
 	        } catch (Exception e) {
 	            e.printStackTrace();

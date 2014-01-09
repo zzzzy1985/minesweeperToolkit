@@ -9,7 +9,18 @@ import com.minesweeperToolkit.bean.VideoDisplayBean;
  * @date 2013-11-3
  */
 public class VideoCommon {
-	public void convertVideoDisplay(RawVideoBean rawVideoBean ,VideoDisplayBean videoDisplayBean){
+	public static void convertVideoDisplay(RawVideoBean rawVideoBean ,VideoDisplayBean videoDisplayBean){
+		if(rawVideoBean.checkFlag){
+			
+		}
+		else{
+			
+		}
 		
+	}
+public static RawVideoBean errorVideo(RawVideoBean rawVideoBean,String errMessage){
+	rawVideoBean.checkFlag=false;
+	rawVideoBean.errorMessage=errMessage;
+		return rawVideoBean;
 	}
 }
