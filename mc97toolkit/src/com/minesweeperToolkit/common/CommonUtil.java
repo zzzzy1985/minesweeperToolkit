@@ -8,8 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -220,5 +223,81 @@ public class CommonUtil {
 		return ret;
 	}
 
-	
+	   /** 
+     * 一个公共的用于将简单的bean中的值转化为map的方法。 
+     * 简单bean说明：bean中只包含基本对象，并且含有get方法。 
+     * 不会对bean中的list，Map，这些对象赋值。 
+     * @param <T> 
+     * @param t 
+     * @return 
+     */  
+    public static <T> Map<String,Object> changeSimpleBeanToMap(T t){  
+        Map<String,Object> map=new HashMap<String,Object>();  
+          
+        Class cls=t.getClass();  
+        Field[] fieldlist = cls.getDeclaredFields();  
+        for(int i=0;i<fieldlist.length;i++){  
+            Field f=fieldlist[i];  
+            String name=f.getName();  
+            Class<?> cs=f.getType();  
+            try {  
+                String methodNme=changeStrToGetMethodNames(name);  
+                Method meth=null;  
+                Method[] mds=cls.getDeclaredMethods();  
+                for(int j=0;j<mds.length;j++){  
+                    if(mds[j].getName().equals(methodNme)){  
+                         meth=cls.getMethod(methodNme);  
+                        Object rtcs= meth.invoke(t, null);  
+                        map.put(name, rtcs);  
+                        break;  
+                    }  
+                }  
+            if(meth==null){  
+                System.out.println("在"+t.getClass().getName()+"中没有找到"+methodNme+"方法");  
+            }  
+                  
+            } catch (SecurityException e) {  
+                // TODO Auto-generated catch block  
+                e.printStackTrace();  
+            } catch (NoSuchMethodException e) {  
+                // TODO Auto-generated catch block  
+                e.printStackTrace();  
+            } catch (IllegalArgumentException e) {  
+                // TODO Auto-generated catch block  
+                e.printStackTrace();  
+            } catch (IllegalAccessException e) {  
+                // TODO Auto-generated catch block  
+                e.printStackTrace();  
+            } catch (InvocationTargetException e) {  
+                // TODO Auto-generated catch block  
+                e.printStackTrace();  
+            }  
+        }  
+        return map;  
+    }  
+    private static String changeStrToSetMethodNames(String str){  
+        if(str==null||str==""||str==" ") return null;  
+        char firstChar=str.toCharArray()[0];  
+        String upstr=String.valueOf(firstChar).toUpperCase();  
+        return "set"+upstr+str.substring(1);  
+    }  
+      
+    private static String changeStrToGetMethodNames(String str){  
+        if(str==null||str==""||str==" ") return null;  
+        char firstChar=str.toCharArray()[0];  
+        String upstr=String.valueOf(firstChar).toUpperCase();  
+        return "get"+upstr+str.substring(1);  
+    }  
+      
+    private void getObjMethodsWithExtends( Class<?> cls,List<Method> list){  
+         if(cls.equals(Object.class)){  
+            return;  
+         }  
+           
+         Method[] mds=cls.getDeclaredMethods();  
+         for(int i=0;i<mds.length;i++){  
+            list.add(mds[i]);   
+         }  
+        getObjMethodsWithExtends(cls.getSuperclass(), list);  
+    } 
 }

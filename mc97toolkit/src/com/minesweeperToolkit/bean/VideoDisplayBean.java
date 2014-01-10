@@ -13,6 +13,7 @@ public class VideoDisplayBean implements Serializable {
 	private static final long serialVersionUID = 5247943685225904405L;
 	public String name;
 	public String mvfType;
+	public String version;
 	public String userID;
 	public String date;
 	public String level;
@@ -329,6 +330,15 @@ public class VideoDisplayBean implements Serializable {
 	}
 	public void setIslands(String islands) {
 		this.islands = islands;
+	}
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
 	}
 	
 }

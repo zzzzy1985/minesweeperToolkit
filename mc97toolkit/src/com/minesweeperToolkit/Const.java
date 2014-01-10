@@ -155,7 +155,7 @@ public class Const
     STYLE_NF = useChinese ? "盲扫" : "Non-Flagging";
 
     name = new String[] { useChinese ? "编号" : "No.", 
-      useChinese ? "文件名" : "File Name", "文件类型",useChinese ? "标识" : "ID", 
+      useChinese ? "文件名" : "File Name", "文件类型","版本",useChinese ? "标识" : "ID", 
       useChinese ? "日期" : "Date", useChinese ? "级别" : "Level", 
       useChinese ? "风格" : "Style", useChinese ? "模式" : "Mode", 
       useChinese ? "时间" : "Time", "3BV", "3BV/s", 

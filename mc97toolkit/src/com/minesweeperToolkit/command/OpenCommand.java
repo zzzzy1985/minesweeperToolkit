@@ -2,9 +2,11 @@ package com.minesweeperToolkit.command;
 
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -104,51 +106,7 @@ public class OpenCommand implements  ICommand {
 				VideoDisplayBean mi = null;
 				for (int i = 0; i < size; i++) {
 					mi = parseVideo(mvfList[i]);
-					table.setValueAt(mi.name, i, 1);
-					table.setValueAt(mi.mvfType, i, 2);
-					table.setValueAt(mi.userID, i, 3);
-					table.setValueAt(mi.date, i, 4);
-					table.setValueAt(mi.level, i, 5);
-					table.setValueAt(mi.style, i, 6);
-					table.setValueAt(mi.mode, i, 7);
-					table.setValueAt(mi.time, i, 8);
-					table.setValueAt(mi.bbbv, i, 9);
-					table.setValueAt(mi.bbbvs, i, 10);
-					table.setValueAt(mi.distance, i, 11);
-					table.setValueAt(mi.clicks, i, 12);
-					table.setValueAt(mi.zini, i, 13);
-					table.setValueAt(mi.rqp, i, 14);
-					table.setValueAt(mi.ioe, i, 15);
-					table.setValueAt(mi.completion, i, 16);
-					table.setValueAt(mi.num0, i, 17);
-					table.setValueAt(mi.num1, i, 18);
-					table.setValueAt(mi.num2, i, 19);
-					table.setValueAt(mi.num3, i, 20);
-					table.setValueAt(mi.num4, i, 21);
-					table.setValueAt(mi.num5, i, 22);
-					table.setValueAt(mi.num6, i, 23);
-					table.setValueAt(mi.num7, i, 24);
-					table.setValueAt(mi.num8, i, 25);
-
-					table.setValueAt(mi.numAll, i, 26);
-
-					table.setValueAt(mi.disSpeed, i, 27);
-					table.setValueAt(mi.openings, i, 28);
-					table.setValueAt(mi.allClicks, i, 29);
-					table.setValueAt(mi.disBv, i, 30);
-					table.setValueAt(mi.disNum, i, 31);
-					table.setValueAt(mi.hzoe, i, 32);
-					table.setValueAt(mi.numSpeed, i, 33);
-					table.setValueAt(mi.zinis, i, 34);
-					table.setValueAt(mi.occam, i, 35);
-
-					table.setValueAt(mi.lclicks, i, 36);
-					table.setValueAt(mi.dclicks, i, 37);
-					table.setValueAt(mi.rclicks, i, 38);
-					table.setValueAt(mi.qg, i, 39);
-					table.setValueAt(mi.flags, i, 40);
-					table.setValueAt(mi.markFlag, i, 41);
-					table.setValueAt(mi.islands, i, 42);
+					setValueAt(mi,table,i);
 					CommonUtil.percent = (i + 1) * 100 / size;
 					long time2 = System.currentTimeMillis();
 					double time3 = (time2 - time) / 1000d;
@@ -221,5 +179,20 @@ public class OpenCommand implements  ICommand {
 		}
 		// 根据RAW格式计算信息
 		return bean;
+	}
+	private static void setValueAt(VideoDisplayBean mi,final JTable table,int i) {
+		String[] lst={"name","mvfType","version","userID","date","level","style","mode"
+				,"time","bbbv","bbbvs","distance","clicks","zini","rqp","ioe","completion"
+				,"num0","num1","num2","num3","num4","num5","num6","num7","num8",
+				"numAll","disSpeed","openings","allClicks","disBv","disNum","hzoe",
+				"numSpeed","zinis","occam","lclicks","dclicks","rclicks","qg",
+				"flags","markFlag","islands"};
+		Map<String,Object> map =CommonUtil.changeSimpleBeanToMap(mi);
+		int j=1;
+		for(String tmp:lst){
+			table.setValueAt(map.get(tmp), i, j);
+			j++;
+		}
+	
 	}
 }
