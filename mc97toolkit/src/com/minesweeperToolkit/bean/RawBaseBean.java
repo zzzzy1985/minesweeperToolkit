@@ -34,6 +34,10 @@ public class RawBaseBean implements Serializable {
 	public String skin;
 	/**模式 */
 	public String mode;
+	/**模式 */
+	public String luckLibrary;
+	/**模式 */
+	public String luckSolver;
 	/**是否使用问号 */
 	public String qm;
 	public String getRawVFVersion() {
@@ -107,6 +111,18 @@ public class RawBaseBean implements Serializable {
 	}
 	public void setQm(String qm) {
 		this.qm = qm;
+	}
+	public String getLuckLibrary() {
+		return luckLibrary;
+	}
+	public void setLuckLibrary(String luckLibrary) {
+		this.luckLibrary = luckLibrary;
+	}
+	public String getLuckSolver() {
+		return luckSolver;
+	}
+	public void setLuckSolver(String luckSolver) {
+		this.luckSolver = luckSolver;
 	}
 	
 }

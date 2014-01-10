@@ -19,29 +19,37 @@ import com.minesweeperToolkit.common.CommonUtil;
 /**
  * 启动程序的主方法
  * @author zhangye
- *
+ * @date 2014-1-10
  */
 public class MainPanel {
+	/**主界面的Frame */
 	public static JFrame frame = null;
+	/**主界面的Label 显示在左下角 */
 	public static JLabel label = null;
+	/**主界面的Panel */
 	public static JScrollPane scrollPane = null;
-
+	/**单元格cellRender */
 	public static DefaultTableCellRenderer cellRenderer = null;
+	/**
+	 * 监听事件
+	 */
 	private static ActionListener actionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem jMenuItem=(JMenuItem)e.getSource();
 			int mnemonic= jMenuItem.getMnemonic();
+			// 根据mnemonic调用方法
 			CommonUtil.getMthodByMnemonic(mnemonic,frame);
 		}
 	};
 	/**
 	 * 主方法
 	 * 
-	 * @param args
+	 * @param args 参数
 	 */
 	public static void main(String[] args) {
-	
+	    //创建window  
 		createWindow();
+		//首次进入显示
 		CommonUtil.firstTimeShow(frame);
 	}
 
@@ -53,7 +61,6 @@ public class MainPanel {
 		CommonUtil.readDir();
 
 		JMenuBar menuBar = new JMenuBar();
-
 		JMenu bsKit = new JMenu(Const.BASIC);
 		JMenuItem open = new JMenuItem(Const.OPEN, 100);
 		open.addActionListener(actionListener);

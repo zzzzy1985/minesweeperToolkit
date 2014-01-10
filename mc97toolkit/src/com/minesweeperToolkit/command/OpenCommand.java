@@ -2,7 +2,6 @@ package com.minesweeperToolkit.command;
 
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -21,9 +20,9 @@ import com.minesweeperToolkit.init.MainPanel;
 
 
 /**
- * 点击打开操作时
+ * 点击打开操作时事件
  * @author zhangye
- * @date 2013-11-3
+ * @date 2014-1-10
  */
 public class OpenCommand implements  ICommand {
 	public void execute(JFrame frame){
@@ -41,7 +40,6 @@ public class OpenCommand implements  ICommand {
 				CommonUtil.curMVFDir = fc.getSelectedFile()
 						.getParent();
 				CommonUtil.readDir();
-				//table = null;
 				frame.remove(MainPanel.scrollPane);
 				updateList(fc.getSelectedFile(),frame);
 			}

@@ -14,6 +14,7 @@ import com.minesweeperToolkit.RmvVideo;
 import com.minesweeperToolkit.ToolKit;
 import com.minesweeperToolkit.VideoInfo;
 import com.minesweeperToolkit.ZiniNum;
+import com.minesweeperToolkit.bean.CellBean;
 import com.minesweeperToolkit.bean.RawBaseBean;
 import com.minesweeperToolkit.bean.RawBoardBean;
 import com.minesweeperToolkit.bean.RawEventDetailBean;
@@ -114,6 +115,7 @@ public class AvfUtil implements VideoUtil {
 		int m = 0;
 		int cr[] = new int[8];
 		int timestamp[] = new int[100];
+		String ts="";
 		int qm = 0;
 		int fs = 0;
 		if (version != 0) {
@@ -156,9 +158,12 @@ public class AvfUtil implements VideoUtil {
 			return VideoCommon.errorVideo(rawVideoBean, "mode不正确");
 		}
 		List<Integer> board = new ArrayList<Integer>();
+		CellBean[] cbBoard =new CellBean[w*h] ;
 		for (int i = 0; i < w * h; ++i) {
 			int temp = 0;
 			board.add(temp);
+			cbBoard[i] = new CellBean();
+			cbBoard[i].mine = (cbBoard[i].opened = cbBoard[i].flagged = cbBoard[i].opening = cbBoard[i].opening2 = 0);
 		}
 		for (int i = 0; i < m; ++i) {
 			offset++;
@@ -166,6 +171,8 @@ public class AvfUtil implements VideoUtil {
 			offset++;
 			int d = (byteStream[offset] & 0xff )- 1;
 			board.set(c * w + d, 1);
+			int pos = (d) * h + c;
+			cbBoard[pos].mine = 1;
 		}
 		// question marks | length of timestamp | [timestamp]
 		for (int i = 0; i < 7; ++i)
@@ -193,6 +200,7 @@ public class AvfUtil implements VideoUtil {
 		qm = (cr[0] == 17 ? 1 : 0);
 		offset++;
 		int i = 0;
+		int tsS=offset;
 		while (i < 100) {
 			offset++;
 			// 0x7c |
@@ -201,6 +209,8 @@ public class AvfUtil implements VideoUtil {
 				break;
 			}
 		}
+		int tsE=offset;
+		ts= new String(byteStream, tsS+1, tsE-tsS-1);
 		while ((int) (byteStream[offset] & 0xff) != 0x5d) {
 			offset++;
 		}
@@ -267,38 +277,59 @@ public class AvfUtil implements VideoUtil {
 				offset++;
 			}
 		}
+		offset++;
 		// 下面是skin 签名 和 版本
-		int nt0 = offset;
 		int next = 0;
-		for (i = 0; i < 2; i++) {
-
-			while (byteStream[offset] != 13) {
-				offset++;
-			}
+		// real time
+		while (byteStream[offset] != 13) {
+			offset++;
 		}
+		// skin
+		while (byteStream[offset] != 0x3a) {
+			offset++;
+		}
+		offset++;
 		int nt = offset;
+		// skin
 		while (byteStream[nt+next] != 13) {
+			offset++;
+			next++;
+		}
+		String skin = new String(byteStream, nt, next);
+		offset++;
+		nt= offset;
+		next = 0;
+		// skin
+		while (byteStream[nt+next] != 13) {
+			offset++;
 			next++;
 		}
 		String userID = new String(byteStream, nt, next);
-		nt = nt + next + 21;
-		next = 6;
-
-		String ver = new String(byteStream, nt, next);
+		String ver = new String(byteStream, offset+21, 6);
+		// 设定版本
 		rawBaseBean.setVersion(ver);
+	    //  设定用户id
 		rawBaseBean.setPlayer(userID);
-		rawBaseBean.setTimeStamp(ver);
-		rawBaseBean.setLevel(ver);
+	    // 设定时间戳
+		rawBaseBean.setTimeStamp(ts);
+		// 设定级别
+		rawBaseBean.setLevel(String.valueOf(mode));
+		// 设定宽
 		rawBaseBean.setWidth(String.valueOf(w));
+		// 设定高
 		rawBaseBean.setHeight(String.valueOf(h));
+		// 设定雷数
 		rawBaseBean.setMines(String.valueOf(m));
-		rawBaseBean.setSkin(ver);
+		// 设定皮肤
+		rawBaseBean.setSkin(skin);
+		// 设定模式
 		rawBaseBean.setMode(ver);
 		rawVideoBean.setRawBaseBean(rawBaseBean);
 		RawBoardBean rawBoardBean=new RawBoardBean();
 		rawBoardBean.setHeight(h);
 		rawBoardBean.setWidth(w);
 		rawBoardBean.setBoard(board);
+		rawBoardBean.setCbBoard(cbBoard);
 		rawVideoBean.setRawBoardBean(rawBoardBean);
 		rawVideoBean.setRawEventDetailBean(lst);
 		return rawVideoBean;
