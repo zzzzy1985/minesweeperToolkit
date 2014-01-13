@@ -171,7 +171,7 @@ public class AvfUtil implements VideoUtil {
 			offset++;
 			int d = (byteStream[offset] & 0xff )- 1;
 			board.set(c * w + d, 1);
-			int pos = (d) * h + c;
+			int pos = (d) * w + c;
 			cbBoard[pos].mine = 1;
 		}
 		// question marks | length of timestamp | [timestamp]
@@ -267,11 +267,9 @@ public class AvfUtil implements VideoUtil {
 			for (i = 0; i < 17; ++i) {
 				offset++;
 			}
-			;
 			while ((int) (byteStream[offset] & 0xff) != 13) {
 				offset++;
 			}
-			;
 		} else {
 			for (i = 0; i < 17; ++i) {
 				offset++;
@@ -330,6 +328,7 @@ public class AvfUtil implements VideoUtil {
 		rawBoardBean.setWidth(w);
 		rawBoardBean.setBoard(board);
 		rawBoardBean.setCbBoard(cbBoard);
+		rawBoardBean.setMines(m);
 		rawVideoBean.setRawBoardBean(rawBoardBean);
 		rawVideoBean.setRawEventDetailBean(lst);
 		return rawVideoBean;

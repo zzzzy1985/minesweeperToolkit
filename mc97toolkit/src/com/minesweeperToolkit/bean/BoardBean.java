@@ -12,6 +12,7 @@ public class BoardBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -2730987152467866530L;
 	public int zini;
+	public int hzini;
 	public int islands;
 	public int bbbv;
 	public int num0;
@@ -101,6 +102,12 @@ public class BoardBean implements Serializable {
 	}
 	public void setOpenings(int openings) {
 		this.openings = openings;
+	}
+	public int getHzini() {
+		return hzini;
+	}
+	public void setHzini(int hzini) {
+		this.hzini = hzini;
 	}
 	
 }

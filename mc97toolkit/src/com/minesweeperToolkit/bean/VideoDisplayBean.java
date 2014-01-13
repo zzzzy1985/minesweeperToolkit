@@ -25,6 +25,7 @@ public class VideoDisplayBean implements Serializable {
 	public String distance;
 	public String clicks;
 	public String zini;
+	public String hzini;
 	public String rqp;
 	public String ioe;
 	public String completion;
@@ -339,6 +340,12 @@ public class VideoDisplayBean implements Serializable {
 	}
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	public String getHzini() {
+		return hzini;
+	}
+	public void setHzini(String hzini) {
+		this.hzini = hzini;
 	}
 	
 }

@@ -180,7 +180,7 @@ public class OpenCommand implements  ICommand {
 	}
 	private static void setValueAt(VideoDisplayBean mi,final JTable table,int i) {
 		String[] lst={"name","mvfType","version","userID","date","level","style","mode"
-				,"time","bbbv","bbbvs","distance","clicks","zini","rqp","ioe","completion"
+				,"time","bbbv","bbbvs","distance","clicks","zini","hzini","rqp","ioe","completion"
 				,"num0","num1","num2","num3","num4","num5","num6","num7","num8",
 				"numAll","disSpeed","openings","allClicks","disBv","disNum","hzoe",
 				"numSpeed","zinis","occam","lclicks","dclicks","rclicks","qg",

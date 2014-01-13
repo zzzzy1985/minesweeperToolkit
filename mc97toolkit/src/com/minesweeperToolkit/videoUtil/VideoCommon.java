@@ -79,6 +79,19 @@ public class VideoCommon {
 		BoardBean  boardBean  = BoardCommon.getBoardBean(rawBoardBean.width, rawBoardBean.height,
 				rawBoardBean.mines, rawBoardBean.cbBoard);
 		videoDisplayBean.setBbbv(String.valueOf(boardBean.bbbv));
+		videoDisplayBean.setZini(String.valueOf(boardBean.zini));
+		videoDisplayBean.setHzini(String.valueOf(boardBean.hzini));
+		videoDisplayBean.setNum0(String.valueOf(boardBean.num0));
+		videoDisplayBean.setNum1(String.valueOf(boardBean.num1));
+		videoDisplayBean.setNum2(String.valueOf(boardBean.num2));
+		videoDisplayBean.setNum3(String.valueOf(boardBean.num3));
+		videoDisplayBean.setNum4(String.valueOf(boardBean.num4));
+		videoDisplayBean.setNum5(String.valueOf(boardBean.num5));
+		videoDisplayBean.setNum6(String.valueOf(boardBean.num6));
+		videoDisplayBean.setNum7(String.valueOf(boardBean.num7));
+		videoDisplayBean.setNum8(String.valueOf(boardBean.num8));
+		videoDisplayBean.setOpenings(String.valueOf(boardBean.openings));
+		videoDisplayBean.setIslands(String.valueOf(boardBean.islands));
 	}
 	
 }
