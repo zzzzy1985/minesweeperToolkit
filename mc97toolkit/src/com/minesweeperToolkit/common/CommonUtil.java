@@ -18,6 +18,8 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import com.minesweeperToolkit.Const;
 import com.minesweeperToolkit.bean.VideoDisplayBean;
@@ -28,7 +30,8 @@ public class CommonUtil {
 	public static  String curHistoryDir = ".";
 	public static  String curExportDir = ".";
 	public static int percent = 100;
-	private static JLabel label = null;
+	public static JLabel label = null;
+	public static JTable table = null;
 	/**
 	 * 读取目录
 	 */
@@ -270,7 +273,7 @@ public class CommonUtil {
         }  
         return map;  
     }  
-    private static String changeStrToSetMethodNames(String str){  
+    public static String changeStrToSetMethodNames(String str){  
         if(str==null||str==""||str==" ") return null;  
         char firstChar=str.toCharArray()[0];  
         String upstr=String.valueOf(firstChar).toUpperCase();  
@@ -284,15 +287,37 @@ public class CommonUtil {
         return "get"+upstr+str.substring(1);  
     }  
       
-    private void getObjMethodsWithExtends( Class<?> cls,List<Method> list){  
+    public void getObjMethodsWithExtends( Class<?> cls,List<Method> list){  
          if(cls.equals(Object.class)){  
             return;  
-         }  
-           
+         } 
          Method[] mds=cls.getDeclaredMethods();  
          for(int i=0;i<mds.length;i++){  
             list.add(mds[i]);   
          }  
         getObjMethodsWithExtends(cls.getSuperclass(), list);  
     } 
+	/**
+	 * 导出excel文件
+	 * 
+	 * @param table
+	 * @param file
+	 * @throws IOException
+	 */
+    public static void exportTable(JTable table, File file) throws IOException {
+		TableModel model = table.getModel();
+		FileWriter out = new FileWriter(file);
+
+		for (int i = 0; i < model.getColumnCount(); i++) {
+			out.write(model.getColumnName(i) + "\t");
+		}
+		out.write("\n");
+		for (int i = 0; i < model.getRowCount(); i++) {
+			for (int j = 0; j < model.getColumnCount(); j++) {
+				out.write(model.getValueAt(i, j).toString() + "\t");
+			}
+			out.write("\n");
+		}
+		out.close();
+	}
 }

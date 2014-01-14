@@ -147,26 +147,7 @@ public class BoardCommon {
 		}*/
 		// 计算hzini
 		zinialg(true,mines,board,height,size);
-			//zini=0;
-			// 计算hzini
-			//if(hitops) hitopenings();
-			//while(closed_cells>mines)
-			//{
-				//applyzini(board, height, size,human);
-				//if(turns)
-				//	pause();
-				//else if(infos)
-				//	printf("\n");
-			//}
-		/**zini = 0;
-		for (int j = 0; j < size; j++) {
-			if ((board[j].number == 0) && (board[j].opened == 0)) {
-				click(board, height, size, j);
-			}
-		}
-		while (closed_cells > mines) {
-			applyzini(board, height, size);
-		}*/
+	
 	
 	
 		BoardBean boardBean =new BoardBean();

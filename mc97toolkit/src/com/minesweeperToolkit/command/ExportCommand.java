@@ -24,7 +24,7 @@ public class ExportCommand implements  ICommand {
 		if (CommonUtil.percent != 100) {
 			JOptionPane.showMessageDialog(frame,
 					Const.DONOTINTERRUPT, Const.WARNING, 2);
-		} else if (ToolKit.table == null) {
+		} else if (CommonUtil.table == null) {
 			CommonUtil.setLabel(Const.NOTHINGEXPORTED);
 			JOptionPane.showMessageDialog(frame,
 					Const.NOTHINGEXPORTED, Const.ERROR, 0);
@@ -68,17 +68,17 @@ public class ExportCommand implements  ICommand {
 					saveOrNot = true;
 				}
 				if (saveOrNot)
-					//try {
-						//ToolKit.exportTable(ToolKit.table, f);
+					try {
+						CommonUtil.exportTable(CommonUtil.table, f);
 						CommonUtil.setLabel(Const.EXPORTTO + " \""
 								+ f.getAbsolutePath() + "\" "
 								+ Const.SUCCESS);
-						/*} catch (IOException e1) {
+						} catch (IOException e1) {
 						CommonUtil.setLabel(Const.EXPORTFAILED);
 						JOptionPane.showMessageDialog(
 								frame, Const.EXPORTFAILED,
 								Const.WARNING, 2);
-					}*/
+					}
 				else {
 					CommonUtil.setLabel(Const.WELCOME);
 				}

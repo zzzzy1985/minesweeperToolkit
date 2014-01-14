@@ -85,13 +85,13 @@ public class OpenCommand implements  ICommand {
 							tableData[i][j] = Const.CALCULATING;
 						}
 					}
-					JTable table = new JTable(tableData, Const.name);
-					table.setAutoResizeMode(4);
-					table.setDefaultRenderer(Object.class, MainPanel.cellRenderer);
-					JScrollPane scrollPane = new JScrollPane(table);
+					CommonUtil.table = new JTable(tableData, Const.name);
+					CommonUtil.table.setAutoResizeMode(4);
+					CommonUtil.table.setDefaultRenderer(Object.class, MainPanel.cellRenderer);
+					JScrollPane scrollPane = new JScrollPane(CommonUtil.table);
 					frame.getContentPane().add(scrollPane, "Center");
 					long time1 = System.currentTimeMillis();
-					updateUI(mvfList, time1,table);
+					updateUI(mvfList, time1,CommonUtil.table);
 				}
 			}
 		}
