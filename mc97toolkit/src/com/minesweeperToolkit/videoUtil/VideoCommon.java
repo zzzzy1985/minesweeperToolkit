@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.minesweeperToolkit.bean.BoardBean;
+import com.minesweeperToolkit.bean.EventBean;
 import com.minesweeperToolkit.bean.RawBaseBean;
 import com.minesweeperToolkit.bean.RawBoardBean;
 import com.minesweeperToolkit.bean.RawVideoBean;
@@ -25,23 +26,20 @@ public class VideoCommon {
 	public static void convertVideoDisplay(RawVideoBean rawVideoBean,
 			VideoDisplayBean videoDisplayBean) {
 		if (rawVideoBean.checkFlag) {
-			RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
-			// 设定程序名称
-			videoDisplayBean.setMvfType(rawBaseBean.program);
-			// 设定程序版本
-			videoDisplayBean.setVersion(rawBaseBean.version);
-			// 设定用户标识
-			videoDisplayBean.setUserID(rawBaseBean.player);
-			// 设定时间
-			videoDisplayBean.setDate(rawBaseBean.timeStamp);
-			// 设定级别
-			videoDisplayBean.setLevel(setLevel(rawBaseBean.level));
+			
+			// 设定基本信息
+			setBaseInfo(rawVideoBean,videoDisplayBean);
+			// 设定board信息
 			setBoardInfo(rawVideoBean,videoDisplayBean);
+			// 设定event信息
+			setEventInfo(rawVideoBean,videoDisplayBean);
+			// 设定计算信息
+			setCalcInfo(rawVideoBean,videoDisplayBean);
 		} else {
 			CommonUtil.fillBean(videoDisplayBean, "ZZV5");
 		}
-
 	}
+
 	/**
 	 * 设定级别
 	 * @param level
@@ -68,14 +66,29 @@ public class VideoCommon {
 		rawVideoBean.errorMessage = errMessage;
 		return rawVideoBean;
 	}
+	private static void setBaseInfo(RawVideoBean rawVideoBean,
+			VideoDisplayBean videoDisplayBean) {
+		RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
+		// 设定程序名称
+		videoDisplayBean.setMvfType(rawBaseBean.program);
+		// 设定程序版本
+		videoDisplayBean.setVersion(rawBaseBean.version);
+		// 设定用户标识
+		videoDisplayBean.setUserID(rawBaseBean.player);
+		// 设定时间
+		videoDisplayBean.setDate(rawBaseBean.timeStamp);
+		// 设定级别
+		videoDisplayBean.setLevel(setLevel(rawBaseBean.level));
+	}
 	/**
-	 * 根据board读取基本信息
+	 * 根据board读取board信息
 	 * @param level
 	 * @return levelString
 	 */
-	public static void setBoardInfo(RawVideoBean rawVideoBean,
+	private static void setBoardInfo(RawVideoBean rawVideoBean,
 			VideoDisplayBean videoDisplayBean){
 		RawBoardBean rawBoardBean=rawVideoBean.getRawBoardBean();
+		// 根据board 解析board内容
 		BoardBean  boardBean  = BoardCommon.getBoardBean(rawBoardBean.width, rawBoardBean.height,
 				rawBoardBean.mines, rawBoardBean.cbBoard);
 		videoDisplayBean.setBbbv(String.valueOf(boardBean.bbbv));
@@ -92,6 +105,34 @@ public class VideoCommon {
 		videoDisplayBean.setNum8(String.valueOf(boardBean.num8));
 		videoDisplayBean.setOpenings(String.valueOf(boardBean.openings));
 		videoDisplayBean.setIslands(String.valueOf(boardBean.islands));
+		// 根据event解析event内容
 	}
-	
+	/**
+	 * 根据event读取event信息
+	 * @param level
+	 * @return levelString
+	 */
+	private static void setEventInfo(RawVideoBean rawVideoBean,
+			VideoDisplayBean videoDisplayBean){
+		EventBean eventBean=EventCommon.getEventBean(rawVideoBean);
+		videoDisplayBean.setLclicks(String.valueOf(eventBean.l));
+		videoDisplayBean.setDclicks(String.valueOf(eventBean.d));
+		videoDisplayBean.setRclicks(String.valueOf(eventBean.r));
+		videoDisplayBean.setFlags(String.valueOf(eventBean.flags));
+		videoDisplayBean.setTime(String.format("%.3f",
+				new Object[] { eventBean.saoleiTime}));
+		videoDisplayBean.setDistance(String.format("%.3f",
+				new Object[] { eventBean.distance}));
+	}
+	/**
+	 * 得出计算参数
+	 * @param rawVideoBean
+	 * @param videoDisplayBean
+	 */
+	private static void setCalcInfo(RawVideoBean rawVideoBean,
+			VideoDisplayBean videoDisplayBean) {
+	// 风格
+	// 
+		
+	}
 }

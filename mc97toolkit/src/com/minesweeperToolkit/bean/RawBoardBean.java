@@ -22,6 +22,8 @@ public class RawBoardBean implements Serializable {
 	public List<Integer> board;
 	/**软件版本 */
 	public CellBean[] cbBoard;
+	/**软件版本 */
+	public CellsBean[] cells;
 	public List<Integer> getBoard() {
 		return board;
 	}
@@ -51,6 +53,12 @@ public class RawBoardBean implements Serializable {
 	}
 	public void setCbBoard(CellBean[] cbBoard) {
 		this.cbBoard = cbBoard;
+	}
+	public CellsBean[] getCells() {
+		return cells;
+	}
+	public void setCells(CellsBean[] cells) {
+		this.cells = cells;
 	}
 	
 }

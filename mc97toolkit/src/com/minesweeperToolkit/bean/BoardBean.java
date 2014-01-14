@@ -2,7 +2,7 @@ package com.minesweeperToolkit.bean;
 
 import java.io.Serializable;
 /**
- * 文件检验BEAN
+ * board相关BEAN
  * @author zhangYe
  *
  */

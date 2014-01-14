@@ -4,7 +4,7 @@ import com.minesweeperToolkit.bean.BoardBean;
 import com.minesweeperToolkit.bean.CellBean;
 
 /**
- * 文件解析接口
+ * board解析
  * 
  * @author zhangYe
  * @date 2013-11-3
@@ -23,7 +23,7 @@ public class BoardCommon {
 			CellBean[]   board) {
 		int size = width * height;
 		closed_cells=width*height;
-//列 比如1 6
+		//列 比如1 6
 		int openings = 0;
 		int bbbv = 0;
 		int num0 = 0;
