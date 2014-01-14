@@ -44,7 +44,9 @@ public class VideoDisplayBean implements Serializable {
 	public String disBv;
 	public String disNum;
 	public String hzoe;
+	public String zoe;
 	public String numSpeed;
+	public String hzinis;
 	public String zinis;
 	public String occam;
 	public String openings;
@@ -346,6 +348,18 @@ public class VideoDisplayBean implements Serializable {
 	}
 	public void setHzini(String hzini) {
 		this.hzini = hzini;
+	}
+	public String getZoe() {
+		return zoe;
+	}
+	public void setZoe(String zoe) {
+		this.zoe = zoe;
+	}
+	public String getHzinis() {
+		return hzinis;
+	}
+	public void setHzinis(String hzinis) {
+		this.hzinis = hzinis;
 	}
 	
 }

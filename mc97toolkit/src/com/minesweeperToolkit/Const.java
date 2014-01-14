@@ -163,7 +163,7 @@ public class Const
       "IOE", useChinese ? "完成度" : "Completion" ,"num0","num1","num2","num3",
     		  "num4","num5","num6","num7","num8",
     		  "numAll","disSpeed","openings","allClicks","disBv",
-    		  "disNum","hzoe","numSpeed","zinis","occam",
+    		  "disNum","hzoe","zoe","numSpeed","hzinis","zinis","occam",
     		  "lclicks","dclicks","rclicks","qg","flags","markFlag","islands"};
 
     power2 = new int[] { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 

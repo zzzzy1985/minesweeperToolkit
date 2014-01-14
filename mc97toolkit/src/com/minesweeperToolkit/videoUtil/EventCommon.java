@@ -73,7 +73,6 @@ public class EventCommon {
 		// 计算click 和 path
 		for (int i = 0; i < eventLst.size() - 1; i++) {
 			RawEventDetailBean rawEventDetailBean = eventLst.get(i);
-			System.out.println(rawEventDetailBean.eventTime);
 			saoleiTime=rawEventDetailBean.eventTime;
 			// 为了计算准确的右键数 需要模拟录像操作
 			int mouse = rawEventDetailBean.mouseType;
