@@ -136,7 +136,9 @@ public class CommonUtil {
 		//
 		map.put(107, "GotoSaoleiNet");
 		//
-		map.put(108, "gotoAuthors");
+		map.put(108, "GotoAuthors");
+		//
+		map.put(109, "Test");
 		String methodName =(String)map.get(mnemonic);
 		Class<?> classMethod = null;
         try {

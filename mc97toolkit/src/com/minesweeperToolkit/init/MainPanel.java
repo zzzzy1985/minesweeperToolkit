@@ -91,10 +91,13 @@ public class MainPanel {
 		saolei.addActionListener(actionListener);
 		JMenuItem author = new JMenuItem(Const.GOTOAUTHORS, 108);
 		author.addActionListener(actionListener);
+		JMenuItem test = new JMenuItem("test", 109);
+		test.addActionListener(actionListener);
 		about.add(aboutAuthor);
 		about.add(aboutSoftware);
 		about.add(saolei);
 		about.add(author);
+		about.add(test);
 		menuBar.add(about);
 
 		menuBar.setPreferredSize(new Dimension(720, 24));
