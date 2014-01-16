@@ -114,6 +114,7 @@ public class AvfUtil implements VideoUtil {
 		}
 		for (int i = 0; i < m; ++i) {
 			offset++;
+			// 分别为x坐标 和y坐标
 			c = (byteStream[offset] & 0xff) - 1;
 			offset++;
 			int d = (byteStream[offset] & 0xff )- 1;

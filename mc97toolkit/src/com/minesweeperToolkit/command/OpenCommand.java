@@ -40,6 +40,7 @@ public class OpenCommand implements  ICommand {
 				CommonUtil.curMVFDir = fc.getSelectedFile()
 						.getParent();
 				CommonUtil.readDir();
+				
 				frame.remove(MainPanel.scrollPane);
 				updateList(fc.getSelectedFile(),frame);
 			}
@@ -88,10 +89,12 @@ public class OpenCommand implements  ICommand {
 					CommonUtil.table = new JTable(tableData, Const.name);
 					CommonUtil.table.setAutoResizeMode(4);
 					CommonUtil.table.setDefaultRenderer(Object.class, MainPanel.cellRenderer);
-					JScrollPane scrollPane = new JScrollPane(CommonUtil.table);
-					frame.getContentPane().add(scrollPane, "Center");
+					MainPanel.scrollPane  = new JScrollPane(CommonUtil.table);
+					//frame.getContentPane().add(scrollPane, "Center");
+					frame.add(MainPanel.scrollPane , "Center");
 					long time1 = System.currentTimeMillis();
 					updateUI(mvfList, time1,CommonUtil.table);
+					
 				}
 			}
 		}

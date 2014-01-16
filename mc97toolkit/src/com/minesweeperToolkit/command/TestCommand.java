@@ -39,7 +39,7 @@ public class TestCommand implements ICommand {
 			int mines=Integer.parseInt(lst[2]);
 			int calc=Integer.parseInt(lst[3]);
 			
-			int[][] lsts= VideoTest.calcBv(height, width, mines, calc);
+			int[][] lsts= VideoTest.calcBv(height, width, mines, calc,frame);
 			String[][] tableData = new String[lsts.length][2];
 			for (int i = 0; i < lsts.length; i++) {
 				tableData[i][0] = String.valueOf(lsts[i][0]);
@@ -51,9 +51,11 @@ public class TestCommand implements ICommand {
 			DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
 			cellRenderer.setHorizontalAlignment(0);
 			CommonUtil.table.setDefaultRenderer(Object.class, cellRenderer);
-			JScrollPane scrollPane = new JScrollPane(CommonUtil.table);
+			MainPanel.scrollPane = new JScrollPane(CommonUtil.table);
 			
-			frame.getContentPane().add(scrollPane, "Center");
+			//frame.getContentPane().add(scrollPane, "Center");
+			//frame.getContentPane().add(scrollPane, "Center");
+			frame.add(MainPanel.scrollPane , "Center");
 			frame.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(frame, "格式不正确", "提示信息",

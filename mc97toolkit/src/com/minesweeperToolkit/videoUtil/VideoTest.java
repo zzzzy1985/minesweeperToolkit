@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JFrame;
+
+import com.minesweeperToolkit.Const;
 import com.minesweeperToolkit.bean.CellBean;
+import com.minesweeperToolkit.common.CommonUtil;
 
 /**
  * 文件解析接口
@@ -14,10 +18,10 @@ import com.minesweeperToolkit.bean.CellBean;
  */
 public class VideoTest {
 	public static void main(String[] args) {
-		calcBv(8, 8, 10, 100);
+		//calcBv(8, 8, 10, 100);
 	}
 
-	public static int[][] calcBv(int height, int width, int mines, int calc) {
+	public static int[][] calcBv(int height, int width, int mines, int calc,JFrame frame) {
 		long time = System.currentTimeMillis();
 		//System.out.println(time);
 		List<Integer> lst = new ArrayList<Integer>();
