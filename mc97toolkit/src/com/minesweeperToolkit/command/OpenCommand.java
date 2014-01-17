@@ -65,15 +65,15 @@ public class OpenCommand implements  ICommand {
 			File[] fileList = selectedFile.listFiles();
 			if (fileList == null) {
 				CommonUtil.setLabel(selectedFile.getName() + " " + Const.CANNOTACCESS);
-				JScrollPane scrollPane = new JScrollPane();
-				frame.getContentPane().add(scrollPane, "Center");
+				MainPanel.scrollPane = new JScrollPane();
+				frame.getContentPane().add(MainPanel.scrollPane, "Center");
 			} else {
 				File[] mvfList = filterVideo(fileList);
 				if (mvfList.length <= 0) {
 					CommonUtil.setLabel(Const.EMPTYFOLDER + " \"" + selectedFile.getName()
 							+ "\"");
-					JScrollPane scrollPane = new JScrollPane();
-					frame.getContentPane().add(scrollPane, "Center");
+					MainPanel.scrollPane = new JScrollPane();
+					frame.getContentPane().add(MainPanel.scrollPane, "Center");
 				} else {
 					CommonUtil.percent = 0;
 					CommonUtil.setLabel(mvfList.length + " " + Const.FOUNDMVF + " "

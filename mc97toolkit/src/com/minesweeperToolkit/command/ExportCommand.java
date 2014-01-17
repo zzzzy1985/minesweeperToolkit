@@ -31,7 +31,7 @@ public class ExportCommand implements  ICommand {
 		} else {
 			CommonUtil.setLabel(Const.EXPORTTABLE);
 			JFileChooser fc = new JFileChooser();
-			fc.setCurrentDirectory(new File(ToolKit.curExportDir));
+			fc.setCurrentDirectory(new File(CommonUtil.curExportDir));
 			fc.setDialogTitle(Const.CHOOSEXLSFILE);
 			fc.setFileSelectionMode(0);
 			fc.setMultiSelectionEnabled(false);
@@ -47,7 +47,7 @@ public class ExportCommand implements  ICommand {
 			});
 			int ret = fc.showOpenDialog(frame);
 			if (ret == 0) {
-				ToolKit.curExportDir = fc.getSelectedFile()
+				CommonUtil.curExportDir = fc.getSelectedFile()
 						.getParent();
 				CommonUtil.keepDir();
 				File f = fc.getSelectedFile();

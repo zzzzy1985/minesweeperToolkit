@@ -43,7 +43,7 @@ public class LoadHistoryCommand implements  ICommand {
 				CommonUtil.curHistoryDir = fc.getSelectedFile()
 						.getParent();
 				CommonUtil.keepDir();
-				ToolKit.table = null;
+				CommonUtil.table = null;
 				//frame.remove(ToolKit.scrollPane);
 				//ToolKit.updateList(fc.getSelectedFile());
 			}

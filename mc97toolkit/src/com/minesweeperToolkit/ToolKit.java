@@ -275,15 +275,9 @@ public class ToolKit {
 							int pos = (posX - 1) * height + posY - 1;
 							mvfboard[pos].mine = 1;
 						}
-						/*
-						 * Cells[] cells = new Cells[(height + 2) * (width +
-						 * 2)]; for (int i = 0; i < (height + 2) * (width + 2);
-						 * i++) { cells[i] = new Cells(0); } for (int i = 0; i <
-						 * mines; i++) { int posX = byteStream[(101 + i * 2)] &
-						 * 0xFF; int posY = byteStream[(102 + i * 2)] & 0xFF;
-						 * int pos = (posX) * height + posY; cells[pos].what =
-						 * 9; }
-						 */
+						
+					
+						 
 						Cells[] cells = new Cells[(height + 2) * (width + 2)];
 						for (int i = 0; i < (height + 2) * (width + 2); i++) {
 							cells[i] = new Cells(0);
@@ -323,13 +317,13 @@ public class ToolKit {
 							}
 						}
 						
-					/*	for (int ii = 1; ii < height + 1; ii++) {
+						for (int ii = 1; ii < height + 1; ii++) {
 							for (int j = 1; j < width + 1; j++) {
 								System.out
 										.print(cells[(ii) * (width + 2) + j].what);
 							}
 							System.out.println("");
-						}*/
+						}
 						ZiniNum iZini = calcZini(width, height, mines, mvfboard);
 
 						zini = String.valueOf(iZini.zini);
@@ -1342,9 +1336,9 @@ public class ToolKit {
 									arroundFlag += (("F".equals(tempCells[(qy)
 											* width + qx].sta)) ? 1 : 0);
 								}
-/*
+
 								System.out.println(qx + " " + qy + " "
-										+ arroundFlag + " " + thiswhat);*/
+										+ arroundFlag + " " + thiswhat);
 
 								// 计算这个数字是否等于周围一圈雷数
 								if (arroundFlag == thiswhat) {
@@ -1890,76 +1884,7 @@ public class ToolKit {
 
 	}
 
-	/*
-	 * public static boolean ChecaValidadeDoHistoricoFormato097(File
-	 * selectedFile) { byte[] num=new byte[1]; int num111= 0; int num112= 0; int
-	 * num113= 0; byte num2=0; byte num3=0; double num4=0; byte num5=0; int
-	 * num11=0; String str3; long num16; byte[] buffer = new byte[9]; String
-	 * str2 = ""; String str = ""; //取总件数 long fileSize=selectedFile.length();
-	 * long recordNumber = (long) Math.round((double) (((double) (fileSize -
-	 * 15L)) / 20.0)); if (recordNumber < 0L) { recordNumber = 0L; }
-	 * FileInputStream fis = null; try { fis = new
-	 * FileInputStream(selectedFile); } catch (FileNotFoundException e) { fis =
-	 * null;
-	 * 
-	 * } int filesizeInt=Integer.valueOf(String.valueOf(fileSize-14));
-	 * num111=fis.read(num, filesizeInt,1); num112=fis.read(num,
-	 * Integer.valueOf(String.valueOf(fileSize-13)),1); num113=fis.read(num,
-	 * Integer.valueOf(String.valueOf(fileSize-12)),1); int num114; recordNumber
-	 * = 1L; do { num114 = (int) Math.round((double) (((double) (recordNumber -
-	 * 1L)) / 20.0)); if (((((double) (recordNumber - 1L)) / 20.0) % 100.0) ==
-	 * 0.0) { MyProject.Forms.frmHistory.lblPercentage.Text =
-	 * Strings.Format(((double) (100L * (recordNumber - 1L))) / ((double)
-	 * (FileSystem.LOF(1) - 15L)), "0.0") + " %";
-	 * MyProject.Forms.frmHistory.lblPercentage.Refresh(); } if
-	 * ((((FileSystem.LOF(1) - 15L) - recordNumber) + 1L) < 100L) { str3 = new
-	 * string(' ', (int) (((FileSystem.LOF(1) - 15L) - recordNumber) + 1L)); }
-	 * else { str3 = new string(' ', 100); } FileSystem.FileGet(1, ref str3,
-	 * recordNumber, false); int num13 = (int) ((recordNumber +
-	 * Strings.Len(str3)) - 1L); for (num11 = (int) recordNumber; num11 <=
-	 * num13; num11++) { double num12=0; num5 = (byte)
-	 * Strings.Asc(Strings.Mid(str3, (int) ((num11 - recordNumber) + 1L), 1));
-	 * if ((((double) (num11 - 1)) / 3.0) == Conversion.Int((double) (((double)
-	 * (num11 - 1)) / 3.0))) { num12 = (Math.Sin((double) num5) * num) / 256.0;
-	 * } if ((((double) (num11 - 2)) / 3.0) == Conversion.Int((double)
-	 * (((double) (num11 - 2)) / 3.0))) { num12 = (Math.Cos((double) num5) *
-	 * num2) / 256.0; } if ((((double) (num11 - 3)) / 3.0) ==
-	 * Conversion.Int((double) (((double) (num11 - 3)) / 3.0))) { num12 =
-	 * ((((double) num5) / 256.0) * num3) / 256.0; } num12 = Math.Abs(num12);
-	 * num12 = (Conversion.Int((double) (100000000.0 * num12)) / 100000000.0) -
-	 * Conversion.Int(num12); num4 += num12; num4 = Math.Abs(num4) -
-	 * Conversion.Int(Math.Abs(num4)); } recordNumber += Strings.Len(str3); }
-	 * while (recordNumber <= (FileSystem.LOF(1) - 15L)); byte charCode = (byte)
-	 * Math.Round(Conversion.Val(Strings.Mid(Strings.Format(num4, "0.00000000"),
-	 * 3, 2))); byte num7 = (byte)
-	 * Math.Round(Conversion.Val(Strings.Mid(Strings.Format(num4, "0.00000000"),
-	 * 5, 2))); byte num8 = (byte)
-	 * Math.Round(Conversion.Val(Strings.Mid(Strings.Format(num4, "0.00000000"),
-	 * 7, 2))); byte num9 = (byte)
-	 * Math.Round(Conversion.Val(Strings.Mid(Strings.Format(num4, "0.00000000"),
-	 * 9, 2))); recordNumber = 1L; do { int num15; str3 =
-	 * Strings.Right(Strings.Format(num4, "0.00000000"), 8); num11 = 1; do { if
-	 * ((Conversion.Val(Strings.Mid(str3, num11, 1)) / 2.0) ==
-	 * Conversion.Int((double) (Conversion.Val(Strings.Mid(str3, num11, 1)) /
-	 * 2.0))) { buffer[(int) recordNumber] = (byte) Math.Round((double)
-	 * (buffer[(int) recordNumber] + Math.Pow(2.0, (double) (num11 - 1)))); }
-	 * num11++; num15 = 8; } while (num11 <= num15); num4 = Math.Cos(num4);
-	 * recordNumber += 1L; num16 = 8L; } while (recordNumber <= num16); str =
-	 * (((str + Conversions.ToString(Strings.Chr(num))) +
-	 * Conversions.ToString(Strings.Chr(num2)) +
-	 * Conversions.ToString(Strings.Chr(num3))) +
-	 * Conversions.ToString(Strings.Chr(charCode)) +
-	 * Conversions.ToString(Strings.Chr(num7))) +
-	 * Conversions.ToString(Strings.Chr(num8)) +
-	 * Conversions.ToString(Strings.Chr(num9)); recordNumber = 1L; do { str =
-	 * str + Conversions.ToString(Strings.Chr(buffer[(int) recordNumber]));
-	 * recordNumber += 1L; num16 = 8L; } while (recordNumber <= num16); long
-	 * num14 = FileSystem.LOF(1); for (recordNumber = FileSystem.LOF(1) - 14L;
-	 * recordNumber <= num14; recordNumber += 1L) { FileSystem.FileGet(1, ref
-	 * num5, recordNumber); str2 = str2 +
-	 * Conversions.ToString(Strings.Chr(num5)); } FileSystem.FileClose(new
-	 * int[0]); if (str2 != str) { return false; } return true; }
-	 */
+	
 
 
 	public static ZiniNum calcZini(int width, int height, int mines,
@@ -1992,7 +1917,7 @@ public class ToolKit {
 		for (int i = 0; i < size; i++) {
 			board[i].premium = (-(board[i].number = getnumber(board, height, i)) - 2);
 		}
-/*		System.out.println("mine");
+		System.out.println("mine");
 		for (int r = 0; r < height; r++) {
 			for (int c = 0; c < width; c++) {
 				int index = c * height + r;
@@ -2007,7 +1932,7 @@ public class ToolKit {
 				System.out.print(board[index].number );
 			}
 			System.out.println();
-		}*/
+		}
 		for (int i = 0; i < size; i++) {
 			if (board[i].mine == 0) {
 				switch (board[i].number) {

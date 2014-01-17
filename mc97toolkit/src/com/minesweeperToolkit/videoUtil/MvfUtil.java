@@ -143,13 +143,13 @@ public class MvfUtil implements  VideoUtil {
 			else if(flag==0x36){
 				rawBaseBean.version= "2006";
 				offset=71;
-				rawVideoBean=read097(byteStream,rawVideoBean,offset);
+				rawVideoBean=read07(byteStream,rawVideoBean,offset);
 			}
 			// 0x37 7
 			else if(flag==0x37){
 				rawBaseBean.version= "2007";
 				offset=71;
-				rawVideoBean=read097(byteStream,rawVideoBean,offset);
+				rawVideoBean=read07(byteStream,rawVideoBean,offset);
 			}
 			// 0x38 8
 			else if(flag==0x38){
@@ -163,6 +163,20 @@ public class MvfUtil implements  VideoUtil {
 			rawBaseBean.version = VERSION96;
 			rawVideoBean=read097(byteStream,rawVideoBean,offset);
 		}
+		return rawVideoBean;
+	}
+	/**
+	 * 
+	 * @param byteStream
+	 * @param rawVideoBean
+	 * @param offset
+	 * @return
+	 */
+	private RawVideoBean read07(byte[] byteStream, RawVideoBean rawVideoBean,
+			int offset) {
+		RawBaseBean rawBaseBean= rawVideoBean.rawBaseBean;
+		/** The 2007 header contains only date, level and mode */
+		
 		return rawVideoBean;
 	}
 	/**
@@ -404,7 +418,6 @@ public class MvfUtil implements  VideoUtil {
 		return rawVideoBean;
 	}
 	private int applyPerm(int num, int[] byt, int[] bit, int[] e) {
-		// TODO Auto-generated method stub
 		return ((e[byt[num]]&bit[num])>0)?1:0;
 	}
 }

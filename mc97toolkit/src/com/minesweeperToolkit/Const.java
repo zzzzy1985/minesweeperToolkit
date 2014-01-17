@@ -127,7 +127,7 @@ public class Const
     SORRY = useChinese ? "抱歉" : "Sorry";
     FORBIDDEN = useChinese ? "此项功能禁止使用！" : 
       "This function is forbidden to use!";
-    HOWTOUSE = useChinese ? "0. 本软件只适用于扫雷克隆版0.97！\n1. 在“基本工具箱”中，你可以打开一个有MVF文件的文件夹，软件会统计出该文件夹下每一个MVF文件中包含的信息。\n    统计完成后，你可以将表格导出为XLS格式的文件。\n2. 在“扩展工具箱”中，你可以加载history.inf文件。\n    如果你的history.inf文件被毛大叔光环侵蚀，本软件可以将其修复，不过此项功能正在开发中。\n3. 在“扩展工具箱”中，你可以在英文和中文之间切换\n4. 感谢石教授、超级丹、击晕以及扫雷网（Saolei.net）的全体成员。" : 
+    HOWTOUSE = useChinese ? "0. 本软件只适用于扫雷克隆版0.97,扫雷仲裁者版和扫雷维也纳版！\n1. 在“基本工具箱”中，你可以打开一个有MVF文件的文件夹，软件会统计出该文件夹下每一个MVF文件中包含的信息。\n    统计完成后，你可以将表格导出为XLS格式的文件。\n2. 在“扩展工具箱”中，你可以加载history.inf文件。\n    如果你的history.inf文件被毛大叔光环侵蚀，本软件可以将其修复，不过此项功能正在开发中。\n3. 在“扩展工具箱”中，你可以在英文和中文之间切换\n4. 感谢石教授、超级丹、击晕以及扫雷网（Saolei.net）的全体成员。" : 
       "0. This software if only for Minesweeper Clone 0.97\n1. In \"Basic Kit\", you can [open] a folder with MVF files, then this software will list the information of each MVF file.\n    After calculation completed, you can [export] the table into an XLS file.\n2. In \"Extra Kit\", you can [Load] your history.inf.\n    If it got broken, this software will [fix] it for you,however, this function is in developing.\n3. In \"Extra Kit\", you can switch the language between English and Chinese.\n4. Great thanks to Weiguo Shi, Ye Zhang, Dan zhou, Jiyun Wang and all member of Saolei.net.";
 
     CONTACTME = useChinese ? "欢迎任何意见和建议！\n联系我：crazyks@yeah.net" : 
