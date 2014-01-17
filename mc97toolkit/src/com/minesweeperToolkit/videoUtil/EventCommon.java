@@ -71,9 +71,11 @@ public class EventCommon {
 		}
 		int tempR = 0;
 		// 计算click 和 path
-		for (int i = 0; i < eventLst.size() - 1; i++) {
+		for (int i = 0; i < eventLst.size() ; i++) {
 			RawEventDetailBean rawEventDetailBean = eventLst.get(i);
-			saoleiTime=rawEventDetailBean.eventTime;
+			if(rawEventDetailBean.eventTime<0){
+				continue;
+			}
 			// 为了计算准确的右键数 需要模拟录像操作
 			int mouse = rawEventDetailBean.mouseType;
 			int nx = 0;
@@ -269,10 +271,12 @@ public class EventCommon {
 				holds++;
 			}
 
-			if (i > 0) {
+			if (i > 0 &&saoleiTime>0) {
 				path += Math
 						.sqrt((nx - ax) * (nx - ax) + (ny - ay) * (ny - ay));
 			}
+
+			saoleiTime=rawEventDetailBean.eventTime;
 			ax = nx;
 			ay = ny;
 

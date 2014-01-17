@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author zhangYe
  *
  */
-public class RawEventDetailBean implements Serializable {
+public class MvfEventDetailBean implements Serializable {
 	/**
 	 * UID
 	 */

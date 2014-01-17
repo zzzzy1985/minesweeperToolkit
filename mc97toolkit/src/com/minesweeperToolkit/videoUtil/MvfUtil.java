@@ -5,8 +5,10 @@ import java.util.List;
 import com.minesweeperToolkit.MVFInfo;
 import com.minesweeperToolkit.bean.CellBean;
 import com.minesweeperToolkit.bean.CellsBean;
+import com.minesweeperToolkit.bean.MvfEventDetailBean;
 import com.minesweeperToolkit.bean.RawBaseBean;
 import com.minesweeperToolkit.bean.RawBoardBean;
+import com.minesweeperToolkit.bean.RawEventDetailBean;
 import com.minesweeperToolkit.bean.RawVideoBean;
 import com.minesweeperToolkit.bean.VideoCheckBean;
 import com.minesweeperToolkit.bean.VideoDisplayBean;
@@ -120,7 +122,6 @@ public class MvfUtil implements  VideoUtil {
 		rawBaseBean.setProgram("clone");
 		rawVideoBean.setRawBaseBean(rawBaseBean);
 		int offset = 0x00;
-		String version="";
 		int firstByte = byteStream[offset++] & 0xFF;
 		int secondByte = byteStream[offset++] & 0xFF;
 		/** So it is a newer MVF.
@@ -134,32 +135,32 @@ public class MvfUtil implements  VideoUtil {
 			int flag = byteStream[offset] & 0xFF;
 			// 0x35 5
 			if(flag==0x35){
-				version= VERSION97;
+				rawBaseBean.version= VERSION97;
 				offset=74;
 				rawVideoBean=read097(byteStream,rawVideoBean,offset);
 			}
 			// 0x36 6
 			else if(flag==0x36){
-				version= "2006";
+				rawBaseBean.version= "2006";
 				offset=71;
 				rawVideoBean=read097(byteStream,rawVideoBean,offset);
 			}
 			// 0x37 7
 			else if(flag==0x37){
-				version= "2007";
+				rawBaseBean.version= "2007";
 				offset=71;
 				rawVideoBean=read097(byteStream,rawVideoBean,offset);
 			}
 			// 0x38 8
 			else if(flag==0x38){
-				version= "97biu";
+				rawBaseBean.version= "97biu";
 				rawVideoBean=read097(byteStream,rawVideoBean,offset);
 			}
 		} else if (firstByte == byteZero && secondByte == byteZero) {
-			version = VERSION97NH;
+			rawBaseBean.version = VERSION97NH;
 			rawVideoBean=read097(byteStream,rawVideoBean,offset);
 		}else{
-			version = VERSION96;
+			rawBaseBean.version = VERSION96;
 			rawVideoBean=read097(byteStream,rawVideoBean,offset);
 		}
 		return rawVideoBean;
@@ -173,6 +174,7 @@ public class MvfUtil implements  VideoUtil {
 	 */
 	private RawVideoBean read097(byte[] byteStream, RawVideoBean rawVideoBean,
 			int offset) {
+		RawBaseBean rawBaseBean= rawVideoBean.rawBaseBean;
 		/** The 0.97 header contains date, level, mode, */
 		/** score, 3bv and solved 3bv, number of clicks */
 		int qm;
@@ -276,11 +278,6 @@ public class MvfUtil implements  VideoUtil {
 				+ str4.substring(str4.length() - 8)
 				+ str5.substring(str5.length() - 8)
 				+ str6.substring(str6.length() - 8);
-		int[] ordem = new int[41];
-		int num = 0;
-		int num33 = 1;
-		int flag = 0;
-		int start = 0;
 		int cur=0;
 		int[] byt=new int[41];
 		int[] bit=new int[41];
@@ -295,48 +292,106 @@ public class MvfUtil implements  VideoUtil {
 		int size2=(byteStream[offset++] & 0xFF);
 		int size3=(byteStream[offset++] & 0xFF);
 		int size=size1*65536+size2*256+size3;
+		//mvf的录像格式记录比较特殊
+		List<MvfEventDetailBean> lst = new ArrayList<MvfEventDetailBean>();
 		for(int i=0;i<size;++i)
-		{
+		{MvfEventDetailBean bean = new MvfEventDetailBean();
 			int e1=(byteStream[offset++] & 0xFF);
 			int e2=(byteStream[offset++] & 0xFF);
 			int e3=(byteStream[offset++] & 0xFF);
 			int e4=(byteStream[offset++] & 0xFF);
 			int e5=(byteStream[offset++] & 0xFF);
 			int[] e=new int[]{e1,e2,e3,e4,e5};
-		/*	video[i].rb=applyPerm(0,byt,bit,e);
-			video[i].mb=applyPerm(1,byt,bit,e);
-			video[i].lb=applyPerm(2,byt,bit,e);
-			video[i].x=video[i].y=video[i].ths=video[i].sec=0;
-			for(j=0;j<9;++j)
+			bean.rb=applyPerm(0,byt,bit,e);
+			bean.mb=applyPerm(1,byt,bit,e);
+			bean.lb=applyPerm(2,byt,bit,e);
+			bean.x=bean.y=bean.ths=bean.sec=0;
+			for(int j=0;j<9;++j)
 			{
-				video[i].x|=(apply_perm(12+j,byte,bit,e)<<j);
-				video[i].y|=(apply_perm(3+j,byte,bit,e)<<j);
+				bean.x|=(applyPerm(12+j,byt,bit,e)<<j);
+				bean.y|=(applyPerm(3+j,byt,bit,e)<<j);
 			}
-			for(j=0;j<7;++j) video[i].ths|=(apply_perm(21+j,byte,bit,e)<<j);
-			video[i].ths*=10;
-			for(j=0;j<10;++j) video[i].sec|=(apply_perm(28+j,byte,bit,e)<<j);*/
+			for(int j=0;j<7;++j) bean.ths|=(applyPerm(21+j,byt,bit,e)<<j);
+			bean.ths*=10;
+			for(int j=0;j<10;++j) bean.sec|=(applyPerm(28+j,byt,bit,e)<<j);
+			lst.add(bean);
 		}
-		/*while (num <= 9) {
-			flag = 0;
-			start = 0;
-			while (flag != 1) {
-				while (!(flag == 1 || (x000.charAt(start) - 0x30) == num)) {
-					start++;
-					if (start >= x000.length()) {
-						flag = 1;
-					}
-				}
-				if (flag != 1) {
-					ordem[start + 1] = num33;
-					num33++;
-					start++;
-					if (start >= x000.length()) {
-						flag = 1;
-					}
-				}
+		List<RawEventDetailBean> rawLst =new ArrayList<RawEventDetailBean>();
+		MvfEventDetailBean firstBean=lst.get(0);
+		RawEventDetailBean firstRawBean =new RawEventDetailBean();
+		int firstMouseType=0;
+		 if(firstBean.lb>0){
+			 firstMouseType=3;
+		}
+		else if(firstBean.rb>0){
+			firstMouseType=9;
+		}
+		else if(firstBean.mb>0){
+			firstMouseType=33;
+		}
+		else{
+			firstMouseType=1;
+		}
+		 firstRawBean.mouseType=firstMouseType;
+		 firstRawBean.x=firstBean.x;
+		 firstRawBean.y=firstBean.y;
+		 firstRawBean.eventTime=(double)firstBean.sec+(double)firstBean.hun/100.0d;
+			rawLst.add(firstRawBean);
+		for(int i=1;i<size;++i){
+			MvfEventDetailBean bean=lst.get(i);
+			MvfEventDetailBean prebean=lst.get(i-1);
+			int mouseType=0;
+			// mouseType 1 mv 3lc  9rc  33mc 5lr 17rr 65 mr
+			if(bean.x!=prebean.x||bean.y!=prebean.y){
+				mouseType=1;
+				RawEventDetailBean rawBean =new RawEventDetailBean();
+				rawBean.mouseType=mouseType;
+				rawBean.x=bean.x;
+				rawBean.y=bean.y;
+				rawBean.eventTime=(double)bean.sec+(double)bean.ths/1000.0d;
+				rawLst.add(rawBean);
+			}if(bean.lb>0&&prebean.lb==0){
+				mouseType=3;
 			}
-			num++;
-		}*/
+			else if(bean.rb>0&&prebean.rb==0){
+				mouseType=9;
+			}
+			else if(bean.mb>0&&prebean.mb==0){
+				mouseType=33;
+			}
+			else if(bean.lb==0&&prebean.lb>0){
+				mouseType=5;
+			}
+			else if(bean.rb==0&&prebean.rb>0){
+				mouseType=17;
+			}
+			else if(bean.mb==0&&prebean.mb>0){
+				mouseType=65;
+			}
+			else{
+				continue;
+				}
+			RawEventDetailBean rawBean =new RawEventDetailBean();
+			rawBean.mouseType=mouseType;
+			rawBean.x=bean.x;
+			rawBean.y=bean.y;
+			rawBean.eventTime=(double)bean.sec+(double)bean.ths/1000.0d;
+			rawLst.add(rawBean);
+		}
+		// 标识
+		rawBaseBean.setPlayer(userID);
+		// int month,year,year1,year2,day,hour,minute,second;
+		rawBaseBean.setTimeStamp(String.format(
+				"%02d/%02d/%02d %02d:%02d:%02d",
+				new Object[] { Integer.valueOf(year),
+						Integer.valueOf(month),
+						Integer.valueOf(day),
+						Integer.valueOf(hour),
+						Integer.valueOf(minute),
+						Integer.valueOf(second) }));
+		rawBaseBean.setMode(String.valueOf(mode));
+		rawBaseBean.setLevel(String.valueOf(level));
+		rawBaseBean.setQm(String.valueOf(qm));
 		RawBoardBean rawBoardBean=new RawBoardBean();
 		rawBoardBean.setHeight(height);
 		rawBoardBean.setWidth(width);
@@ -345,11 +400,11 @@ public class MvfUtil implements  VideoUtil {
 		rawBoardBean.setCells(cells);
 		rawBoardBean.setMines(m);
 		rawVideoBean.setRawBoardBean(rawBoardBean);
+		rawVideoBean.setRawEventDetailBean(rawLst);
 		return rawVideoBean;
 	}
 	private int applyPerm(int num, int[] byt, int[] bit, int[] e) {
 		// TODO Auto-generated method stub
-		//return (e[byt[num]]&bit[num]==0)?1:0;;
-		return 0;
+		return ((e[byt[num]]&bit[num])>0)?1:0;
 	}
 }
