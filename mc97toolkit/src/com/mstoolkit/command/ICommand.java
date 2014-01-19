@@ -10,5 +10,9 @@ import javax.swing.JFrame;
  */
 public interface ICommand
 {
-    public void execute(JFrame frame);
+    /**
+     * 执行
+     * @param frame frame
+     */
+    void execute(JFrame frame);
 }
