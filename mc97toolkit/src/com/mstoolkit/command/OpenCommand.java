@@ -22,7 +22,7 @@ import com.mstoolkit.init.MainPanel;
 /**
  * 点击打开操作时事件
  * @author zhangye
- * @date 2014-1-10
+ * date 2014-1-10
  */
 public class OpenCommand implements  ICommand {
 	public void execute(JFrame frame){

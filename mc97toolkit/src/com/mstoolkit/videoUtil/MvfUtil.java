@@ -154,10 +154,12 @@ public class MvfUtil implements  VideoUtil {
 			// 0x38 8
 			else if(flag==0x38){
 				rawBaseBean.version= "97biu";
+				offset=74;
 				rawVideoBean=read097(byteStream,rawVideoBean,offset);
 			}
 		} else if (firstByte == byteZero && secondByte == byteZero) {
 			rawBaseBean.version = VERSION97NH;
+			offset=7;
 			rawVideoBean=read097(byteStream,rawVideoBean,offset);
 		}else{
 			rawBaseBean.version = VERSION96;
