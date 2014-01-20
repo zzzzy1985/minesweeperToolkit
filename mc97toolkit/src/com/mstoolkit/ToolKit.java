@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 import com.mstoolkit.common.CommonUtil;
-import com.mstoolkit.videoUtil.RmvUtil;
+import com.mstoolkit.util.RmvUtil;
 
 /**
  * 解析MVF文件和AVF文件的工具

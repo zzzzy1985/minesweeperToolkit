@@ -1,4 +1,4 @@
-package com.mstoolkit.videoUtil;
+package com.mstoolkit.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

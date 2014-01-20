@@ -1,4 +1,4 @@
-package com.mstoolkit.videoUtil;
+package com.mstoolkit.util;
 
 import java.util.HashMap;
 import java.util.Map;

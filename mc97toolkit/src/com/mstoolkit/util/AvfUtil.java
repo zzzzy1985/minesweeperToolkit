@@ -1,4 +1,4 @@
-package com.mstoolkit.videoUtil;
+package com.mstoolkit.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import com.mstoolkit.bean.VideoDisplayBean;
  *  关于avf 介绍
  * 
  * @author zhangye
- * @date 2013-11-20
+ * @version 2013-11-20
  */
 public class AvfUtil implements VideoUtil {
 

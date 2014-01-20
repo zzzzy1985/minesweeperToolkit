@@ -167,7 +167,7 @@ public class OpenCommand implements  ICommand {
 			byte[] byteStream = CommonUtil.readFile(file);
 			Class<?> classMethod = null;
 	        try {
-	        	String classNameStr="com.mstoolkit.videoUtil."+videoType+"Util";
+	        	String classNameStr="com.mstoolkit.util."+videoType+"Util";
 	        	classMethod = Class.forName(classNameStr);
 	        	  Method method=classMethod.getMethod("analyzeVideo",byte[].class,VideoDisplayBean.class);
 	              method.invoke(classMethod.newInstance(),byteStream,bean);

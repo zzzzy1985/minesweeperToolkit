@@ -1,4 +1,4 @@
-package com.mstoolkit.videoUtil;
+package com.mstoolkit.util;
 
 import com.mstoolkit.MVFInfo;
 import com.mstoolkit.bean.VideoCheckBean;

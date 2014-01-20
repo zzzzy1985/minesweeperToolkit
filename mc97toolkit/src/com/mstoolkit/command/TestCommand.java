@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import com.mstoolkit.Const;
 import com.mstoolkit.common.CommonUtil;
 import com.mstoolkit.init.MainPanel;
-import com.mstoolkit.videoUtil.VideoTest;
+import com.mstoolkit.util.VideoTest;
 
 /**
  * 点击打开操作时事件
