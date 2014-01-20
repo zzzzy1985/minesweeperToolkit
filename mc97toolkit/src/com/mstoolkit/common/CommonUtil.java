@@ -279,6 +279,7 @@ public class CommonUtil
             ret = (byte[]) null;
 
             if (fis != null)
+            {
                 try
                 {
                     fis.close();
@@ -286,12 +287,14 @@ public class CommonUtil
                 catch (IOException localIOException1)
                 {
                 }
+            }
         }
         catch (IOException e)
         {
             ret = (byte[]) null;
 
             if (fis != null)
+            {
                 try
                 {
                     fis.close();
@@ -299,10 +302,12 @@ public class CommonUtil
                 catch (IOException localIOException2)
                 {
                 }
+            }
         }
         finally
         {
             if (fis != null)
+            {
                 try
                 {
                     fis.close();
@@ -310,6 +315,7 @@ public class CommonUtil
                 catch (IOException localIOException3)
                 {
                 }
+            }
         }
         return ret;
     }
@@ -379,8 +385,10 @@ public class CommonUtil
 
     public static String changeStrToSetMethodNames(String str)
     {
-        if (str == null || str == "" || str == " ")
+        if (str == null || "".equals(str.trim()))
+        {
             return null;
+        }
         char firstChar = str.toCharArray()[0];
         String upstr = String.valueOf(firstChar).toUpperCase();
         return "set" + upstr + str.substring(1);
@@ -388,8 +396,10 @@ public class CommonUtil
 
     private static String changeStrToGetMethodNames(String str)
     {
-        if (str == null || str == "" || str == " ")
+        if (str == null || "".equals(str.trim()))
+        {
             return null;
+        }
         char firstChar = str.toCharArray()[0];
         String upstr = String.valueOf(firstChar).toUpperCase();
         return "get" + upstr + str.substring(1);
@@ -412,8 +422,8 @@ public class CommonUtil
     /**
      * 导出excel文件
      * 
-     * @param table
-     * @param file
+     * @param table table
+     * @param file file
      * @throws IOException
      */
     public static void exportTable(JTable table, File file) throws IOException

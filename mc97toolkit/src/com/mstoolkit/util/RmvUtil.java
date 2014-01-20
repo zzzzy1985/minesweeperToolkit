@@ -73,14 +73,14 @@ public class RmvUtil implements VideoUtil {
 	 *            文件流
 	 * @see <a href="http://www.minesweeper.info/forum/viewtopic.php?f=26&t=86">
 	 *      http://www.minesweeper.info/forum/viewtopic.php?f=26&t=86</a>
-	 */
+	 *//*
 	public VideoCheckBean checkVersion(byte[] byteStream) {
 		VideoCheckBean bean = new VideoCheckBean();
 		String videoType = new String(byteStream, 1, 4);
 		bean.videoType = TYPE_RMV;
 		bean.videoVersion = VERSION2;
 		return bean;
-	}
+	}*/
 
 	/**
 	 * 解析录像版本 扫雷网录像以97为主 偶见97之前版本
