@@ -194,22 +194,26 @@ public class VideoTest
 
     /**
      * 
-     * @param board
-     * @param height
-     * @param index
-     * @return
+     * @param board board
+     * @param height height
+     * @param index index
+     * @return int int
      */
     private static int getadj3bv(CellBean[] board, int height, int index)
     {
         int res = 0;
         if (board[index].number == 0)
+        {
             return 1;
+        }
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
+        {
             for (int cc = board[index].cb; cc <= board[index].ce; cc++)
             {
                 int i = cc * height + rr;
                 res += ((board[i].mine == 0) && (board[i].opening == 0) ? 1 : 0);
             }
+        }
         if (board[index].opening != 0)
         {
             res++;
@@ -220,7 +224,13 @@ public class VideoTest
         }
         return res;
     }
-
+    /**
+     * 
+     * @param board board
+     * @param height height
+     * @param size size
+     * @param index index
+     */
     private static void islands(CellBean[] board, int height, int size, int index)
     {
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
@@ -237,7 +247,12 @@ public class VideoTest
         }
 
     }
-
+    /**
+     * 
+     * @param board board
+     * @param op_id op_id
+     * @param index index
+     */
     private static void setopeningborder(CellBean[] board, int op_id, int index)
     {
         if (board[index].opening == 0)

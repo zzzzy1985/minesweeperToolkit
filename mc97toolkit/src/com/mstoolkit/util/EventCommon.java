@@ -171,7 +171,8 @@ public class EventCommon
                     if (xx == 0)
                     {
                         digg(qx, qy, tempCells, cells, height, width);
-                    }else{
+                    }
+                    else{
                         misscl++;
                     }
                 }

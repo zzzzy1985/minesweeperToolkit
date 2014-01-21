@@ -238,6 +238,8 @@ public class MvfUtil implements VideoUtil
             int posbean = (x + 1) * (w + 2) + y + 1;
             cells[posbean].what = 9;
         }
+        int qm= byteStream[offset++] & 0xFF;
+        int c= byteStream[offset++] & 0xFF;
         int has_date=0;
         int has_info=has_date=0;
         int mode=1; /* Early Clone versions don't save any videos but classic */
@@ -246,15 +248,54 @@ public class MvfUtil implements VideoUtil
         else if(w==16 && h==16) level=2;
         else if(w==30 && h==16) level=3;
         int length=byteStream.length;
-        int offSet=length-125;
-        int score1 = (byteStream[offset++] & 0xFF);
-        int score2 = (byteStream[offset++] & 0xFF);
+        int endoffSet=length-125;
+        int score1 = (byteStream[endoffSet++] & 0xFF);
+        int score2 = (byteStream[endoffSet++] & 0xFF);
         int sec = score1 * 256 + score2;
-        int score3 = (byteStream[offset++] & 0xFF);
+        int score3 = (byteStream[endoffSet++] & 0xFF);
         int thun = score3 * 10;
         double saoleiTime=(double)sec+(double)thun/1000.0d;
-        String userID = new String(byteStream, offset++, 100).trim();
-        return null;
+        String userID = new String(byteStream, endoffSet++, 100).trim();
+        // mvf的录像格式记录比较特殊
+        List<MvfEventDetailBean> lst = new ArrayList<MvfEventDetailBean>();
+        while(offset<=endoffSet)
+        {
+            int[] e=new int[8];
+            for(int i=0;i<8;i++)
+            {
+                e[i]=byteStream[offset++] & 0xFF;
+            }
+            if(e[0]>sec||(lst.size()>0 && e[0]<lst.get(lst.size()-1).sec))
+            {
+                break;
+            }
+            MvfEventDetailBean mvfEventDetailBean=new MvfEventDetailBean();
+            mvfEventDetailBean.sec=e[0];
+            mvfEventDetailBean.ths=e[1]*10;
+            mvfEventDetailBean.lb=e[2]&0x01;
+            mvfEventDetailBean.mb=e[2]&0x02;
+            mvfEventDetailBean.rb=e[2]&0x04;
+            mvfEventDetailBean.x=(int)e[3]*256+e[4];
+            mvfEventDetailBean.y=(int)e[5]*256+e[6];
+            lst.add(mvfEventDetailBean);
+        }
+        RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
+        // 标识
+        rawBaseBean.setPlayer(userID);
+        rawBaseBean.setMode(String.valueOf(mode));
+        rawBaseBean.setLevel(String.valueOf(level));
+        rawBaseBean.setQm(String.valueOf(qm));
+        List<RawEventDetailBean> rawLst = convertEvent(lst.size(), lst);
+        RawBoardBean rawBoardBean = new RawBoardBean();
+        rawBoardBean.setHeight(h);
+        rawBoardBean.setWidth(w);
+        rawBoardBean.setBoard(board);
+        rawBoardBean.setCbBoard(cbBoard);
+        rawBoardBean.setCells(cells);
+        rawBoardBean.setMines(m);
+        rawVideoBean.setRawBoardBean(rawBoardBean);
+        rawVideoBean.setRawEventDetailBean(rawLst);
+        return rawVideoBean;
     }
     /**
      * 读取97录像
@@ -414,6 +455,28 @@ public class MvfUtil implements VideoUtil
             }
             lst.add(bean);
         }
+        List<RawEventDetailBean> rawLst = convertEvent(size, lst);
+        // 标识
+        rawBaseBean.setPlayer(userID);
+        // int month,year,year1,year2,day,hour,minute,second;
+        rawBaseBean.setTimeStamp(String.format("%02d/%02d/%02d %02d:%02d:%02d",
+                new Object[] { Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second) }));
+        rawBaseBean.setMode(String.valueOf(mode));
+        rawBaseBean.setLevel(String.valueOf(level));
+        rawBaseBean.setQm(String.valueOf(qm));
+        RawBoardBean rawBoardBean = new RawBoardBean();
+        rawBoardBean.setHeight(height);
+        rawBoardBean.setWidth(width);
+        rawBoardBean.setBoard(board);
+        rawBoardBean.setCbBoard(cbBoard);
+        rawBoardBean.setCells(cells);
+        rawBoardBean.setMines(m);
+        rawVideoBean.setRawBoardBean(rawBoardBean);
+        rawVideoBean.setRawEventDetailBean(rawLst);
+        return rawVideoBean;
+    }
+    private List<RawEventDetailBean> convertEvent(int size, List<MvfEventDetailBean> lst)
+    {
         List<RawEventDetailBean> rawLst = new ArrayList<RawEventDetailBean>();
         MvfEventDetailBean firstBean = lst.get(0);
         RawEventDetailBean firstRawBean = new RawEventDetailBean();
@@ -490,24 +553,7 @@ public class MvfUtil implements VideoUtil
             rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
             rawLst.add(rawBean);
         }
-        // 标识
-        rawBaseBean.setPlayer(userID);
-        // int month,year,year1,year2,day,hour,minute,second;
-        rawBaseBean.setTimeStamp(String.format("%02d/%02d/%02d %02d:%02d:%02d",
-                new Object[] { Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second) }));
-        rawBaseBean.setMode(String.valueOf(mode));
-        rawBaseBean.setLevel(String.valueOf(level));
-        rawBaseBean.setQm(String.valueOf(qm));
-        RawBoardBean rawBoardBean = new RawBoardBean();
-        rawBoardBean.setHeight(height);
-        rawBoardBean.setWidth(width);
-        rawBoardBean.setBoard(board);
-        rawBoardBean.setCbBoard(cbBoard);
-        rawBoardBean.setCells(cells);
-        rawBoardBean.setMines(m);
-        rawVideoBean.setRawBoardBean(rawBoardBean);
-        rawVideoBean.setRawEventDetailBean(rawLst);
-        return rawVideoBean;
+        return rawLst;
     }
     /**
      * 解密
