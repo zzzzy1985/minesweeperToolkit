@@ -176,6 +176,7 @@ public class VideoCommon
         videoDisplayBean.setFlags(String.valueOf(eventBean.flags));
         videoDisplayBean.setTime(String.format("%.3f", new Object[] { eventBean.saoleiTime }));
         videoDisplayBean.setDistance(String.format("%.3f", new Object[] { eventBean.distance }));
+        videoDisplayBean.setHold(String.valueOf(eventBean.holds));
     }
 
     /**
