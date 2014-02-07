@@ -59,6 +59,8 @@ public class VideoDisplayBean implements Serializable {
 	// 1.5click 计算
 	public String hold;
 	// realD
+    public String cloneR;
+	// realD
 	public String realD;
     // realClick
 	public String realClick;
@@ -361,5 +363,13 @@ public class VideoDisplayBean implements Serializable {
 	public void setHzinis(String hzinis) {
 		this.hzinis = hzinis;
 	}
+    public String getCloneR()
+    {
+        return cloneR;
+    }
+    public void setCloneR(String cloneR)
+    {
+        this.cloneR = cloneR;
+    }
 	
 }

@@ -143,7 +143,7 @@ public class Const
         name = new String[] { useChinese ? "编号" : "No.", useChinese ? "文件名" : "File Name", "文件类型", "版本", useChinese ? "标识" : "ID", useChinese ? "日期" : "Date", useChinese ? "级别" : "Level",
                 useChinese ? "风格" : "Style", useChinese ? "模式" : "Mode", useChinese ? "时间" : "Time", "3BV", "3BV/s", useChinese ? "移动距离" : "Distance", "Click/s", "ZiNi", "H-ZiNi", "RQP", "IOE",
                 useChinese ? "完成度" : "Completion", "num0", "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "numAll", "disSpeed", "openings", "allClicks", "disBv", "disNum", "hzoe",
-                "zoe", "numSpeed", "hzinis", "zinis", "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "holds", "islands" };
+                "zoe", "numSpeed", "hzinis", "zinis", "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "holds","cloneR", "islands" };
 
         power2 = new int[] { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304 };
 

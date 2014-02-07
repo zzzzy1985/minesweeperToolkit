@@ -168,15 +168,16 @@ public class VideoCommon
     private static void setEventInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
         EventBean eventBean = EventCommon.getEventBean(rawVideoBean);
-        videoDisplayBean.setLclicks(String.valueOf(eventBean.l));
-        videoDisplayBean.setDclicks(String.valueOf(eventBean.d));
-        videoDisplayBean.setRclicks(String.valueOf(eventBean.r));
-        int allClicks = eventBean.l + eventBean.d + eventBean.r;
+        videoDisplayBean.setLclicks(String.valueOf(eventBean.getL()));
+        videoDisplayBean.setDclicks(String.valueOf(eventBean.getD()));
+        videoDisplayBean.setRclicks(String.valueOf(eventBean.getR()));
+        videoDisplayBean.setCloneR(String.valueOf(eventBean.getR()+eventBean.getCloneR()));
+        int allClicks = eventBean.getL() + eventBean.getD() + eventBean.getR();
         videoDisplayBean.setAllClicks(String.valueOf(allClicks));
-        videoDisplayBean.setFlags(String.valueOf(eventBean.flags));
-        videoDisplayBean.setTime(String.format("%.3f", new Object[] { eventBean.saoleiTime }));
-        videoDisplayBean.setDistance(String.format("%.3f", new Object[] { eventBean.distance }));
-        videoDisplayBean.setHold(String.valueOf(eventBean.holds));
+        videoDisplayBean.setFlags(String.valueOf(eventBean.getFlags()));
+        videoDisplayBean.setTime(String.format("%.3f", new Object[] { eventBean.getSaoleiTime() }));
+        videoDisplayBean.setDistance(String.format("%.3f", new Object[] { eventBean.getDistance() }));
+        videoDisplayBean.setHold(String.valueOf(eventBean.getHolds()));
     }
 
     /**

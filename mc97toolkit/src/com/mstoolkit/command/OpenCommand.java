@@ -224,7 +224,7 @@ public class OpenCommand implements ICommand
     {
         String[] lst = { "name", "mvfType", "version", "userID", "date", "level", "style", "mode", "time", "bbbv", "bbbvs", "distance", "clicks", "zini", "hzini", "rqp", "ioe", "completion", "num0",
                 "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "numAll", "disSpeed", "openings", "allClicks", "disBv", "disNum", "hzoe", "zoe", "numSpeed", "hzinis", "zinis",
-                "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold", "islands" };
+                "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold","cloneR",  "islands" };
         Map<String, Object> map = CommonUtil.changeSimpleBeanToMap(mi);
         int j = 1;
         for (String tmp : lst)

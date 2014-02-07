@@ -30,9 +30,18 @@ public class EventCommon
         List<RawEventDetailBean> eventLst = rawVideoBean.rawEventDetailBean;
         int ax = 0;
         int ay = 0;
-
         int lstatus = 0;
         int rstatus = 0;
+        int mstatus = 0;
+        int mvsize=0;
+        int lcsize=0;
+        int lrsize=0;
+        int rcsize=0;
+        int rrsize=0;
+        int mcsize=0;
+        int mrsize=0;
+
+        int cloneR=0;
         int l = 0;
         int d = 0;
         int r = 0;
@@ -42,8 +51,8 @@ public class EventCommon
         double path = 0.0d;
         double saoleiTime = 0.0d;
         String mouseTypeNomv = "";
+        int eventSize=eventLst.size();
         CellsBean[] cells = rawBoardBean.cells;
-
         for (int i = 1; i < (height + 1); i++)
         {
             for (int j = 1; j < (width + 1); j++)
@@ -64,7 +73,7 @@ public class EventCommon
         }
         int tempR = 0;
         // 计算click 和 path
-        for (int i = 0; i < eventLst.size(); i++)
+        for (int i = 0; i < eventSize; i++)
         {
             RawEventDetailBean rawEventDetailBean = eventLst.get(i);
             if (rawEventDetailBean.eventTime < 0)
@@ -78,6 +87,7 @@ public class EventCommon
             int ny = 0;
             int olstatus = 0;
             int orstatus = 0;
+            int omstatus = 0;
             nx = rawEventDetailBean.x;
             ny = rawEventDetailBean.y;
             boolean flag = true;
@@ -87,9 +97,9 @@ public class EventCommon
             }
             int lact = 0;
             int ract = 0;
+            int mact = 0;
             if (mouse == 1 && nx == ax && ny == ay)
             {
-
                 continue;
             }
             if (mouse < 0)
@@ -97,59 +107,77 @@ public class EventCommon
                 mouse = mouse + 256;
             }
             String mouseType = "";
-
             switch (mouse) 
             {
                 case 1:
                     mouseType = "mv";
+                    mvsize++;
                     lact = 0;
                     ract = 0;
+                    mact = 0;
                     break;
                 case 3:
                     mouseType = "lc";
+                    lcsize++;
                     lact = 1;
                     ract = 0;
+                    mact = 0;
                     break;
                 case 5:
                     mouseType = "lr";
+                    lrsize++;
                     lact = -1;
                     ract = 0;
+                    mact = 0;
                     break;
                 case 9:
                     mouseType = "rc";
+                    rcsize++;
                     lact = 0;
                     ract = 1;
+                    mact = 0;
                     break;
                 case 17:
                     mouseType = "rr";
+                    rrsize++;
                     lact = 0;
                     ract = -1;
+                    mact = 0;
                     break;
                 case 33:
                     mouseType = "mc";
-                    lact = 1;
-                    ract = 1;
+                    mcsize++;
+                    lact = 0;
+                    ract = 0;
+                    mact = 1;
                     break;
                 case 65:
                     mouseType = "mr";
-                    lact = -1;
-                    ract = -1;
+                    mrsize++;
+                    lact = 0;
+                    ract = 0;
+                    mact = -1;
                     break;
-                //
                 case 145:
                     mouseType = "rr";
+                    rrsize++;
                     lact = 0;
                     ract = -1;
+                    mact = 0;
                     break;
                 case 193:
                     mouseType = "mr";
+                    mrsize++;
                     lact = 0;
                     ract = 0;
+                    mact = -1;
                     break;
                 default:
                     mouseType = "rr";
+                    rrsize++;
                     lact = 0;
                     ract = -1;
+                    mact = 0;
             }
             if (!"mv".equals(mouseType))
             {
@@ -157,8 +185,10 @@ public class EventCommon
             }
             lstatus += lact;
             rstatus += ract;
+            mstatus += mact;
             olstatus = lstatus - lact;
             orstatus = rstatus - ract;
+            omstatus = mstatus - mact;
             if (lact == -1 && orstatus == 0 && flag)
             {
                 l++;
@@ -172,17 +202,20 @@ public class EventCommon
                     {
                         digg(qx, qy, tempCells, cells, height, width);
                     }
-                    else{
+                    else
+                    {
                         misscl++;
                     }
                 }
             }
 
-            if ((lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
+            if (((omstatus==0)&&(lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
+               ||((omstatus==1) && (mact == -1)))
             {
                 d++;
                 if (tempR == 1)
                 {
+                    cloneR++;
                     r--;
                     tempR = 0;
                 }
@@ -257,8 +290,15 @@ public class EventCommon
                     }
                 }
             }
+            else if (ract == -1)
+            {
+                System.out.println("ract "+r+" "+rawEventDetailBean.eventTime);
+                tempR = 0;
+            }
+            
             if (ract == 1)
             {
+                System.out.println("r "+r+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
                 if (olstatus == 0)
                 {
                     r++;
@@ -280,6 +320,7 @@ public class EventCommon
                             tempCells[(qy - 1) * width + qx - 1].status = 0;
                             tempCells[(qy - 1) * width + qx - 1].sta = " ";
                         }
+                      
                         else
                         {
                             tempR = 1;
@@ -318,10 +359,12 @@ public class EventCommon
         eventBean.setD(d);
         eventBean.setL(l);
         eventBean.setR(r);
+        eventBean.setCloneR(cloneR);
         eventBean.setHolds(holds);
         eventBean.setDistance(path);
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
+        eventBean.setEventSize(eventSize);
         return eventBean;
     }
 

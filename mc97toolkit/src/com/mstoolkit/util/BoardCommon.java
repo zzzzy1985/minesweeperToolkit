@@ -54,6 +54,8 @@ public class BoardCommon
                 board[index].re = (r == height - 1 ? r : r + 1);
                 board[index].cb = (c != 0 ? c - 1 : c);
                 board[index].ce = (c == width - 1 ? c : c + 1);
+                board[index].islands = 0;
+                board[index].openingAr = 0;
             }
 
         }
@@ -109,6 +111,7 @@ public class BoardCommon
                 processopening(board, height, ++openings, i);
             }
         }
+   
         for (int i = 0; i < size; i++)
         {
             if (board[i].mine == 1)
@@ -118,7 +121,7 @@ public class BoardCommon
             if ((board[i].opening > 0) && (board[i].mine == 0))
             {
                 board[i].openingAr = 1;
-                for (int rr = board[i].rb; rr <= board[i].re; rr++)
+               /* for (int rr = board[i].rb; rr <= board[i].re; rr++)
                 {
                     for (int cc = board[i].cb; cc <= board[i].ce; cc++)
                     {
@@ -127,20 +130,22 @@ public class BoardCommon
                             board[(cc * height + rr)].openingAr = 1;
                         }
                     }
-                }
+                }*/
             }
         }
-
+      
         for (int i = 0; i < size; i++)
         {
             if (board[i].openingAr == 0)
             {
-                board[i].openingAr = 3;
-                islands(board, height, size, i);
                 islands++;
+                board[i].islands = islands;
+                board[i].openingAr = 3;
+                islands(board, height, size, i,islands);
+                
             }
         }
-
+       
         bbbv = openings;
         for (int i = 0; i < size; i++)
         {
@@ -237,8 +242,9 @@ public class BoardCommon
      * @param height 高度
      * @param size 格子数
      * @param index 编号
+     * @param islands 编号
      */
-    private static void islands(CellBean[] board, int height, int size, int index)
+    private static void islands(CellBean[] board, int height, int size, int index,int islands)
     {
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
         {
@@ -247,7 +253,8 @@ public class BoardCommon
                 if (board[(cc * height + rr)].openingAr == 0)
                 {
                     board[(cc * height + rr)].openingAr = 3;
-                    islands(board, height, size, (cc * height + rr));
+                    board[(cc * height + rr)].islands = islands;
+                    islands(board, height, size, (cc * height + rr),islands);
 
                 }
             }

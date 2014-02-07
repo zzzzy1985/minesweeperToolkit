@@ -15,4 +15,6 @@ public class CellBean
   public int premium;
   //  openingAr 一圈 0 表示在岛上 1 表示 海洋 2 表示 雷
   public int openingAr;
+  /**岛*/
+  public int islands;
 }	
