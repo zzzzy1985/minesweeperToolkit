@@ -1,7 +1,11 @@
 package com.mstoolkit;
 
 import java.io.File;
-
+/**
+ * 
+ * @author zhangye
+ *
+ */
 public class Const
 {
     public static boolean useChinese = false;
