@@ -79,8 +79,7 @@ public class AvfUtil implements VideoUtil
         offset += 5;
         c = byteStream[offset] & 0xff;
         mode = c - 2;
-        switch (mode) 
-        {
+        switch (mode) {
             case 1:
                 w = h = 8;
                 m = 10;
@@ -297,7 +296,7 @@ public class AvfUtil implements VideoUtil
         // 设定用户id
         rawBaseBean.setPlayer(userID);
         // 设定时间戳
-        rawBaseBean.setTimeStamp(ts);
+        rawBaseBean.setTimeStamp(convertTimeStamp(ts));
         // 设定级别
         rawBaseBean.setLevel(String.valueOf(mode));
         // 设定宽
@@ -331,5 +330,58 @@ public class AvfUtil implements VideoUtil
         rawVideoBean.setRawBoardBean(rawBoardBean);
         rawVideoBean.setRawEventDetailBean(lst);
         return rawVideoBean;
+    }
+    /**
+     * 转换arbiter时间戳
+     * @param temp temp
+     * @return temp
+     */
+    private String convertTimeStamp(String temp)
+    {
+        String ts = "";
+        String[] tsTemp = temp.split("\\.");
+        // 正常情况下分成4块，但科长录像特殊 分成3块
+        int tsTempLength = tsTemp.length;
+        if(tsTempLength == 4||tsTempLength == 3)
+        {
+            String day="";
+            String month=""; 
+            String year="";
+            String time="";
+            // 4块场合 日月年 时分秒毫秒
+            if (tsTempLength == 4)
+            {
+                day = tsTemp[0];
+                month = tsTemp[1];
+                year = tsTemp[2];
+                time = tsTemp[3];
+               
+            }
+            else if (tsTempLength == 3)
+            {
+                String daymonth = tsTemp[0];
+                day = daymonth.substring(0);
+                month = daymonth.substring(1,daymonth.length()-1);
+                year = tsTemp[1];
+                time = tsTemp[2];
+            }
+            String[] timeTemp = time.split("\\:");
+            String hour = timeTemp[0];
+            String minute = timeTemp[1];
+            String second = timeTemp[2];
+            String misecond = timeTemp[3];
+            int misSecSize = misecond.length();
+            // misecond可能3位或4位
+            int misec = Integer.valueOf(misecond) * (misSecSize == 3 ? 10 : 1);
+            // int month,year,year1,year2,day,hour,minute,second;
+            ts = (String.format("%02d/%02d/%02d %02d:%02d:%02d.%04d",
+                    new Object[] { Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second), misec }));
+            
+        }
+        else
+        {
+            ts="error";
+        }
+        return ts;
     }
 }

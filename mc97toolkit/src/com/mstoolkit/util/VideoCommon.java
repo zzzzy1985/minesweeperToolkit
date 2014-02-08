@@ -22,8 +22,10 @@ public class VideoCommon
     /**
      * 转换录像
      * 
-     * @param rawVideoBean 传入录像bean
-     * @param videoDisplayBean 转换录像bean
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param videoDisplayBean
+     *            转换录像bean
      */
     public static void convertVideoDisplay(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
@@ -47,8 +49,9 @@ public class VideoCommon
     /**
      * 设定问号模式
      * 
-     * @param markFlag 问号标记值
-     * @return string  问号标记对应值
+     * @param markFlag
+     *            问号标记值
+     * @return string 问号标记对应值
      */
     public static String setMarkFlag(String markFlag)
     {
@@ -61,24 +64,39 @@ public class VideoCommon
     /**
      * 设定模式
      * 
-     * @param mode  模式值
+     * @param mode
+     *            模式值
+     * @param type
+     *            类型
      * @return string 模式对应值
      */
-    public static String setMode(String mode)
+    public static String setMode(String mode, String type)
     {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("0", "null");
-        map.put("1", "classic");
-        map.put("2", "classic");
-        map.put("3", "classic");
-        map.put("4", "density");
+        if (type.equals("clone"))
+        {
+            map.put("0", "null");
+            map.put("1", "classic");
+            map.put("2", "density");
+            map.put("3", "UPK");
+            map.put("4", "cheat");
+        }
+        else
+        {
+            map.put("0", "null");
+            map.put("1", "classic");
+            map.put("2", "classic");
+            map.put("3", "classic");
+            map.put("4", "density");
+        }
         return map.get(mode);
     }
 
     /**
      * 设定级别
      * 
-     * @param level 级别值
+     * @param level
+     *            级别值
      * @return string 级别对应值
      */
     public static String setLevel(String level)
@@ -89,14 +107,17 @@ public class VideoCommon
         map.put("2", "int");
         map.put("3", "exp");
         map.put("4", "custom");
+        map.put("5", "custom");
         return map.get(level);
     }
 
     /**
      * 出现错误情况
      * 
-     * @param rawVideoBean 传入录像bean
-     * @param errMessage 出错信息
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param errMessage
+     *            出错信息
      * @return rawVideoBean 传入录像bean
      */
     public static RawVideoBean errorVideo(RawVideoBean rawVideoBean, String errMessage)
@@ -108,8 +129,11 @@ public class VideoCommon
 
     /**
      * 设置基本信息
-     * @param rawVideoBean 传入录像bean
-     * @param videoDisplayBean 转换录像bean
+     * 
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param videoDisplayBean
+     *            转换录像bean
      */
     private static void setBaseInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
@@ -125,7 +149,7 @@ public class VideoCommon
         // 设定级别
         videoDisplayBean.setLevel(setLevel(rawBaseBean.getLevel()));
         // 设定模式
-        videoDisplayBean.setMode(setMode(rawBaseBean.getMode()));
+        videoDisplayBean.setMode(setMode(rawBaseBean.getMode(), rawBaseBean.getProgram()));
         // 设定问号模式
         videoDisplayBean.setMarkFlag(setMarkFlag(rawBaseBean.getQm()));
     }
@@ -133,8 +157,10 @@ public class VideoCommon
     /**
      * 根据board读取board信息
      * 
-     * @param rawVideoBean 传入录像bean
-     * @param videoDisplayBean 转换录像bean
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param videoDisplayBean
+     *            转换录像bean
      */
     private static void setBoardInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
@@ -162,29 +188,41 @@ public class VideoCommon
     /**
      * 根据event读取event信息
      * 
-     * @param rawVideoBean 传入录像bean
-     * @param videoDisplayBean 转换录像bean
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param videoDisplayBean
+     *            转换录像bean
      */
     private static void setEventInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
-        EventBean eventBean = EventCommon.getEventBean(rawVideoBean);
+        EventBean eventBean = EventCommon.getEventBean(rawVideoBean,videoDisplayBean);
         videoDisplayBean.setLclicks(String.valueOf(eventBean.getL()));
         videoDisplayBean.setDclicks(String.valueOf(eventBean.getD()));
         videoDisplayBean.setRclicks(String.valueOf(eventBean.getR()));
-        videoDisplayBean.setCloneR(String.valueOf(eventBean.getR()+eventBean.getCloneR()));
+        videoDisplayBean.setCloneR(String.valueOf(eventBean.getR() + eventBean.getCloneR()));
         int allClicks = eventBean.getL() + eventBean.getD() + eventBean.getR();
         videoDisplayBean.setAllClicks(String.valueOf(allClicks));
         videoDisplayBean.setFlags(String.valueOf(eventBean.getFlags()));
         videoDisplayBean.setTime(String.format("%.3f", new Object[] { eventBean.getSaoleiTime() }));
         videoDisplayBean.setDistance(String.format("%.3f", new Object[] { eventBean.getDistance() }));
         videoDisplayBean.setHold(String.valueOf(eventBean.getHolds()));
+        videoDisplayBean.setEventSize(String.valueOf(eventBean.getEventSize()));
+        videoDisplayBean.setMvsize(String.valueOf(eventBean.getMvsize()));
+        videoDisplayBean.setLcsize(String.valueOf(eventBean.getLcsize()));
+        videoDisplayBean.setLrsize(String.valueOf(eventBean.getLrsize()));
+        videoDisplayBean.setRcsize(String.valueOf(eventBean.getRcsize()));
+        videoDisplayBean.setRrsize(String.valueOf(eventBean.getRrsize()));
+        videoDisplayBean.setMcsize(String.valueOf(eventBean.getMcsize()));
+        videoDisplayBean.setMrsize(String.valueOf(eventBean.getMrsize()));
     }
 
     /**
      * 得出计算参数
      * 
-    * @param rawVideoBean 传入录像bean
-     * @param videoDisplayBean 转换录像bean
+     * @param rawVideoBean
+     *            传入录像bean
+     * @param videoDisplayBean
+     *            转换录像bean
      */
     private static void setCalcInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
@@ -198,33 +236,33 @@ public class VideoCommon
             videoDisplayBean.setStyle("FL");
         }
         // 3bvs =3bv/time
-        videoDisplayBean.setBbbvs(String.format("%.3f", new Object[] { Double.valueOf(videoDisplayBean.bbbv) / (Double.valueOf(videoDisplayBean.time)) }));
+        videoDisplayBean.setBbbvs(String.format("%.3f", new Object[] { Double.valueOf(videoDisplayBean.getBbbv()) / (Double.valueOf(videoDisplayBean.getTime())) }));
         // clicks =allclick/time
-        videoDisplayBean.setClicks(String.format("%.3f", new Object[] { Double.valueOf(videoDisplayBean.allClicks) / (Double.valueOf(videoDisplayBean.time)) }));
+        videoDisplayBean.setClicks(String.format("%.3f", new Object[] { Double.valueOf(videoDisplayBean.getAllClicks()) / (Double.valueOf(videoDisplayBean.getTime())) }));
         // rqp =(time*(time+1))/3bv
-        videoDisplayBean
-                .setRqp(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.time) + 1.0D) * (Double.valueOf(videoDisplayBean.time)) / Double.valueOf(videoDisplayBean.bbbv) }));
+        videoDisplayBean.setRqp(String.format("%.3f",
+                new Object[] { (Double.valueOf(videoDisplayBean.getTime()) + 1.0D) * (Double.valueOf(videoDisplayBean.getTime())) / Double.valueOf(videoDisplayBean.getBbbv()) }));
         // ioe =3bv/allclick
-        videoDisplayBean.setIoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.bbbv) / Double.valueOf(videoDisplayBean.allClicks)) }));
+        videoDisplayBean.setIoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getBbbv()) / Double.valueOf(videoDisplayBean.getAllClicks())) }));
         // dispeed=distance/time
-        videoDisplayBean.setDisSpeed(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.distance)) / Double.valueOf(videoDisplayBean.time) }));
+        videoDisplayBean.setDisSpeed(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getDistance())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // disbv=distance/3bv
-        videoDisplayBean.setDisBv(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.distance)) / Double.valueOf(videoDisplayBean.bbbv) }));
+        videoDisplayBean.setDisBv(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getDistance())) / Double.valueOf(videoDisplayBean.getBbbv()) }));
         // disNum=distance/numAll
-        videoDisplayBean.setDisNum(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.distance)) / Double.valueOf(videoDisplayBean.numAll) }));
+        videoDisplayBean.setDisNum(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getDistance())) / Double.valueOf(videoDisplayBean.getNumAll()) }));
         // hzoe=hzini/allclick
-        videoDisplayBean.setHzoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.hzini)) / Double.valueOf(videoDisplayBean.bbbv) }));
+        videoDisplayBean.setHzoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getHzini())) / Double.valueOf(videoDisplayBean.getAllClicks()) }));
         // zoe=zini/allclick
-        videoDisplayBean.setZoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.zini)) / Double.valueOf(videoDisplayBean.bbbv) }));
+        videoDisplayBean.setZoe(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getZini())) / Double.valueOf(videoDisplayBean.getAllClicks()) }));
         // numspeed=numall/time
-        videoDisplayBean.setNumSpeed(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.numAll)) / Double.valueOf(videoDisplayBean.time) }));
+        videoDisplayBean.setNumSpeed(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getNumAll())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // hzinis=hzini/time
-        videoDisplayBean.setHzinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.hzini)) / Double.valueOf(videoDisplayBean.time) }));
+        videoDisplayBean.setHzinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getHzini())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // zinis=zini/time
-        videoDisplayBean.setZinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.zini)) / Double.valueOf(videoDisplayBean.time) }));
+        videoDisplayBean.setZinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getZini())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // occam=3bvs*ioe
-        videoDisplayBean.setOccam(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.bbbvs)) * Double.valueOf(videoDisplayBean.ioe) }));
+        videoDisplayBean.setOccam(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getBbbvs())) * Double.valueOf(videoDisplayBean.getIoe()) }));
         // qg=(time^1.7)/3bv
-        videoDisplayBean.setQg(String.format("%.3f", new Object[] { Double.valueOf((Math.pow(Double.valueOf(videoDisplayBean.time), 1.7D)) / Double.valueOf(videoDisplayBean.bbbv)) }));
+        videoDisplayBean.setQg(String.format("%.3f", new Object[] { Double.valueOf((Math.pow(Double.valueOf(videoDisplayBean.getTime()), 1.7D)) / Double.valueOf(videoDisplayBean.getBbbv())) }));
     }
 }

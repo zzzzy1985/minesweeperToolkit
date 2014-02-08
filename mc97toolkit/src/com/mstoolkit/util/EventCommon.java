@@ -7,6 +7,7 @@ import com.mstoolkit.bean.EventBean;
 import com.mstoolkit.bean.RawBoardBean;
 import com.mstoolkit.bean.RawEventDetailBean;
 import com.mstoolkit.bean.RawVideoBean;
+import com.mstoolkit.bean.VideoDisplayBean;
 
 /**
  * event解析
@@ -22,8 +23,9 @@ public class EventCommon
      * @param rawVideoBean 录像bean
      * @return EventBean 事件bean
      */
-    public static EventBean getEventBean(RawVideoBean rawVideoBean)
+    public static EventBean getEventBean(RawVideoBean rawVideoBean,VideoDisplayBean videoDisplayBean)
     {
+        String markFlag=videoDisplayBean.getMarkFlag();
         RawBoardBean rawBoardBean = rawVideoBean.getRawBoardBean();
         int height = rawBoardBean.height;
         int width = rawBoardBean.width;
@@ -189,6 +191,7 @@ public class EventCommon
             olstatus = lstatus - lact;
             orstatus = rstatus - ract;
             omstatus = mstatus - mact;
+            //System.out.println(rawEventDetailBean.eventTime+" mouseType "+mouseType +" olstatus "+olstatus+" orstatus "+orstatus+" omstatus "+omstatus);
             if (lact == -1 && orstatus == 0 && flag)
             {
                 l++;
@@ -210,8 +213,9 @@ public class EventCommon
             }
 
             if (((omstatus==0)&&(lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
-               ||((omstatus==1) && (mact == -1)))
+                    ||((omstatus==1) && (mact == -1)))
             {
+                //System.out.println("d "+d+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
                 d++;
                 if (tempR == 1)
                 {
@@ -292,13 +296,13 @@ public class EventCommon
             }
             else if (ract == -1)
             {
-                System.out.println("ract "+r+" "+rawEventDetailBean.eventTime);
+                //System.out.println("ract "+r+" "+rawEventDetailBean.eventTime);
                 tempR = 0;
             }
             
             if (ract == 1)
             {
-                System.out.println("r "+r+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
+                //System.out.println("r "+r+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
                 if (olstatus == 0)
                 {
                     r++;
@@ -307,7 +311,6 @@ public class EventCommon
                     if (qx <= width && qy <= height)
                     {
                         int xx = tempCells[(qy - 1) * width + qx - 1].status;
-
                         if (xx == 0)
                         {
                             tempR = 0;
@@ -316,11 +319,25 @@ public class EventCommon
                         }
                         else if (xx == 2)
                         {
+                            if(markFlag.equals("UNMARK"))
+                            {
+                                tempR = 0;
+                                tempCells[(qy - 1) * width + qx - 1].status = 0;
+                                tempCells[(qy - 1) * width + qx - 1].sta = " ";
+                            }
+                            else
+                            {
+                                tempR = 0;
+                                tempCells[(qy - 1) * width + qx - 1].status = 4;
+                                tempCells[(qy - 1) * width + qx - 1].sta = "?";   
+                            }
+                        }
+                        else if (xx == 4)
+                        {
                             tempR = 0;
                             tempCells[(qy - 1) * width + qx - 1].status = 0;
                             tempCells[(qy - 1) * width + qx - 1].sta = " ";
                         }
-                      
                         else
                         {
                             tempR = 1;
@@ -338,7 +355,7 @@ public class EventCommon
                 holds++;
             }
 
-            if (i > 0 && saoleiTime > 0)
+            if (i > 0 && rawEventDetailBean.eventTime > 0)
             {
                 path += Math.sqrt((nx - ax) * (nx - ax) + (ny - ay) * (ny - ay));
             }
@@ -365,6 +382,13 @@ public class EventCommon
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
         eventBean.setEventSize(eventSize);
+        eventBean.setMvsize(mvsize);
+        eventBean.setLcsize(lcsize);
+        eventBean.setLrsize(lrsize);
+        eventBean.setRcsize(rcsize);
+        eventBean.setRrsize(rrsize);
+        eventBean.setMrsize(mrsize);
+        eventBean.setMcsize(mcsize);
         return eventBean;
     }
 

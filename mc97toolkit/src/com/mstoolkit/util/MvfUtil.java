@@ -285,6 +285,7 @@ public class MvfUtil implements VideoUtil
         rawBaseBean.setMode(String.valueOf(mode));
         rawBaseBean.setLevel(String.valueOf(level));
         rawBaseBean.setQm(String.valueOf(qm));
+        rawBaseBean.setTimeStamp("null");
         List<RawEventDetailBean> rawLst = convertEvent(lst.size(), lst);
         RawBoardBean rawBoardBean = new RawBoardBean();
         rawBoardBean.setHeight(h);
@@ -457,7 +458,7 @@ public class MvfUtil implements VideoUtil
         }
         List<RawEventDetailBean> rawLst = convertEvent(size, lst);
         // 标识
-        rawBaseBean.setPlayer(userID);
+        rawBaseBean.setPlayer(userID.trim());
         // int month,year,year1,year2,day,hour,minute,second;
         rawBaseBean.setTimeStamp(String.format("%02d/%02d/%02d %02d:%02d:%02d",
                 new Object[] { Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute), Integer.valueOf(second) }));
@@ -521,37 +522,68 @@ public class MvfUtil implements VideoUtil
             if (bean.lb > 0 && prebean.lb == 0)
             {
                 mouseType = 3;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
-            else if (bean.rb > 0 && prebean.rb == 0)
+           if (bean.rb > 0 && prebean.rb == 0)
             {
                 mouseType = 9;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
-            else if (bean.mb > 0 && prebean.mb == 0)
+           if (bean.mb > 0 && prebean.mb == 0)
             {
                 mouseType = 33;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
-            else if (bean.lb == 0 && prebean.lb > 0)
+           if (bean.lb == 0 && prebean.lb > 0)
             {
                 mouseType = 5;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
-            else if (bean.rb == 0 && prebean.rb > 0)
+            if (bean.rb == 0 && prebean.rb > 0)
             {
                 mouseType = 17;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
-            else if (bean.mb == 0 && prebean.mb > 0)
+            if (bean.mb == 0 && prebean.mb > 0)
             {
                 mouseType = 65;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
             }
             else
             {
                 continue;
             }
-            RawEventDetailBean rawBean = new RawEventDetailBean();
-            rawBean.mouseType = mouseType;
-            rawBean.x = bean.x;
-            rawBean.y = bean.y;
-            rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-            rawLst.add(rawBean);
+            
         }
         return rawLst;
     }

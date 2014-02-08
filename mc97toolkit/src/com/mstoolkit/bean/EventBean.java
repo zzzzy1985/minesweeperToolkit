@@ -28,6 +28,21 @@ public class EventBean implements Serializable
     private int flags;
     /** 事件数 */
     private int eventSize;
+    /** 事件数 */
+    private int mvsize;
+    /** 事件数 */
+    private int lcsize;
+    /** 事件数 */
+    private int lrsize;
+    /** 事件数 */
+    private int mcsize;
+    /** 事件数 */
+    private int mrsize;
+    /** 事件数 */
+    private int rcsize;
+    /** 事件数 */
+    private int rrsize;
+   
     /** 距离 */
     private double distance;
     /** 用时 */
@@ -121,6 +136,76 @@ public class EventBean implements Serializable
     public void setCloneR(int cloneR)
     {
         this.cloneR = cloneR;
+    }
+
+    public int getMvsize()
+    {
+        return mvsize;
+    }
+
+    public void setMvsize(int mvsize)
+    {
+        this.mvsize = mvsize;
+    }
+
+    public int getLcsize()
+    {
+        return lcsize;
+    }
+
+    public void setLcsize(int lcsize)
+    {
+        this.lcsize = lcsize;
+    }
+
+    public int getLrsize()
+    {
+        return lrsize;
+    }
+
+    public void setLrsize(int lrsize)
+    {
+        this.lrsize = lrsize;
+    }
+
+    public int getMcsize()
+    {
+        return mcsize;
+    }
+
+    public void setMcsize(int mcsize)
+    {
+        this.mcsize = mcsize;
+    }
+
+    public int getMrsize()
+    {
+        return mrsize;
+    }
+
+    public void setMrsize(int mrsize)
+    {
+        this.mrsize = mrsize;
+    }
+
+    public int getRcsize()
+    {
+        return rcsize;
+    }
+
+    public void setRcsize(int rcsize)
+    {
+        this.rcsize = rcsize;
+    }
+
+    public int getRrsize()
+    {
+        return rrsize;
+    }
+
+    public void setRrsize(int rrsize)
+    {
+        this.rrsize = rrsize;
     }
 
 }
