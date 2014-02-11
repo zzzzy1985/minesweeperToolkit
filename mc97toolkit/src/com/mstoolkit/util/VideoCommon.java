@@ -214,6 +214,9 @@ public class VideoCommon
         videoDisplayBean.setRrsize(String.valueOf(eventBean.getRrsize()));
         videoDisplayBean.setMcsize(String.valueOf(eventBean.getMcsize()));
         videoDisplayBean.setMrsize(String.valueOf(eventBean.getMrsize()));
+        videoDisplayBean.setWasteflags(String.valueOf(eventBean.getWastedflags()));
+        videoDisplayBean.setFirstLx(String.valueOf(eventBean.getFirstlx()));
+        videoDisplayBean.setFirstLy(String.valueOf(eventBean.getFirstly()));
     }
 
     /**

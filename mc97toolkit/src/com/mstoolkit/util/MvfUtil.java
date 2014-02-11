@@ -508,10 +508,40 @@ public class MvfUtil implements VideoUtil
             MvfEventDetailBean bean = lst.get(i);
             MvfEventDetailBean prebean = lst.get(i - 1);
             int mouseType = 0;
-            // mouseType 1 mv 3lc 9rc 33mc 5lr 17rr 65 mr
+            // mouseType 1 mv 5lr 17rr 65 mr 3lc 9rc 33mc 
             if (bean.x != prebean.x || bean.y != prebean.y)
             {
                 mouseType = 1;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
+            }
+            if (bean.lb == 0 && prebean.lb > 0)
+            {
+                mouseType = 5;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
+            }
+            if (bean.rb == 0 && prebean.rb > 0)
+            {
+                mouseType = 17;
+                RawEventDetailBean rawBean = new RawEventDetailBean();
+                rawBean.mouseType = mouseType;
+                rawBean.x = bean.x;
+                rawBean.y = bean.y;
+                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
+                rawLst.add(rawBean);
+            }
+            if (bean.mb == 0 && prebean.mb > 0)
+            {
+                mouseType = 65;
                 RawEventDetailBean rawBean = new RawEventDetailBean();
                 rawBean.mouseType = mouseType;
                 rawBean.x = bean.x;
@@ -549,36 +579,7 @@ public class MvfUtil implements VideoUtil
                 rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
                 rawLst.add(rawBean);
             }
-           if (bean.lb == 0 && prebean.lb > 0)
-            {
-                mouseType = 5;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
-            }
-            if (bean.rb == 0 && prebean.rb > 0)
-            {
-                mouseType = 17;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
-            }
-            if (bean.mb == 0 && prebean.mb > 0)
-            {
-                mouseType = 65;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
-            }
+          
             else
             {
                 continue;

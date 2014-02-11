@@ -42,12 +42,14 @@ public class EventCommon
         int rrsize=0;
         int mcsize=0;
         int mrsize=0;
-
+        int firstLx=0;
+        int firstLy=0;
         int cloneR=0;
         int l = 0;
         int d = 0;
         int r = 0;
         int flags = 0;
+        int wastedflags = 0;
         // 计算1.5click
         int holds = 0;
         double path = 0.0d;
@@ -194,6 +196,11 @@ public class EventCommon
             //System.out.println(rawEventDetailBean.eventTime+" mouseType "+mouseType +" olstatus "+olstatus+" orstatus "+orstatus+" omstatus "+omstatus);
             if (lact == -1 && orstatus == 0 && flag)
             {
+                if(l==0)
+                {
+                    firstLx=nx;
+                    firstLy=ny;
+                }
                 l++;
                 // l++的时候
                 int qx = (nx) / 16 + 1;
@@ -211,7 +218,7 @@ public class EventCommon
                     }
                 }
             }
-
+            // d
             if (((omstatus==0)&&(lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
                     ||((omstatus==1) && (mact == -1)))
             {
@@ -321,12 +328,14 @@ public class EventCommon
                         {
                             if(markFlag.equals("UNMARK"))
                             {
+                                wastedflags++;
                                 tempR = 0;
                                 tempCells[(qy - 1) * width + qx - 1].status = 0;
                                 tempCells[(qy - 1) * width + qx - 1].sta = " ";
                             }
                             else
                             {
+                                wastedflags++;
                                 tempR = 0;
                                 tempCells[(qy - 1) * width + qx - 1].status = 4;
                                 tempCells[(qy - 1) * width + qx - 1].sta = "?";   
@@ -334,6 +343,7 @@ public class EventCommon
                         }
                         else if (xx == 4)
                         {
+                            wastedflags++;
                             tempR = 0;
                             tempCells[(qy - 1) * width + qx - 1].status = 0;
                             tempCells[(qy - 1) * width + qx - 1].sta = " ";
@@ -379,6 +389,9 @@ public class EventCommon
         eventBean.setCloneR(cloneR);
         eventBean.setHolds(holds);
         eventBean.setDistance(path);
+        eventBean.setWastedflags(wastedflags);
+        eventBean.setFirstlx(firstLx);
+        eventBean.setFirstly(firstLy);
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
         eventBean.setEventSize(eventSize);

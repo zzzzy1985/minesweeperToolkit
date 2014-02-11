@@ -26,6 +26,12 @@ public class EventBean implements Serializable
     private int holds;
     /** 标旗数 */
     private int flags;
+    /** firstlx*/
+    private int firstlx;
+    /** firstly */
+    private int firstly;
+    /** wasted标旗数 */
+    private int wastedflags;
     /** 事件数 */
     private int eventSize;
     /** 事件数 */
@@ -206,6 +212,36 @@ public class EventBean implements Serializable
     public void setRrsize(int rrsize)
     {
         this.rrsize = rrsize;
+    }
+
+    public int getWastedflags()
+    {
+        return wastedflags;
+    }
+
+    public void setWastedflags(int wastedflags)
+    {
+        this.wastedflags = wastedflags;
+    }
+
+    public int getFirstlx()
+    {
+        return firstlx;
+    }
+
+    public void setFirstlx(int firstlx)
+    {
+        this.firstlx = firstlx;
+    }
+
+    public int getFirstly()
+    {
+        return firstly;
+    }
+
+    public void setFirstly(int firstly)
+    {
+        this.firstly = firstly;
     }
 
 }

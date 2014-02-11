@@ -130,6 +130,12 @@ public class VideoDisplayBean implements Serializable
     private String rcsize;
     /** 事件数 */
     private String rrsize;
+    /** flags*/
+    private String wasteflags;
+    /** firstLx*/
+    private String firstLx;
+    /** firstLy*/
+    private String firstLy;
     public String getName()
     {
         return name;
@@ -713,6 +719,36 @@ public class VideoDisplayBean implements Serializable
     public void setRrsize(String rrsize)
     {
         this.rrsize = rrsize;
+    }
+
+    public String getWasteflags()
+    {
+        return wasteflags;
+    }
+
+    public void setWasteflags(String wasteflags)
+    {
+        this.wasteflags = wasteflags;
+    }
+
+    public String getFirstLx()
+    {
+        return firstLx;
+    }
+
+    public void setFirstLx(String firstLx)
+    {
+        this.firstLx = firstLx;
+    }
+
+    public String getFirstLy()
+    {
+        return firstLy;
+    }
+
+    public void setFirstLy(String firstLy)
+    {
+        this.firstLy = firstLy;
     }
     
 }
