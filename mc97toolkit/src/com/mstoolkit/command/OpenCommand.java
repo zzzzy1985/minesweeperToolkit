@@ -24,6 +24,10 @@ import com.mstoolkit.init.MainPanel;
  */
 public class OpenCommand implements ICommand
 {
+    /**
+     * execute
+     *@param frame frame
+     */
     public void execute(JFrame frame)
     {
         if (CommonUtil.percent != 100)
@@ -49,7 +53,11 @@ public class OpenCommand implements ICommand
         }
 
     }
-
+    /**
+     * updateList
+     * @param selectedFile selectedFile
+     * @param frame frame
+     */
     protected static void updateList(File selectedFile, JFrame frame)
     {
         if (!selectedFile.isDirectory())
@@ -103,7 +111,12 @@ public class OpenCommand implements ICommand
             }
         }
     }
-
+    /**
+     * updateUI
+     * @param mvfList mvfList
+     * @param time time
+     * @param table table
+     */
     private static void updateUI(final File[] mvfList, final long time, final JTable table)
     {
         new Thread()
@@ -137,7 +150,11 @@ public class OpenCommand implements ICommand
             }
         }.start();
     }
-
+    /**
+     * filterVideo
+     * @param fileList fileList
+     * @return File
+     */
     public static File[] filterVideo(File[] fileList)
     {
         ArrayList<File> al = new ArrayList<File>();
@@ -224,7 +241,9 @@ public class OpenCommand implements ICommand
     {
         String[] lst = { "name", "mvfType", "version", "userID", "date", "level", "style", "mode", "time", "bbbv", "bbbvs", "distance", "clicks", "zini", "hzini", "rqp", "ioe", "completion", "num0",
                 "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "numAll", "disSpeed", "openings", "allClicks", "disBv", "disNum", "hzoe", "zoe", "numSpeed", "hzinis", "zinis",
-                "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold","cloneR",  "islands" ,"eventSize","mvsize","lcsize","lrsize","rcsize","rrsize","mcsize","mrsize","wasteflags","firstLx","firstLy"};
+                "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold", "cloneR", "islands", "eventSize", "mvsize", "lcsize", "lrsize", "rcsize", "rrsize", "mcsize", "mrsize",
+                "wasteflags", "firstLx", "firstLy" };
+        
         Map<String, Object> map = CommonUtil.changeSimpleBeanToMap(mi);
         int j = 1;
         for (String tmp : lst)

@@ -15,45 +15,56 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.mstoolkit.Const;
 import com.mstoolkit.common.CommonUtil;
-
+import org.apache.logging.log4j.LogManager;  
+import org.apache.logging.log4j.Logger;  
 /**
  * 启动程序的主方法
+ * 
  * @author zhangye
  * @date 2014-1-10
  */
-public class MainPanel {
-    /**主界面的Frame */
+public class MainPanel
+{
+    private static Logger logger = LogManager.getLogger("MainPanel");  
+    /** 主界面的Frame */
     public static JFrame FRAME = null;
-    /**主界面的Label 显示在左下角 */
+    /** 主界面的Label 显示在左下角 */
     public static JLabel label = null;
-    /**主界面的Panel */
+    /** 主界面的Panel */
     public static JScrollPane scrollPane = null;
-    /**单元格cellRender */
+    /** 单元格cellRender */
     public static DefaultTableCellRenderer cellRenderer = null;
     /**
      * 监听事件
      */
-    private static ActionListener actionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            JMenuItem jMenuItem=(JMenuItem)e.getSource();
-            int mnemonic= jMenuItem.getMnemonic();
+    private static ActionListener actionListener = new ActionListener()
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JMenuItem jMenuItem = (JMenuItem) e.getSource();
+            int mnemonic = jMenuItem.getMnemonic();
             // 根据mnemonic调用方法
-            CommonUtil.getMthodByMnemonic(mnemonic,FRAME);
+            CommonUtil.getMthodByMnemonic(mnemonic, FRAME);
         }
     };
+
     /**
      * 主方法
      * 
-     * @param args 参数
+     * @param args
+     *            参数
      */
-    public static void main(String[] args) {
-        //创建window  
+    public static void main(String[] args)
+    {
+        logger.debug("start");
+        // 创建window
         createWindow();
-        //首次进入显示
+        // 首次进入显示
         CommonUtil.firstTimeShow(FRAME);
     }
 
-    private static void createWindow() {
+    private static void createWindow()
+    {
         FRAME = new JFrame(Const.TITLE + " " + Const.VERSION);
         FRAME.setIconImage(new ImageIcon("icon.png").getImage());
         FRAME.setDefaultCloseOperation(3);

@@ -24,12 +24,20 @@ import javax.swing.table.TableModel;
 import com.mstoolkit.Const;
 import com.mstoolkit.bean.VideoDisplayBean;
 import com.mstoolkit.init.MainPanel;
-
+/**
+ * CommonUtil
+ * @author zhangye
+ *
+ */
 public class CommonUtil
 {
+    /** curMVFDir*/ 
     public static String curMVFDir = ".";
+    /** curHistoryDir*/
     public static String curHistoryDir = ".";
+    /** curExportDir*/
     public static String curExportDir = ".";
+    /** percent*/
     public static int percent = 100;
     public static JLabel label = null;
     public static JTable table = null;

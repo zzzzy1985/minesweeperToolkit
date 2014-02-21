@@ -6,6 +6,9 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mstoolkit.bean.CellBean;
 
 /**
@@ -16,7 +19,7 @@ import com.mstoolkit.bean.CellBean;
  */
 public class VideoTest
 {
-
+    private static Logger logger = LogManager.getLogger("VideoTest");  
     /**
      * 
      * @param height
@@ -40,6 +43,10 @@ public class VideoTest
         }
         for (long ij = 0; ij < calc; ij++)
         {
+            if(ij%10000==0)
+            {
+                logger.debug(ij);
+            }
             getRandombv(height, width, mines, lst);
         }
         int aa = 0;

@@ -240,13 +240,22 @@ public class MvfUtil implements VideoUtil
         }
         int qm= byteStream[offset++] & 0xFF;
         int c= byteStream[offset++] & 0xFF;
-        int has_date=0;
-        int has_info=has_date=0;
+        int hasDate=0;
+        int hasInfo=hasDate=0;
         int mode=1; /* Early Clone versions don't save any videos but classic */
         int level=0;
-        if(w==8 && h==8) level=1;
-        else if(w==16 && h==16) level=2;
-        else if(w==30 && h==16) level=3;
+        if (w == 8 && h == 8)
+        {
+            level = 1;
+        }
+        else if (w == 16 && h == 16)
+        {
+            level = 2;
+        }
+        else if (w == 30 && h == 16)
+        {
+            level = 3;
+        }
         int length=byteStream.length;
         int endoffSet=length-125;
         int score1 = (byteStream[endoffSet++] & 0xFF);
@@ -279,7 +288,7 @@ public class MvfUtil implements VideoUtil
             mvfEventDetailBean.y=(int)e[5]*256+e[6];
             lst.add(mvfEventDetailBean);
         }
-        RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
+        RawBaseBean rawBaseBean = rawVideoBean.getRawBaseBean();
         // 标识
         rawBaseBean.setPlayer(userID);
         rawBaseBean.setMode(String.valueOf(mode));
@@ -307,7 +316,7 @@ public class MvfUtil implements VideoUtil
      */
     private RawVideoBean read097(byte[] byteStream, RawVideoBean rawVideoBean, int offset)
     {
-        RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
+        RawBaseBean rawBaseBean = rawVideoBean.getRawBaseBean();
         /** The 0.97 header contains date, level, mode, */
         /** score, 3bv and solved 3bv, number of clicks */
         int qm;
@@ -476,6 +485,12 @@ public class MvfUtil implements VideoUtil
         rawVideoBean.setRawEventDetailBean(rawLst);
         return rawVideoBean;
     }
+    /**
+     * convertEvent
+     * @param size size
+     * @param lst lst
+     * @return List
+     */
     private List<RawEventDetailBean> convertEvent(int size, List<MvfEventDetailBean> lst)
     {
         List<RawEventDetailBean> rawLst = new ArrayList<RawEventDetailBean>();
@@ -559,7 +574,7 @@ public class MvfUtil implements VideoUtil
                 rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
                 rawLst.add(rawBean);
             }
-           if (bean.rb > 0 && prebean.rb == 0)
+            if (bean.rb > 0 && prebean.rb == 0)
             {
                 mouseType = 9;
                 RawEventDetailBean rawBean = new RawEventDetailBean();
@@ -569,7 +584,7 @@ public class MvfUtil implements VideoUtil
                 rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
                 rawLst.add(rawBean);
             }
-           if (bean.mb > 0 && prebean.mb == 0)
+            if (bean.mb > 0 && prebean.mb == 0)
             {
                 mouseType = 33;
                 RawEventDetailBean rawBean = new RawEventDetailBean();
@@ -579,7 +594,7 @@ public class MvfUtil implements VideoUtil
                 rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
                 rawLst.add(rawBean);
             }
-          
+
             else
             {
                 continue;

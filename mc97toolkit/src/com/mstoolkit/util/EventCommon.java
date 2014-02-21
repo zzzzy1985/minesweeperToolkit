@@ -29,7 +29,7 @@ public class EventCommon
         RawBoardBean rawBoardBean = rawVideoBean.getRawBoardBean();
         int height = rawBoardBean.height;
         int width = rawBoardBean.width;
-        List<RawEventDetailBean> eventLst = rawVideoBean.rawEventDetailBean;
+        List<RawEventDetailBean> eventLst = rawVideoBean.getRawEventDetailBean();
         int ax = 0;
         int ay = 0;
         int lstatus = 0;
@@ -87,6 +87,7 @@ public class EventCommon
             // 为了计算准确的右键数 需要模拟录像操作
             int mouse = rawEventDetailBean.mouseType;
             int misscl=0;
+            int outcl=0;
             int nx = 0;
             int ny = 0;
             int olstatus = 0;
@@ -94,6 +95,7 @@ public class EventCommon
             int omstatus = 0;
             nx = rawEventDetailBean.x;
             ny = rawEventDetailBean.y;
+            boolean boom = false;
             boolean flag = true;
             if ("rr".equals(mouseTypeNomv))
             {
@@ -193,7 +195,6 @@ public class EventCommon
             olstatus = lstatus - lact;
             orstatus = rstatus - ract;
             omstatus = mstatus - mact;
-            //System.out.println(rawEventDetailBean.eventTime+" mouseType "+mouseType +" olstatus "+olstatus+" orstatus "+orstatus+" omstatus "+omstatus);
             if (lact == -1 && orstatus == 0 && flag)
             {
                 if(l==0)
@@ -207,8 +208,13 @@ public class EventCommon
                 int qy = (ny) / 16 + 1;
                 if (qx <= width && qy <= height)
                 {
-                    int xx = tempCells[(qy - 1) * width + qx - 1].status;
-                    if (xx == 0)
+                    int what = tempCells[(qy - 1) * width + qx - 1].what;
+                    int status = tempCells[(qy - 1) * width + qx - 1].status;
+                    if(what==9)
+                    {
+                        boom=true;
+                    }
+                    if (status == 0)
                     {
                         digg(qx, qy, tempCells, cells, height, width);
                     }
@@ -217,12 +223,15 @@ public class EventCommon
                         misscl++;
                     }
                 }
+                else
+                {
+                    outcl++;
+                }
             }
             // d
             if (((omstatus==0)&&(lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
                     ||((omstatus==1) && (mact == -1)))
             {
-                //System.out.println("d "+d+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
                 d++;
                 if (tempR == 1)
                 {
@@ -300,10 +309,13 @@ public class EventCommon
                         }
                     }
                 }
+                else
+                {
+                    outcl++;  
+                }
             }
             else if (ract == -1)
             {
-                //System.out.println("ract "+r+" "+rawEventDetailBean.eventTime);
                 tempR = 0;
             }
             

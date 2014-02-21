@@ -29,7 +29,7 @@ public class VideoCommon
      */
     public static void convertVideoDisplay(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
-        if (rawVideoBean.checkFlag)
+        if (rawVideoBean.isCheckFlag())
         {
             // 设定基本信息
             setBaseInfo(rawVideoBean, videoDisplayBean);
@@ -122,8 +122,8 @@ public class VideoCommon
      */
     public static RawVideoBean errorVideo(RawVideoBean rawVideoBean, String errMessage)
     {
-        rawVideoBean.checkFlag = false;
-        rawVideoBean.errorMessage = errMessage;
+        rawVideoBean.setCheckFlag(false);
+        rawVideoBean.setErrorMessage(errMessage);
         return rawVideoBean;
     }
 
@@ -137,7 +137,7 @@ public class VideoCommon
      */
     private static void setBaseInfo(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
-        RawBaseBean rawBaseBean = rawVideoBean.rawBaseBean;
+        RawBaseBean rawBaseBean = rawVideoBean.getRawBaseBean();
         // 设定程序名称
         videoDisplayBean.setMvfType(rawBaseBean.getProgram());
         // 设定程序版本

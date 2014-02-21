@@ -15,10 +15,14 @@ import com.mstoolkit.common.CommonUtil;
  * 拆分方法该方法主要内容为对mvf文件解析
  * 
  * @author zhangye
- * @date 2013-11-3
+ * @version 2013-11-3
  */
 public class ExportCommand implements ICommand
 {
+    /**
+     * execute
+     * @param frame frame
+     */
     public void execute(JFrame frame)
     {
 
@@ -67,15 +71,20 @@ public class ExportCommand implements ICommand
                 {
                     int chooseRet = JOptionPane.showConfirmDialog(frame, Const.WANNAOVERWRITE, Const.QUESTION, 0);
                     if (chooseRet == 0)
+                    {
                         saveOrNot = true;
+                    }
                     else
+                    {
                         saveOrNot = false;
+                    }
                 }
                 else
                 {
                     saveOrNot = true;
                 }
                 if (saveOrNot)
+                {
                     try
                     {
                         CommonUtil.exportTable(CommonUtil.table, f);
@@ -86,6 +95,7 @@ public class ExportCommand implements ICommand
                         CommonUtil.setLabel(Const.EXPORTFAILED);
                         JOptionPane.showMessageDialog(frame, Const.EXPORTFAILED, Const.WARNING, 2);
                     }
+                }
                 else
                 {
                     CommonUtil.setLabel(Const.WELCOME);

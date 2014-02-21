@@ -118,9 +118,9 @@
     <!-- local, non-final variables, including catch parameters--> 
     <module name="LocalVariableName"/>
     
-    <!-- static, non-final fields -->
+    <!-- static, non-final fields 19-->
     <module name="StaticVariableName">
-    	<property name="format" value="(^[A-Z0-9_]{0,19}$)"/>    
+    	<property name="format" value="(^[A-Z0-9_]{0,22}$)"/>    
     </module>  
     
     <!-- packages -->
@@ -138,9 +138,9 @@
       <property name="format" value="(^[a-z][a-zA-Z0-9]{0,19}$)"/>         
     </module> 
     
-    <!-- non-static fields -->
+    <!-- non-static fields 19-->
     <module name="MemberName">  
-    	<property name="format" value="(^[a-z][a-z0-9][a-zA-Z0-9]{0,19}$)"/>         
+    	<property name="format" value="(^[a-z][a-z0-9][a-zA-Z0-9]{0,29}$)"/>         
     </module>
     
     <!-- parameters -->
@@ -251,7 +251,7 @@
     
     <!-- Checks for long methods and constructors. max default 150行. max=300 设置长度300 --> 
     <module name="MethodLength">  
-      <property name="max" value="300"/>                 
+      <property name="max" value="400"/>                 
     </module>        
     
     <!-- ModifierOrder 检查修饰符的顺序，默认是 public,protected,private,abstract,static,final,transient,volatile,synchronized,native -->  

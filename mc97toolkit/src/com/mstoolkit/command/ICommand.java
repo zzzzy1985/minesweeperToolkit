@@ -6,7 +6,7 @@ import javax.swing.JFrame;
  * 命令启动接口
  * 
  * @author zhangYe
- * date 2013-11-3
+ * @version 2013-11-3
  */
 public interface ICommand
 {

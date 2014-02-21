@@ -426,7 +426,11 @@ public class RmvUtil implements VideoUtil
     /**
      * 根据rmvList 分析
      * 
-     * @param rmvVideoList
+     * @param rmvVideoList rmvVideoList
+     * @param height height
+     * @param width width
+     * @param cells cells
+     * @return VideoInfo VideoInfo
      */
     private VideoInfo analyzingRawList(List<RmvVideo> rmvVideoList, int height, int width, Cells[] cells)
     {
@@ -443,14 +447,10 @@ public class RmvUtil implements VideoUtil
         int tempR = 0;
         int lstatus = 0;
         int rstatus = 0;
-        @SuppressWarnings("unused")
         int l = 0;
-        @SuppressWarnings("unused")
         int d = 0;
-        @SuppressWarnings("unused")
         int r = 0;
         // 计算1.5click
-        @SuppressWarnings("unused")
         int holds = 0;
         int ax = 0;
         int ay = 0;
@@ -478,7 +478,8 @@ public class RmvUtil implements VideoUtil
                 int lact = 0;
                 int ract = 0;
                 String mouseType = "";
-                switch (event) {
+                switch (event) 
+                {
                 // mv
                     case 1:
                         mouseType = "mv";

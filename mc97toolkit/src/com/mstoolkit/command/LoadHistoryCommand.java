@@ -14,10 +14,14 @@ import com.mstoolkit.common.CommonUtil;
  * 拆分方法该方法主要内容为对mvf文件解析
  * 
  * @author zhangye
- * @date 2013-11-3
+ * @version 2013-11-3
  */
 public class LoadHistoryCommand implements ICommand
 {
+    /**
+     * execute
+     *@param frame frame
+     */
     public void execute(JFrame frame)
     {
         if (CommonUtil.percent != 100)
@@ -50,8 +54,6 @@ public class LoadHistoryCommand implements ICommand
                 CommonUtil.curHistoryDir = fc.getSelectedFile().getParent();
                 CommonUtil.keepDir();
                 CommonUtil.table = null;
-                // frame.remove(ToolKit.scrollPane);
-                // ToolKit.updateList(fc.getSelectedFile());
             }
         }
     }
