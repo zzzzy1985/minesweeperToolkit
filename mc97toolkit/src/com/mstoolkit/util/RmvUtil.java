@@ -691,83 +691,6 @@ public class RmvUtil implements VideoUtil
         info.setTime(String.valueOf(time / 1000));
         return info;
     }
-
-    public static void main(String[] args)
-    {
-        long time = System.currentTimeMillis();
-        System.out.println(time);
-        for (long ij = 0; ij < 25; ij++)
-        {
-            int width = 8;
-            int height = 8;
-            int mines = 10;
-            int size = width * height;
-            Cell[] mvfboard = new Cell[size];
-            // 生成随机数算法
-            // 种子你可以随意生成，但不能重复
-            int[] seed;
-            seed = new int[size];
-            for (int t = 1; t <= size; t++)
-            {
-                seed[t - 1] = t;
-            }
-            int[] ranArr = new int[size];
-            Random ran = new Random();
-            // 数量你可以自己定义。
-            for (int i = 0; i < mines; i++)
-            {
-                // 得到一个位置
-                int j = ran.nextInt(seed.length - i);
-                // 得到那个位置的数值
-                ranArr[i] = seed[j];
-                // 将最后一个未用的数字放到这里
-                seed[j] = seed[seed.length - 1 - i];
-            }
-
-            int[] ss = new int[mines];
-            for (int i = 0; i < mines; i++)
-            {
-                ss[i] = ranArr[i];
-                // System.out.print(ss[i]+" ");
-            }
-
-            for (int i = 0; i < size; i++)
-            {
-                mvfboard[i] = new Cell();
-                mvfboard[i].mine = (mvfboard[i].opened = mvfboard[i].flagged = mvfboard[i].opening = mvfboard[i].opening2 = 0);
-            }
-            // System.out.println(" ");
-            for (int i = 0; i < mines; i++)
-            {
-
-                int posX = ss[i] / width + 1;
-                int posY = ss[i] % width;
-                int pos = (posX - 1) * height + posY - 1;
-
-                // System.out.print(pos+" ");
-                mvfboard[pos].mine = 1;
-            }
-            /*
-             * Cells[] cells = new Cells[(height + 2) * (width + 2)]; for (int i = 0; i < (height + 2) * (width + 2); i++) { cells[i] = new Cells(0); } for (int i = 0; i < mines; i++) { int posX =
-             * ss[i]/width; int posY = ss[i]%width; int pos = (posX) * height + posY; cells[pos].what = 9; }
-             */
-            /*
-             * for (int i = 1; i < (height + 1); i++) { for (int j = 1; j < (width + 1); j++) { if (cells[j * i + j].what != 9) { cells[j * i + j].what = cells[(j) * (i - 1) + j - 1].what == 9 ? 1 : 0
-             * + cells[(j) * (i - 1) + j].what == 9 ? 1 : 0 + cells[(j) * (i - 1) + j + 1].what == 9 ? 1 : 0 + cells[(j) * i + j - 1].what == 9 ? 1 : 0 + cells[(j) i + j + 1].what == 9 ? 1 : 0 +
-             * cells[(j) (i + 1) + j - 1].what == 9 ? 1 : 0 + cells[(j) (i + 1) + j].what == 9 ? 1 : 0 + cells[(j) (i + 1) + j + 1].what == 9 ? 1 : 0; }
-             * 
-             * } }
-             */
-            calcingbbbvs(width, height, 10, mvfboard);
-            // System.out.println("ranArr:" +ij+"  "+ iZini.openings);
-        }
-        long time2 = System.currentTimeMillis();
-        double time3 = (time2 - time) / 1000d;
-
-        System.out.println(time2);
-        System.out.println(time3);
-    }
-
     public static ZiniNum calcingbbbvs(int width, int height, int mines, Cell[] board)
     {
         int size = width * height;
@@ -802,11 +725,13 @@ public class RmvUtil implements VideoUtil
             board[i].premium = (-(board[i].number = getnumber(board, height, i)) - 2);
         }
         for (int i = 0; i < size; i++)
+        {
             if ((board[i].number == 0) && (board[i].opening == 0))
             {
                 openings++;
                 processopening(board, height, openings, i);
             }
+        }
         for (int i = 0; i < size; i++)
         {
             if (board[i].mine == 1)
@@ -817,11 +742,15 @@ public class RmvUtil implements VideoUtil
             {
                 board[i].openingAr = 1;
                 for (int rr = board[i].rb; rr <= board[i].re; rr++)
+                {
                     for (int cc = board[i].cb; cc <= board[i].ce; cc++)
+                    {
                         if (board[(cc * height + rr)].openingAr != 2)
                         {
                             board[(cc * height + rr)].openingAr = 1;
                         }
+                    }
+                }
             }
         }
 
@@ -839,7 +768,9 @@ public class RmvUtil implements VideoUtil
         for (int i = 0; i < size; i++)
         {
             if ((board[i].opening == 0) && (board[i].mine == 0))
+            {
                 bbbv++;
+            }
             board[i].premium += getadj3bv(board, height, i);
         }
         System.out.println(bbbv);
@@ -862,36 +793,51 @@ public class RmvUtil implements VideoUtil
     private static void setopeningborder(Cell[] board, int op_id, int index)
     {
         if (board[index].opening != 0)
+        {
             board[index].opening = op_id;
+        }
         else if (board[index].opening != op_id)
+        {
             board[index].opening2 = op_id;
+        }
     }
 
     private static void processopening(Cell[] board, int height, int op_id, int index)
     {
         board[index].opening = op_id;
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
+        {
             for (int cc = board[index].cb; cc <= board[index].ce; cc++)
             {
                 int i = cc * height + rr;
                 if (board[i].number != 0)
+                {
                     setopeningborder(board, op_id, i);
+                }
                 else if (board[i].opening == 0)
+                {
                     processopening(board, height, op_id, i);
+                }
             }
+                
+        }
     }
 
     private static int getadj3bv(Cell[] board, int height, int index)
     {
         int res = 0;
         if (board[index].number == 0)
+        {
             return 1;
+        }
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
+        {
             for (int cc = board[index].cb; cc <= board[index].ce; cc++)
             {
                 int i = cc * height + rr;
                 res += ((board[i].mine == 0) && (board[i].opening == 0) ? 1 : 0);
             }
+        }
         if (board[index].opening != 0)
         {
             res++;
@@ -906,6 +852,7 @@ public class RmvUtil implements VideoUtil
     private static void islands(Cell[] board, int height, int size, int index)
     {
         for (int rr = board[index].rb; rr <= board[index].re; rr++)
+        {
             for (int cc = board[index].cb; cc <= board[index].ce; cc++)
             {
                 if (board[(cc * height + rr)].openingAr == 0)
@@ -915,6 +862,7 @@ public class RmvUtil implements VideoUtil
 
                 }
             }
+        }
 
     }
 
