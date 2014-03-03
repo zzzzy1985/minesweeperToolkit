@@ -2,6 +2,9 @@ package com.mstoolkit.util;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mstoolkit.bean.CellsBean;
 import com.mstoolkit.bean.EventBean;
 import com.mstoolkit.bean.RawBoardBean;
@@ -17,37 +20,49 @@ import com.mstoolkit.bean.VideoDisplayBean;
  */
 public class EventCommon
 {
+
+    private static Logger logger = LogManager.getLogger("EventCommon");  
     /**
      * 转换录像 这段代码采取的方式是先竖再横？
      * 
-     * @param rawVideoBean 录像bean
+     * @param rawVideoBean
+     *            录像bean
+     * @param videoDisplayBean
+     *            录像bean
      * @return EventBean 事件bean
      */
-    public static EventBean getEventBean(RawVideoBean rawVideoBean,VideoDisplayBean videoDisplayBean)
+    public static EventBean getEventBean(RawVideoBean rawVideoBean, VideoDisplayBean videoDisplayBean)
     {
-        String markFlag=videoDisplayBean.getMarkFlag();
+        String markFlag = videoDisplayBean.getMarkFlag();
         RawBoardBean rawBoardBean = rawVideoBean.getRawBoardBean();
-        int height = rawBoardBean.height;
-        int width = rawBoardBean.width;
+        int height = rawBoardBean.getHeight();
+        int width = rawBoardBean.getWidth();
         List<RawEventDetailBean> eventLst = rawVideoBean.getRawEventDetailBean();
         int ax = 0;
         int ay = 0;
+        // 左键状态
         int lstatus = 0;
+        // 右键状态
         int rstatus = 0;
+        // 中键状态
         int mstatus = 0;
-        int mvsize=0;
-        int lcsize=0;
-        int lrsize=0;
-        int rcsize=0;
-        int rrsize=0;
-        int mcsize=0;
-        int mrsize=0;
-        int firstLx=0;
-        int firstLy=0;
-        int cloneR=0;
+        int mvsize = 0;
+        int lcsize = 0;
+        int lrsize = 0;
+        int rcsize = 0;
+        int rrsize = 0;
+        int mcsize = 0;
+        int mrsize = 0;
+        int firstLx = 0;
+        int firstLy = 0;
+
+        int misscl = 0;
+        int outcl = 0;
+        int cloneR = 0;
         int l = 0;
         int d = 0;
         int r = 0;
+
         int flags = 0;
         int wastedflags = 0;
         // 计算1.5click
@@ -55,8 +70,8 @@ public class EventCommon
         double path = 0.0d;
         double saoleiTime = 0.0d;
         String mouseTypeNomv = "";
-        int eventSize=eventLst.size();
-        CellsBean[] cells = rawBoardBean.cells;
+        int eventSize = eventLst.size();
+        CellsBean[] cells = rawBoardBean.getCells();
         for (int i = 1; i < (height + 1); i++)
         {
             for (int j = 1; j < (width + 1); j++)
@@ -80,21 +95,21 @@ public class EventCommon
         for (int i = 0; i < eventSize; i++)
         {
             RawEventDetailBean rawEventDetailBean = eventLst.get(i);
-            if (rawEventDetailBean.eventTime < 0)
+            if (rawEventDetailBean.getEventTime() < 0d)
             {
                 continue;
             }
             // 为了计算准确的右键数 需要模拟录像操作
-            int mouse = rawEventDetailBean.mouseType;
-            int misscl=0;
-            int outcl=0;
+            int mouse = rawEventDetailBean.getMouseType();
+            // 如果操作造成局面变化 记为有效点击
+            //
             int nx = 0;
             int ny = 0;
             int olstatus = 0;
             int orstatus = 0;
             int omstatus = 0;
-            nx = rawEventDetailBean.x;
-            ny = rawEventDetailBean.y;
+            nx = rawEventDetailBean.getX();
+            ny = rawEventDetailBean.getY();
             boolean boom = false;
             boolean flag = true;
             if ("rr".equals(mouseTypeNomv))
@@ -113,8 +128,7 @@ public class EventCommon
                 mouse = mouse + 256;
             }
             String mouseType = "";
-            switch (mouse) 
-            {
+            switch (mouse) {
                 case 1:
                     mouseType = "mv";
                     mvsize++;
@@ -197,10 +211,11 @@ public class EventCommon
             omstatus = mstatus - mact;
             if (lact == -1 && orstatus == 0 && flag)
             {
-                if(l==0)
+                // 求首次点击位置
+                if (l == 0)
                 {
-                    firstLx=nx;
-                    firstLy=ny;
+                    firstLx = nx;
+                    firstLy = ny;
                 }
                 l++;
                 // l++的时候
@@ -210,9 +225,9 @@ public class EventCommon
                 {
                     int what = tempCells[(qy - 1) * width + qx - 1].what;
                     int status = tempCells[(qy - 1) * width + qx - 1].status;
-                    if(what==9)
+                    if (what == 9)
                     {
-                        boom=true;
+                        boom = true;
                     }
                     if (status == 0)
                     {
@@ -220,6 +235,7 @@ public class EventCommon
                     }
                     else
                     {
+                        logger.debug("L: "+misscl+" "+rawEventDetailBean.getEventTime() );
                         misscl++;
                     }
                 }
@@ -229,8 +245,7 @@ public class EventCommon
                 }
             }
             // d
-            if (((omstatus==0)&&(lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0)
-                    ||((omstatus==1) && (mact == -1)))
+            if (((omstatus == 0) && (lact == -1 ? 1 : 0 + ract == -1 ? 1 : 0) * (olstatus == 1 ? 1 : 0) * (orstatus == 1 ? 1 : 0) > 0) || ((omstatus == 1) && (mact == -1)))
             {
                 d++;
                 if (tempR == 1)
@@ -305,23 +320,28 @@ public class EventCommon
                         }
                         else
                         {
+                            logger.debug("D1: "+misscl+" "+rawEventDetailBean.getEventTime() );
                             misscl++;
                         }
+                    }
+                    else
+                    {
+                        logger.debug("D2: "+misscl+" "+rawEventDetailBean.getEventTime() );
+                        misscl++;
                     }
                 }
                 else
                 {
-                    outcl++;  
+                    outcl++;
                 }
             }
             else if (ract == -1)
             {
                 tempR = 0;
             }
-            
+
             if (ract == 1)
             {
-                //System.out.println("r "+r+ " olstatus "+olstatus+" "+rawEventDetailBean.eventTime);
                 if (olstatus == 0)
                 {
                     r++;
@@ -338,7 +358,7 @@ public class EventCommon
                         }
                         else if (xx == 2)
                         {
-                            if(markFlag.equals("UNMARK"))
+                            if (markFlag.equals("UNMARK"))
                             {
                                 wastedflags++;
                                 tempR = 0;
@@ -350,7 +370,7 @@ public class EventCommon
                                 wastedflags++;
                                 tempR = 0;
                                 tempCells[(qy - 1) * width + qx - 1].status = 4;
-                                tempCells[(qy - 1) * width + qx - 1].sta = "?";   
+                                tempCells[(qy - 1) * width + qx - 1].sta = "?";
                             }
                         }
                         else if (xx == 4)
@@ -363,8 +383,13 @@ public class EventCommon
                         else
                         {
                             tempR = 1;
-
+                            logger.debug("R: "+xx+" "+misscl+" "+rawEventDetailBean.getEventTime() );
+                            misscl++;
                         }
+                    }
+                    else
+                    {
+                        outcl++;
                     }
                 }
                 else
@@ -377,12 +402,12 @@ public class EventCommon
                 holds++;
             }
 
-            if (i > 0 && rawEventDetailBean.eventTime > 0)
+            if (i > 0 && rawEventDetailBean.getEventTime() > 0d)
             {
                 path += Math.sqrt((nx - ax) * (nx - ax) + (ny - ay) * (ny - ay));
             }
 
-            saoleiTime = rawEventDetailBean.eventTime;
+            saoleiTime = rawEventDetailBean.getEventTime();
             ax = nx;
             ay = ny;
 
@@ -404,6 +429,8 @@ public class EventCommon
         eventBean.setWastedflags(wastedflags);
         eventBean.setFirstlx(firstLx);
         eventBean.setFirstly(firstLy);
+        eventBean.setMisscl(misscl);
+        eventBean.setOutcl(outcl);
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
         eventBean.setEventSize(eventSize);
@@ -417,6 +444,22 @@ public class EventCommon
         return eventBean;
     }
 
+    /**
+     * digg
+     * 
+     * @param x2
+     *            x2
+     * @param y2
+     *            y2
+     * @param tempCells
+     *            tempCells
+     * @param cells
+     *            cells
+     * @param height
+     *            height
+     * @param width
+     *            width
+     */
     public static void digg(int x2, int y2, CellsBean[] tempCells, CellsBean[] cells, int height, int width)
     {
 

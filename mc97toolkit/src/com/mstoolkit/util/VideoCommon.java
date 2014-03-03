@@ -166,20 +166,23 @@ public class VideoCommon
     {
         RawBoardBean rawBoardBean = rawVideoBean.getRawBoardBean();
         // 根据board 解析board内容
-        BoardBean boardBean = BoardCommon.getBoardBean(rawBoardBean.width, rawBoardBean.height, rawBoardBean.mines, rawBoardBean.cbBoard);
-        videoDisplayBean.setBbbv(String.valueOf(boardBean.bbbv));
-        videoDisplayBean.setZini(String.valueOf(boardBean.zini));
-        videoDisplayBean.setHzini(String.valueOf(boardBean.hzini));
-        videoDisplayBean.setNum0(String.valueOf(boardBean.num0));
-        videoDisplayBean.setNum1(String.valueOf(boardBean.num1));
-        videoDisplayBean.setNum2(String.valueOf(boardBean.num2));
-        videoDisplayBean.setNum3(String.valueOf(boardBean.num3));
-        videoDisplayBean.setNum4(String.valueOf(boardBean.num4));
-        videoDisplayBean.setNum5(String.valueOf(boardBean.num5));
-        videoDisplayBean.setNum6(String.valueOf(boardBean.num6));
-        videoDisplayBean.setNum7(String.valueOf(boardBean.num7));
-        videoDisplayBean.setNum8(String.valueOf(boardBean.num8));
-        int numall = boardBean.num1 * 1 + boardBean.num2 * 2 + boardBean.num3 * 3 + boardBean.num4 * 4 + boardBean.num5 * 5 + boardBean.num6 * 6 + boardBean.num7 * 7 + boardBean.num8 * 8;
+        BoardBean boardBean = BoardCommon.getBoardBean(rawBoardBean.getWidth(), rawBoardBean.getHeight(), rawBoardBean.getMines(), rawBoardBean.getCbBoard());
+        videoDisplayBean.setBbbv(String.valueOf(boardBean.getBbbv()));
+        videoDisplayBean.setZini(String.valueOf(boardBean.getZini()));
+        videoDisplayBean.setHzini(String.valueOf(boardBean.getHzini()));
+        videoDisplayBean.setNum0(String.valueOf(boardBean.getNum0()));
+        videoDisplayBean.setNum1(String.valueOf(boardBean.getNum1()));
+        videoDisplayBean.setNum2(String.valueOf(boardBean.getNum2()));
+        videoDisplayBean.setNum3(String.valueOf(boardBean.getNum3()));
+        videoDisplayBean.setNum4(String.valueOf(boardBean.getNum4()));
+        videoDisplayBean.setNum5(String.valueOf(boardBean.getNum5()));
+        videoDisplayBean.setNum6(String.valueOf(boardBean.getNum6()));
+        videoDisplayBean.setNum7(String.valueOf(boardBean.getNum7()));
+        videoDisplayBean.setNum8(String.valueOf(boardBean.getNum8()));
+        int numall = boardBean.getNum1() * 1 + boardBean.getNum2() * 2 + 
+                boardBean.getNum3()  * 3 + boardBean.getNum4()  * 4
+                + boardBean.getNum5()  * 5 + boardBean.getNum6() * 6 
+                + boardBean.getNum7() * 7 + boardBean.getNum8() * 8;
         videoDisplayBean.setNumAll(String.valueOf(numall));
         videoDisplayBean.setOpenings(String.valueOf(boardBean.openings));
         videoDisplayBean.setIslands(String.valueOf(boardBean.islands));
@@ -217,6 +220,9 @@ public class VideoCommon
         videoDisplayBean.setWasteflags(String.valueOf(eventBean.getWastedflags()));
         videoDisplayBean.setFirstLx(String.valueOf(eventBean.getFirstlx()));
         videoDisplayBean.setFirstLy(String.valueOf(eventBean.getFirstly()));
+        videoDisplayBean.setMisscl(String.valueOf(eventBean.getMisscl()));
+        videoDisplayBean.setOutcl(String.valueOf(eventBean.getOutcl()));
+        videoDisplayBean.setClickE(String.valueOf(allClicks-eventBean.getMisscl()-eventBean.getOutcl()));
     }
 
     /**

@@ -79,7 +79,8 @@ public class AvfUtil implements VideoUtil
         offset += 5;
         c = byteStream[offset] & 0xff;
         mode = c - 2;
-        switch (mode) {
+        switch (mode) 
+        {
             case 1:
                 w = h = 8;
                 m = 10;
@@ -203,15 +204,15 @@ public class AvfUtil implements VideoUtil
         while (true)
         {
             RawEventDetailBean bean = new RawEventDetailBean();
-            bean.mouseType = cr[0] & 0xff;
-            bean.cur = cur;
-            bean.x = (int) (cr[1] & 0xff) * 256 + (cr[3] & 0xff);
-            bean.y = (int) (cr[5] & 0xff) * 256 + (cr[7] & 0xff);
-            bean.sec = (int) (cr[6] & 0xff) * 256 + (cr[2] & 0xff) - 1;
-            bean.hun = (int) cr[4] & 0xff;
-            bean.eventTime = (double) (bean.sec) + (double) (bean.hun) / 100.0d;
+            bean.setMouseType(cr[0] & 0xff);
+            bean.setCur(cur);
+            bean.setX((int) (cr[1] & 0xff) * 256 + (cr[3] & 0xff));
+            bean.setY((int) (cr[5] & 0xff) * 256 + (cr[7] & 0xff));
+            bean.setSec((int) (cr[6] & 0xff) * 256 + (cr[2] & 0xff) - 1);
+            bean.setHun((int) cr[4] & 0xff);
+            bean.setEventTime((double) (bean.getSec()) + (double) (bean.getHun()) / 100.0d) ;
             lst.add(bean);
-            if (bean.sec < 0)
+            if (bean.getSec()< 0)
             {
                 break;
             }

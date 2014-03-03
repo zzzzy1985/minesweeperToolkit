@@ -14,21 +14,36 @@ public class RawEventDetailBean implements Serializable
      * UID
      */
     private static final long serialVersionUID = -2730987152467866530L;
-    public double eventTime;
-    public int mouseType;
-    public int cur;
-    public String mouse;
-    public int sec;
-    public int hun;
-    public int ths;
-    public int x;
-    public int y;
-    public int qx;
-    public int qy;
-    public String info;
-    public int rb;
-    public int mb;
-    public int lb;
+    /**事件事件*/
+    private double eventTime;
+    /**事件类型*/
+    private int mouseType;
+    /**鼠标cur*/
+    private int cur;
+    /**鼠标cur*/
+    private String mouse;
+    /**sec*/
+    private int sec;
+    /**hun*/
+    private int hun;
+    /**ths*/
+    private int ths;
+    /**x*/
+    private int x;
+    /**y*/
+    private int y;
+    /**qx*/
+    private int qx;
+    /**qy*/
+    private int qy;
+    /**info*/
+    private String info;
+    /**rb clone使用*/
+    private int rb;
+    /**mb clone使用*/
+    private int mb;
+    /**lb clone使用*/
+    private int lb;
 
     public double getEventTime()
     {

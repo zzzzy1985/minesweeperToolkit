@@ -196,7 +196,7 @@ public class VideoTest
             board[i].premium += getadj3bv(board, height, i);
         }
         lst.set(bbbv, lst.get(bbbv) + 1);
-        // lst.set(islands, lst.get(islands)+1);
+         lst.set(islands, lst.get(islands)+1);
     }
 
     /**

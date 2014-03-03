@@ -497,15 +497,15 @@ public class MvfUtil implements VideoUtil
         MvfEventDetailBean firstBean = lst.get(0);
         RawEventDetailBean firstRawBean = new RawEventDetailBean();
         int firstMouseType = 0;
-        if (firstBean.lb > 0)
+        if (firstBean.getLb()> 0)
         {
             firstMouseType = 3;
         }
-        else if (firstBean.rb > 0)
+        else if (firstBean.getRb()> 0)
         {
             firstMouseType = 9;
         }
-        else if (firstBean.mb > 0)
+        else if (firstBean.getMb()> 0)
         {
             firstMouseType = 33;
         }
@@ -513,10 +513,10 @@ public class MvfUtil implements VideoUtil
         {
             firstMouseType = 1;
         }
-        firstRawBean.mouseType = firstMouseType;
-        firstRawBean.x = firstBean.x;
-        firstRawBean.y = firstBean.y;
-        firstRawBean.eventTime = (double) firstBean.sec + (double) firstBean.hun / 100.0d;
+        firstRawBean.setMouseType(firstMouseType);
+        firstRawBean.setX(firstBean.getX());
+        firstRawBean.setY(firstBean.getY());
+        firstRawBean.setEventTime((double) firstBean.getSec() + (double) firstBean.getHun()/ 100.0d);
         rawLst.add(firstRawBean);
         for (int i = 1; i < size; ++i)
         {
@@ -524,75 +524,40 @@ public class MvfUtil implements VideoUtil
             MvfEventDetailBean prebean = lst.get(i - 1);
             int mouseType = 0;
             // mouseType 1 mv 5lr 17rr 65 mr 3lc 9rc 33mc 
-            if (bean.x != prebean.x || bean.y != prebean.y)
+            if (bean.getX() != prebean.getX()|| bean.getY() != prebean.getY())
             {
                 mouseType = 1;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
-            if (bean.lb == 0 && prebean.lb > 0)
+            if (bean.getLb()== 0 && prebean.getLb()> 0)
             {
                 mouseType = 5;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
-            if (bean.rb == 0 && prebean.rb > 0)
+            if (bean.getRb()== 0 && prebean.getRb()> 0)
             {
                 mouseType = 17;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
             if (bean.mb == 0 && prebean.mb > 0)
             {
                 mouseType = 65;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
             if (bean.lb > 0 && prebean.lb == 0)
             {
                 mouseType = 3;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
             if (bean.rb > 0 && prebean.rb == 0)
             {
                 mouseType = 9;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
             if (bean.mb > 0 && prebean.mb == 0)
             {
                 mouseType = 33;
-                RawEventDetailBean rawBean = new RawEventDetailBean();
-                rawBean.mouseType = mouseType;
-                rawBean.x = bean.x;
-                rawBean.y = bean.y;
-                rawBean.eventTime = (double) bean.sec + (double) bean.ths / 1000.0d;
-                rawLst.add(rawBean);
+                addRawBean(rawLst, bean, mouseType);
             }
 
             else
@@ -602,6 +567,21 @@ public class MvfUtil implements VideoUtil
             
         }
         return rawLst;
+    }
+    /**
+     * addRawBean
+     * @param rawLst rawLst
+     * @param bean bean
+     * @param mouseType mouseType
+     */
+    private void addRawBean(List<RawEventDetailBean> rawLst, MvfEventDetailBean bean, int mouseType)
+    {
+        RawEventDetailBean rawBean = new RawEventDetailBean();
+        rawBean.setMouseType(mouseType);
+        rawBean.setX(bean.getX());
+        rawBean.setY(bean.getY());
+        rawBean.setEventTime((double) bean.getSec()+ (double) bean.getThs()/ 1000.0d);
+        rawLst.add(rawBean);
     }
     /**
      * 解密

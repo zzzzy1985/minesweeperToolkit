@@ -30,6 +30,10 @@ public class EventBean implements Serializable
     private int firstlx;
     /** firstly */
     private int firstly;
+    /** misscl*/
+    private int misscl;
+    /** outcl */
+    private int outcl;
     /** wasted标旗数 */
     private int wastedflags;
     /** 事件数 */
@@ -242,6 +246,26 @@ public class EventBean implements Serializable
     public void setFirstly(int firstly)
     {
         this.firstly = firstly;
+    }
+
+    public int getMisscl()
+    {
+        return misscl;
+    }
+
+    public void setMisscl(int misscl)
+    {
+        this.misscl = misscl;
+    }
+
+    public int getOutcl()
+    {
+        return outcl;
+    }
+
+    public void setOutcl(int outcl)
+    {
+        this.outcl = outcl;
     }
 
 }

@@ -130,12 +130,18 @@ public class VideoDisplayBean implements Serializable
     private String rcsize;
     /** 事件数 */
     private String rrsize;
-    /** flags*/
+    /** wasteflags*/
     private String wasteflags;
     /** firstLx*/
     private String firstLx;
     /** firstLy*/
     private String firstLy;
+    /** misscl*/
+    private String misscl;
+    /** outcl*/
+    private String outcl;
+    /** clickE*/
+    private String clickE;
     public String getName()
     {
         return name;
@@ -749,6 +755,36 @@ public class VideoDisplayBean implements Serializable
     public void setFirstLy(String firstLy)
     {
         this.firstLy = firstLy;
+    }
+
+    public String getMisscl()
+    {
+        return misscl;
+    }
+
+    public void setMisscl(String misscl)
+    {
+        this.misscl = misscl;
+    }
+
+    public String getOutcl()
+    {
+        return outcl;
+    }
+
+    public void setOutcl(String outcl)
+    {
+        this.outcl = outcl;
+    }
+
+    public String getClickE()
+    {
+        return clickE;
+    }
+
+    public void setClickE(String clickE)
+    {
+        this.clickE = clickE;
     }
     
 }

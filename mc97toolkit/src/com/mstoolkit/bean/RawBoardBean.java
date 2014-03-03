@@ -16,17 +16,17 @@ public class RawBoardBean implements Serializable
      */
     private static final long serialVersionUID = -2730987152467866530L;
     /** 软件版本 */
-    public int width;
+    private int width;
     /** 软件版本 */
-    public int height;
+    private int height;
     /** 软件版本 */
-    public int mines;
+    private int mines;
     /** 软件版本 */
-    public List<Integer> board;
+    private List<Integer> board;
     /** 软件版本 */
-    public CellBean[] cbBoard;
+    private CellBean[] cbBoard;
     /** 软件版本 */
-    public CellsBean[] cells;
+    private CellsBean[] cells;
 
     public List<Integer> getBoard()
     {
