@@ -57,7 +57,13 @@ public class EventCommon
         int firstLy = 0;
 
         int misscl = 0;
+        int missclL0 = 0;
+        int missclL1 = 0;
+        int missclD0 = 0;
+        int missclD1= 0;
+        int missclD2= 0;
         int outcl = 0;
+        int outclL = 0;
         int cloneR = 0;
         int l = 0;
         int d = 0;
@@ -231,12 +237,17 @@ public class EventCommon
                     }
                     if (status == 0)
                     {
-                        digg(qx, qy, tempCells, cells, height, width);
+                        int digboard = 0;
+                        digboard +=digg(qx, qy, tempCells, cells, height, width);
+                        logger.debug("L0: " + digboard + " " + rawEventDetailBean.getEventTime());
+                        if(digboard == 0){
+                        missclL0++;
+                        }
                     }
                     else
                     {
                         logger.debug("L: "+misscl+" "+rawEventDetailBean.getEventTime() );
-                        misscl++;
+                        missclL1++;
                     }
                 }
                 else
@@ -309,14 +320,20 @@ public class EventCommon
                         // 计算这个数字是否等于周围一圈雷数
                         if (arroundFlag == thiswhat)
                         {
-                            digg(qx - 1, qy - 1, tempCells, cells, height, width);
-                            digg(qx - 1, qy, tempCells, cells, height, width);
-                            digg(qx - 1, qy + 1, tempCells, cells, height, width);
-                            digg(qx, qy - 1, tempCells, cells, height, width);
-                            digg(qx, qy + 1, tempCells, cells, height, width);
-                            digg(qx + 1, qy - 1, tempCells, cells, height, width);
-                            digg(qx + 1, qy, tempCells, cells, height, width);
-                            digg(qx + 1, qy + 1, tempCells, cells, height, width);
+                            int digboard = 0;
+                            digboard += digg(qx - 1, qy - 1, tempCells, cells, height, width);
+                            digboard += digg(qx - 1, qy, tempCells, cells, height, width);
+                            digboard += digg(qx - 1, qy + 1, tempCells, cells, height, width);
+                            digboard += digg(qx, qy - 1, tempCells, cells, height, width);
+                            digboard += digg(qx, qy + 1, tempCells, cells, height, width);
+                            digboard += digg(qx + 1, qy - 1, tempCells, cells, height, width);
+                            digboard += digg(qx + 1, qy, tempCells, cells, height, width);
+                            digboard += digg(qx + 1, qy + 1, tempCells, cells, height, width);
+                            if(digboard==0){
+                                logger.debug("D0: " + misscl + " " + rawEventDetailBean.getEventTime());
+                                misscl++;
+                            }
+                            
                         }
                         else
                         {
@@ -460,9 +477,9 @@ public class EventCommon
      * @param width
      *            width
      */
-    public static void digg(int x2, int y2, CellsBean[] tempCells, CellsBean[] cells, int height, int width)
+    public static int digg(int x2, int y2, CellsBean[] tempCells, CellsBean[] cells, int height, int width)
     {
-
+        int digBoard=0;
         if ((x2 > 0) && (x2 <= width) && (y2 > 0) && (y2 <= height))
         {
             if (tempCells[(y2 - 1) * width + x2 - 1].status == 0)
@@ -471,24 +488,27 @@ public class EventCommon
                 {
                     if (cells[(y2) * (width + 2) + (x2)].what != 0)
                     {
+                        digBoard++;
                         tempCells[(y2 - 1) * width + x2 - 1].status = 3;
                         tempCells[(y2 - 1) * width + x2 - 1].sta = String.valueOf(cells[(y2) * (width + 2) + (x2)].what);
                     }
                     else
                     {
+                        digBoard++;
                         tempCells[(y2 - 1) * width + x2 - 1].status = 3;
                         tempCells[(y2 - 1) * width + x2 - 1].sta = String.valueOf(cells[(y2) * (width + 2) + (x2)].what);
-                        digg(x2 - 1, y2 - 1, tempCells, cells, height, width);
-                        digg(x2 - 1, y2, tempCells, cells, height, width);
-                        digg(x2 - 1, y2 + 1, tempCells, cells, height, width);
-                        digg(x2, y2 - 1, tempCells, cells, height, width);
-                        digg(x2, y2 + 1, tempCells, cells, height, width);
-                        digg(x2 + 1, y2 - 1, tempCells, cells, height, width);
-                        digg(x2 + 1, y2, tempCells, cells, height, width);
-                        digg(x2 + 1, y2 + 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2 - 1, y2 - 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2 - 1, y2, tempCells, cells, height, width);
+                        digBoard+=digg(x2 - 1, y2 + 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2, y2 - 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2, y2 + 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2 + 1, y2 - 1, tempCells, cells, height, width);
+                        digBoard+=digg(x2 + 1, y2, tempCells, cells, height, width);
+                        digBoard+=digg(x2 + 1, y2 + 1, tempCells, cells, height, width);
                     }
                 }
             }
         }
+        return digBoard;
     }
 }
