@@ -32,8 +32,26 @@ public class EventBean implements Serializable
     private int firstly;
     /** misscl*/
     private int misscl;
+    /** missclL0*/
+    private int missclL0;
+    /** missclL1*/
+    private int missclL1;
+    /** missclD0*/
+    private int missclD0;
+    /** missclD1*/
+    private int missclD1;
+    /** missclD2*/
+    private int missclD2;
+    /** missclR*/
+    private int missclR;
     /** outcl */
     private int outcl;
+    /** outcl */
+    private int outclL;
+    /** outcl */
+    private int outclD;
+    /** outcl */
+    private int outclR;
     /** wasted标旗数 */
     private int wastedflags;
     /** 事件数 */
@@ -266,6 +284,96 @@ public class EventBean implements Serializable
     public void setOutcl(int outcl)
     {
         this.outcl = outcl;
+    }
+
+    public int getMissclL0()
+    {
+        return missclL0;
+    }
+
+    public void setMissclL0(int missclL0)
+    {
+        this.missclL0 = missclL0;
+    }
+
+    public int getMissclL1()
+    {
+        return missclL1;
+    }
+
+    public void setMissclL1(int missclL1)
+    {
+        this.missclL1 = missclL1;
+    }
+
+    public int getMissclD0()
+    {
+        return missclD0;
+    }
+
+    public void setMissclD0(int missclD0)
+    {
+        this.missclD0 = missclD0;
+    }
+
+    public int getMissclD1()
+    {
+        return missclD1;
+    }
+
+    public void setMissclD1(int missclD1)
+    {
+        this.missclD1 = missclD1;
+    }
+
+    public int getMissclD2()
+    {
+        return missclD2;
+    }
+
+    public void setMissclD2(int missclD2)
+    {
+        this.missclD2 = missclD2;
+    }
+
+    public int getMissclR()
+    {
+        return missclR;
+    }
+
+    public void setMissclR(int missclR)
+    {
+        this.missclR = missclR;
+    }
+
+    public int getOutclL()
+    {
+        return outclL;
+    }
+
+    public void setOutclL(int outclL)
+    {
+        this.outclL = outclL;
+    }
+
+    public int getOutclD()
+    {
+        return outclD;
+    }
+
+    public void setOutclD(int outclD)
+    {
+        this.outclD = outclD;
+    }
+
+    public int getOutclR()
+    {
+        return outclR;
+    }
+
+    public void setOutclR(int outclR)
+    {
+        this.outclR = outclR;
     }
 
 }

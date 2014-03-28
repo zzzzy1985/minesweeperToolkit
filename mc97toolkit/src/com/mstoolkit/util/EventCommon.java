@@ -62,8 +62,10 @@ public class EventCommon
         int missclD0 = 0;
         int missclD1= 0;
         int missclD2= 0;
+        int missclR= 0;
         int outcl = 0;
         int outclL = 0;
+        int outclD = 0;
         int cloneR = 0;
         int l = 0;
         int d = 0;
@@ -349,7 +351,7 @@ public class EventCommon
                 }
                 else
                 {
-                    outcl++;
+                    outclD++;
                 }
             }
             else if (ract == -1)
@@ -447,6 +449,12 @@ public class EventCommon
         eventBean.setFirstlx(firstLx);
         eventBean.setFirstly(firstLy);
         eventBean.setMisscl(misscl);
+        eventBean.setMissclL0(missclL0);
+        eventBean.setMissclL1(missclL1);
+        eventBean.setMissclD0(missclD0);
+        eventBean.setMissclD1(missclD1);
+        eventBean.setMissclD2(missclD2);
+        eventBean.setMissclR(missclR);
         eventBean.setOutcl(outcl);
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
