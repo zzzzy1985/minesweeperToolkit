@@ -222,7 +222,19 @@ public class VideoCommon
         videoDisplayBean.setFirstLy(String.valueOf(eventBean.getFirstly()));
         videoDisplayBean.setMisscl(String.valueOf(eventBean.getMisscl()));
         videoDisplayBean.setOutcl(String.valueOf(eventBean.getOutcl()));
+        
+        videoDisplayBean.setMissclL0(String.valueOf(eventBean.getMissclL0()));
+        
+        videoDisplayBean.setMissclL1(String.valueOf(eventBean.getMissclL1()));
+        videoDisplayBean.setMissclD0(String.valueOf(eventBean.getMissclD0()));
+        videoDisplayBean.setMissclD1(String.valueOf(eventBean.getMissclD1()));
+        videoDisplayBean.setMissclD2(String.valueOf(eventBean.getMissclD2()));
+        videoDisplayBean.setMissclR(String.valueOf(eventBean.getMissclR()));
+        videoDisplayBean.setOutclL(String.valueOf(eventBean.getOutclL()));
+        videoDisplayBean.setOutclD(String.valueOf(eventBean.getOutclD()));
+        videoDisplayBean.setOutclR(String.valueOf(eventBean.getOutclR()));
         videoDisplayBean.setClickE(String.valueOf(allClicks-eventBean.getMisscl()-eventBean.getOutcl()));
+        videoDisplayBean.setMaxHit(String.valueOf(eventBean.getMaxHit()));
     }
 
     /**
@@ -269,9 +281,19 @@ public class VideoCommon
         videoDisplayBean.setHzinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getHzini())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // zinis=zini/time
         videoDisplayBean.setZinis(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getZini())) / Double.valueOf(videoDisplayBean.getTime()) }));
+        // clickes=clicke/time
+        videoDisplayBean.setClickEs(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getClickE())) / Double.valueOf(videoDisplayBean.getTime()) }));
         // occam=3bvs*ioe
         videoDisplayBean.setOccam(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getBbbvs())) * Double.valueOf(videoDisplayBean.getIoe()) }));
         // qg=(time^1.7)/3bv
         videoDisplayBean.setQg(String.format("%.3f", new Object[] { Double.valueOf((Math.pow(Double.valueOf(videoDisplayBean.getTime()), 1.7D)) / Double.valueOf(videoDisplayBean.getBbbv())) }));
-    }
+        // corr=clicke/click
+        videoDisplayBean.setCorr(String.format("%.3f", new Object[] { (Double.valueOf(videoDisplayBean.getClickE())) / Double.valueOf(videoDisplayBean.getAllClicks()) }));
+        // thrp=3bv/clicke
+        videoDisplayBean.setThrp(String.format("%.3f", new Object[] { Double.valueOf(videoDisplayBean.getBbbv()) / Double.valueOf(videoDisplayBean.getClickE()) }));
+        String[] namestr= videoDisplayBean.getName().split("\\_");
+    String[] bhid=namestr[1].split("\\.");
+    videoDisplayBean.setBh(namestr[0]);
+    videoDisplayBean.setBhid(bhid[0]);
+}
 }

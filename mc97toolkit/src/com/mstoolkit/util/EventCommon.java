@@ -66,11 +66,12 @@ public class EventCommon
         int outcl = 0;
         int outclL = 0;
         int outclD = 0;
+        int outclR = 0;
         int cloneR = 0;
         int l = 0;
         int d = 0;
         int r = 0;
-
+        int maxHit=0;
         int flags = 0;
         int wastedflags = 0;
         // 计算1.5click
@@ -244,16 +245,22 @@ public class EventCommon
                         logger.debug("L0: " + digboard + " " + rawEventDetailBean.getEventTime());
                         if(digboard == 0){
                         missclL0++;
+                        misscl++;
+                        }
+                        else if(digboard>maxHit){
+                            maxHit=digboard;
                         }
                     }
                     else
                     {
                         logger.debug("L: "+misscl+" "+rawEventDetailBean.getEventTime() );
                         missclL1++;
+                        misscl++;
                     }
                 }
                 else
                 {
+                    outclL++;
                     outcl++;
                 }
             }
@@ -265,6 +272,8 @@ public class EventCommon
                 {
                     cloneR++;
                     r--;
+                    missclR--;
+                    misscl--;
                     tempR = 0;
                 }
                 int qx = (nx) / 16 + 1;
@@ -333,25 +342,31 @@ public class EventCommon
                             digboard += digg(qx + 1, qy + 1, tempCells, cells, height, width);
                             if(digboard==0){
                                 logger.debug("D0: " + misscl + " " + rawEventDetailBean.getEventTime());
+                                missclD0++;
                                 misscl++;
+                            } else if(digboard>maxHit){
+                                maxHit=digboard;
                             }
                             
                         }
                         else
                         {
                             logger.debug("D1: "+misscl+" "+rawEventDetailBean.getEventTime() );
+                            missclD1++;
                             misscl++;
                         }
                     }
                     else
                     {
                         logger.debug("D2: "+misscl+" "+rawEventDetailBean.getEventTime() );
+                        missclD2++;
                         misscl++;
                     }
                 }
                 else
                 {
                     outclD++;
+                    outcl++;
                 }
             }
             else if (ract == -1)
@@ -403,11 +418,13 @@ public class EventCommon
                         {
                             tempR = 1;
                             logger.debug("R: "+xx+" "+misscl+" "+rawEventDetailBean.getEventTime() );
+                            missclR++;
                             misscl++;
                         }
                     }
                     else
                     {
+                        outclR++;
                         outcl++;
                     }
                 }
@@ -456,6 +473,9 @@ public class EventCommon
         eventBean.setMissclD2(missclD2);
         eventBean.setMissclR(missclR);
         eventBean.setOutcl(outcl);
+        eventBean.setOutclL(outclL);
+        eventBean.setOutclD(outclD);
+        eventBean.setOutclR(outclR);
         eventBean.setFlags(flags);
         eventBean.setSaoleiTime(saoleiTime);
         eventBean.setEventSize(eventSize);
@@ -466,6 +486,7 @@ public class EventCommon
         eventBean.setRrsize(rrsize);
         eventBean.setMrsize(mrsize);
         eventBean.setMcsize(mcsize);
+        eventBean.setMaxHit(maxHit);
         return eventBean;
     }
 

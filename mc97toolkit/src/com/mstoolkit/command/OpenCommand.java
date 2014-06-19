@@ -239,11 +239,11 @@ public class OpenCommand implements ICommand
      */
     private static void setValueAt(VideoDisplayBean mi, final JTable table, int i)
     {
-        String[] lst = { "name", "mvfType", "version", "userID", "date", "level", "style", "mode", "time", "bbbv", "bbbvs", "distance", "clicks", "zini", "hzini", "rqp", "ioe", "completion", "num0",
+        String[] lst = { "name","bh", "bhid",  "mvfType", "version", "userID", "date", "level", "style", "mode", "time", "bbbv", "bbbvs", "distance", "clicks", "zini", "hzini", "rqp", "ioe", "completion", "num0",
                 "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "numAll", "disSpeed", "openings", "allClicks", "disBv", "disNum", "hzoe", "zoe", "numSpeed", "hzinis", "zinis",
                 "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold", "cloneR", "islands", "eventSize", "mvsize", "lcsize", "lrsize", "rcsize", "rrsize", "mcsize", "mrsize",
-                "wasteflags", "firstLx", "firstLy","misscl","outcl","clickE" };
-        
+                "wasteflags", "firstLx", "firstLy","misscl","outcl","missclL0","missclL1","missclD0","missclD1","missclD2",
+                "missclR","outclL","outclD","outclR", "clickE" , "clickEs", "corr" , "thrp", "maxHit" };
         Map<String, Object> map = CommonUtil.changeSimpleBeanToMap(mi);
         int j = 1;
         for (String tmp : lst)

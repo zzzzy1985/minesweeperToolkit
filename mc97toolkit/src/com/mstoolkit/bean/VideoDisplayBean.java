@@ -138,10 +138,40 @@ public class VideoDisplayBean implements Serializable
     private String firstLy;
     /** misscl*/
     private String misscl;
-    /** outcl*/
+    /** missclL0*/
+    private String missclL0;
+    /** missclL1*/
+    private String missclL1;
+    /** missclD0*/
+    private String missclD0;
+    /** missclD1*/
+    private String missclD1;
+    /** missclD2*/
+    private String missclD2;
+    /** missclR*/
+    private String missclR;
+    /** outcl */
     private String outcl;
+    /** outcl */
+    private String outclL;
+    /** outcl */
+    private String outclD;
+    /** outcl */
+    private String outclR;
     /** clickE*/
     private String clickE;
+    /** clickEs*/
+    private String clickEs;
+    /** corr*/
+    private String corr;
+    /** thrp*/
+    private String thrp;
+    /** maxHit*/
+    private String maxHit;
+    /** bh*/
+    private String bh;
+    /** bhid*/
+    private String bhid;
     public String getName()
     {
         return name;
@@ -785,6 +815,156 @@ public class VideoDisplayBean implements Serializable
     public void setClickE(String clickE)
     {
         this.clickE = clickE;
+    }
+
+    public String getMissclL0()
+    {
+        return missclL0;
+    }
+
+    public void setMissclL0(String missclL0)
+    {
+        this.missclL0 = missclL0;
+    }
+
+    public String getMissclL1()
+    {
+        return missclL1;
+    }
+
+    public void setMissclL1(String missclL1)
+    {
+        this.missclL1 = missclL1;
+    }
+
+    public String getMissclD0()
+    {
+        return missclD0;
+    }
+
+    public void setMissclD0(String missclD0)
+    {
+        this.missclD0 = missclD0;
+    }
+
+    public String getMissclD1()
+    {
+        return missclD1;
+    }
+
+    public void setMissclD1(String missclD1)
+    {
+        this.missclD1 = missclD1;
+    }
+
+    public String getMissclD2()
+    {
+        return missclD2;
+    }
+
+    public void setMissclD2(String missclD2)
+    {
+        this.missclD2 = missclD2;
+    }
+
+    public String getMissclR()
+    {
+        return missclR;
+    }
+
+    public void setMissclR(String missclR)
+    {
+        this.missclR = missclR;
+    }
+
+    public String getOutclL()
+    {
+        return outclL;
+    }
+
+    public void setOutclL(String outclL)
+    {
+        this.outclL = outclL;
+    }
+
+    public String getOutclD()
+    {
+        return outclD;
+    }
+
+    public void setOutclD(String outclD)
+    {
+        this.outclD = outclD;
+    }
+
+    public String getOutclR()
+    {
+        return outclR;
+    }
+
+    public void setOutclR(String outclR)
+    {
+        this.outclR = outclR;
+    }
+
+    public String getClickEs()
+    {
+        return clickEs;
+    }
+
+    public void setClickEs(String clickEs)
+    {
+        this.clickEs = clickEs;
+    }
+
+    public String getCorr()
+    {
+        return corr;
+    }
+
+    public void setCorr(String corr)
+    {
+        this.corr = corr;
+    }
+
+    public String getThrp()
+    {
+        return thrp;
+    }
+
+    public void setThrp(String thrp)
+    {
+        this.thrp = thrp;
+    }
+
+    public String getMaxHit()
+    {
+        return maxHit;
+    }
+
+    public void setMaxHit(String maxHit)
+    {
+        this.maxHit = maxHit;
+    }
+
+    public String getBh()
+    {
+        return bh;
+    }
+
+    public void setBh(String bh)
+    {
+        this.bh = bh;
+    }
+
+    public String getBhid()
+    {
+        return bhid;
+    }
+
+    public void setBhid(String bhid)
+    {
+        this.bhid = bhid;
     }
     
 }

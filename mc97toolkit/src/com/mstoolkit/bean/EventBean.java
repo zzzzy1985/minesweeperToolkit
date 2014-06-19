@@ -75,7 +75,8 @@ public class EventBean implements Serializable
     private double distance;
     /** 用时 */
     private double saoleiTime;
-
+    /** hit */
+    private int maxHit;
     public int getL()
     {
         return l;
@@ -376,4 +377,13 @@ public class EventBean implements Serializable
         this.outclR = outclR;
     }
 
+    public int getMaxHit()
+    {
+        return maxHit;
+    }
+
+    public void setMaxHit(int maxHit)
+    {
+        this.maxHit = maxHit;
+    }
 }
