@@ -22,6 +22,5 @@ public class AboutAuthorCommand implements ICommand
     {
         CommonUtil.setLabel(Const.AUTHOR);
         JOptionPane.showMessageDialog(frame, Const.CONTACTME, Const.ABOUTAUTHOR, 1);
-
     }
 }
