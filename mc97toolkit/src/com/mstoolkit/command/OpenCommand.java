@@ -243,7 +243,7 @@ public class OpenCommand implements ICommand
                 "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "numAll", "disSpeed", "openings", "allClicks", "disBv", "disNum", "hzoe", "zoe", "numSpeed", "hzinis", "zinis",
                 "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "hold", "cloneR", "islands", "eventSize", "mvsize", "lcsize", "lrsize", "rcsize", "rrsize", "mcsize", "mrsize",
                 "wasteflags", "firstLx", "firstLy","misscl","outcl","missclL0","missclL1","missclD0","missclD1","missclD2",
-                "missclR","outclL","outclD","outclR", "clickE" , "clickEs", "corr" , "thrp", "maxHit" };
+                "missclR","outclL","outclD","outclR", "clickE" , "clickEs", "corr" , "thrp", "maxHit" , "clickEL" , "clickED", "clickER"};
         Map<String, Object> map = CommonUtil.changeSimpleBeanToMap(mi);
         int j = 1;
         for (String tmp : lst)

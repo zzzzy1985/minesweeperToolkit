@@ -212,10 +212,12 @@ public class EventCommon
             {
                 mouseTypeNomv = mouseType;
             }
-            lstatus += lact;
+            if(!(lstatus==0&&lact==-1)){
+                lstatus += lact;
+                olstatus = lstatus - lact;
+            }
             rstatus += ract;
             mstatus += mact;
-            olstatus = lstatus - lact;
             orstatus = rstatus - ract;
             omstatus = mstatus - mact;
             if (lact == -1 && orstatus == 0 && flag)
@@ -225,6 +227,9 @@ public class EventCommon
                 {
                     firstLx = nx;
                     firstLy = ny;
+                    if(firstLx==128 &&firstLy==128 ){
+                        continue;
+                    }
                 }
                 l++;
                 // l++的时候

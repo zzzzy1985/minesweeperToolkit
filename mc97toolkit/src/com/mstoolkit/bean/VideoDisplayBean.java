@@ -172,6 +172,12 @@ public class VideoDisplayBean implements Serializable
     private String bh;
     /** bhid*/
     private String bhid;
+    /** clickEL*/
+    private String clickEL;
+    /** clickED*/
+    private String clickED;
+    /** clickER*/
+    private String clickER;
     public String getName()
     {
         return name;
@@ -965,6 +971,36 @@ public class VideoDisplayBean implements Serializable
     public void setBhid(String bhid)
     {
         this.bhid = bhid;
+    }
+
+    public String getClickEL()
+    {
+        return clickEL;
+    }
+
+    public void setClickEL(String clickEL)
+    {
+        this.clickEL = clickEL;
+    }
+
+    public String getClickED()
+    {
+        return clickED;
+    }
+
+    public void setClickED(String clickED)
+    {
+        this.clickED = clickED;
+    }
+
+    public String getClickER()
+    {
+        return clickER;
+    }
+
+    public void setClickER(String clickER)
+    {
+        this.clickER = clickER;
     }
     
 }

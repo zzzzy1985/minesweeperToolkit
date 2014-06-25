@@ -146,7 +146,7 @@ public class Const
                 "zoe", "numSpeed", "hzinis", "zinis", "occam", "lclicks", "dclicks", "rclicks", "qg", "flags", "markFlag", "holds","cloneR", 
                 "islands" ,"eventSize","mvsize","lcsize","lrsize","rcsize","rrsize","mcsize","mrsize",
                 "wasteflags","firstLx","firstLy","misscl","outcl","missclL0","missclL1","missclD0","missclD1","missclD2",
-                "missclR","outclL","outclD","outclR", "clickE","clickEs" ,"corr","thrp","maxHit"};
+                "missclR","outclL","outclD","outclR", "clickE","clickEs" ,"corr","thrp","maxHit","clickEL","clickED","clickER"};
 
         power2 = new int[] { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304 };
 

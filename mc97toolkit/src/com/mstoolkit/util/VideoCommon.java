@@ -235,6 +235,9 @@ public class VideoCommon
         videoDisplayBean.setOutclR(String.valueOf(eventBean.getOutclR()));
         videoDisplayBean.setClickE(String.valueOf(allClicks-eventBean.getMisscl()-eventBean.getOutcl()));
         videoDisplayBean.setMaxHit(String.valueOf(eventBean.getMaxHit()));
+        videoDisplayBean.setClickEL(String.valueOf(eventBean.getL()-eventBean.getMissclL0()-eventBean.getMissclL1()-eventBean.getOutclL()));
+        videoDisplayBean.setClickED(String.valueOf(eventBean.getD()-eventBean.getMissclD0()-eventBean.getMissclD1()-eventBean.getMissclD2()-eventBean.getOutclD()));
+        videoDisplayBean.setClickER(String.valueOf(eventBean.getR()-eventBean.getMissclR()-eventBean.getOutclR()));
     }
 
     /**
