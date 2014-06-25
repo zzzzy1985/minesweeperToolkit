@@ -20,7 +20,6 @@ public class AboutAuthorCommand implements ICommand
      */
     public void execute(JFrame frame)
     {
-
         CommonUtil.setLabel(Const.AUTHOR);
         JOptionPane.showMessageDialog(frame, Const.CONTACTME, Const.ABOUTAUTHOR, 1);
 
