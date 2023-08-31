@@ -1,5 +1,4 @@
 minesweeperToolkit
 ==================
 
-读取扫雷录像的工具包
-测试
+read video for minesweeper
